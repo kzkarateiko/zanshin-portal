@@ -45,8 +45,8 @@
         
         .form-input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
         
-        /* Стили для групп внутри зала */
-        .group-row { display: flex; gap: 10px; margin-bottom: 10px; background: #fff; padding: 10px; border: 1px dashed #ccc; border-radius: 6px; }
+        /* ОБНОВЛЕНО ДЛЯ МОБИЛЬНЫХ: Поля теперь стоят друг под другом */
+        .group-row { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; background: #fff; padding: 15px; border: 1px dashed #ccc; border-radius: 6px; }
         .group-row input { margin-bottom: 0; }
         
         .dojo-card { background: #fff; border: 1px solid #eee; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 5px solid var(--accent-color); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
@@ -105,6 +105,14 @@
                     <h2 style="margin-top: 0; border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; color: var(--primary-color);">Управление филиалами</h2>
                     <button class="btn-osu" style="margin-bottom: 20px;" onclick="toggleDojoForm()">+ Добавить новый зал</button>
                     
+                    <datalist id="popular-schedules">
+                        <option value="Пн-Ср-Пт 18:00"></option>
+                        <option value="Пн-Ср-Пт 19:00"></option>
+                        <option value="Вт-Чт-Сб 18:00"></option>
+                        <option value="Вт-Чт-Сб 19:00"></option>
+                        <option value="Сб-Вс 10:00"></option>
+                    </datalist>
+
                     <div id="dojo-form-container" style="display: none; background: #fafafa; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 2px solid var(--accent-color);">
                         <h3 style="margin-top: 0; color: var(--primary-color);">Адрес филиала</h3>
                         <input type="text" id="dojo-city" class="form-input" placeholder="Город/Поселок (напр. Каскелен)">
@@ -113,8 +121,8 @@
                         <h3 style="margin-top: 15px; margin-bottom: 10px; color: var(--primary-color);">Группы в этом зале</h3>
                         <div id="groups-container">
                             <div class="group-row">
-                                <input type="text" class="form-input group-name" placeholder="Название (напр. Младшая)">
-                                <input type="text" class="form-input group-schedule" placeholder="Расписание (напр. Пн-Ср-Пт 18:00)">
+                                <input type="text" class="form-input group-name" placeholder="🥋 Название (напр. Младшая)">
+                                <input type="text" class="form-input group-schedule" list="popular-schedules" placeholder="🕒 Дни и время (нажмите для выбора)">
                             </div>
                         </div>
                         
@@ -151,14 +159,14 @@
             form.style.display = form.style.display === 'none' ? 'block' : 'none';
         }
 
-        // Функция добавляет новую пустую строчку для группы
+        // При добавлении новой строки также подключаем умный список
         function addGroupRow() {
             const container = document.getElementById('groups-container');
             const row = document.createElement('div');
             row.className = 'group-row';
             row.innerHTML = `
-                <input type="text" class="form-input group-name" placeholder="Название (напр. Старшая)">
-                <input type="text" class="form-input group-schedule" placeholder="Расписание (напр. Вт-Чт-Сб 19:00)">
+                <input type="text" class="form-input group-name" placeholder="🥋 Название (напр. Старшая)">
+                <input type="text" class="form-input group-schedule" list="popular-schedules" placeholder="🕒 Дни и время (нажмите для выбора)">
             `;
             container.appendChild(row);
         }
@@ -167,7 +175,6 @@
             const city = document.getElementById('dojo-city').value.trim();
             const address = document.getElementById('dojo-address').value.trim();
             
-            // Собираем все заполненные группы
             const groupRows = document.querySelectorAll('.group-row');
             let groupsToInsert = [];
             
@@ -197,13 +204,12 @@
                 alert("Филиал и группы успешно сохранены!");
                 toggleDojoForm();
                 
-                // Очищаем форму (оставляем только одну пустую строку)
                 document.getElementById('dojo-city').value = '';
                 document.getElementById('dojo-address').value = '';
                 document.getElementById('groups-container').innerHTML = `
                     <div class="group-row">
-                        <input type="text" class="form-input group-name" placeholder="Название (напр. Младшая)">
-                        <input type="text" class="form-input group-schedule" placeholder="Расписание (напр. Пн-Ср-Пт 18:00)">
+                        <input type="text" class="form-input group-name" placeholder="🥋 Название (напр. Младшая)">
+                        <input type="text" class="form-input group-schedule" list="popular-schedules" placeholder="🕒 Дни и время (нажмите для выбора)">
                     </div>
                 `;
                 
@@ -229,7 +235,6 @@
                     return;
                 }
 
-                // Группируем залы по адресу
                 const grouped = {};
                 data.forEach(g => {
                     const key = g.address_city + ' | ' + g.address_raw;
