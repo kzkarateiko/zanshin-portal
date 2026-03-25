@@ -4,66 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KWF ZANSHIN - Алматинская область</title>
+    <link rel="icon" type="image/jpeg" href="412fb350-33a4-4e6b-a2ac-2b31ff23fc5e.jpeg">
     <style>
-        /* Стиль ZANSHIN: Глубокий бордовый, золотой, кремовый */
+        /* Стиль ZANSHIN Isolated: Чистый, элитарный, на основе логотипа */
         :root {
             --primary-color: #8B0000; /* Глубокий бордовый */
             --accent-color: #D4AF37; /* Золотой (как у Беркута) */
-            --bg-color: #f8f1e6; /* Кремовый/светлый фон */
+            --bg-body: #ffffff; /* Чистый белый фон */
+            --bg-navbar: #fdf7ed; /* Чистый кремовый/светлый фон шапки */
             --text-color: #333333;
+            --text-gray: #666666;
             --text-on-dark: #ffffff;
         }
 
         body { 
-            font-family: 'Montserrat', sans-serif; /* Более угловатый и профессиональный шрифт */
-            background-color: var(--bg-color); 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: var(--bg-body); 
             margin: 0; 
             padding: 0; 
             color: var(--text-color);
         }
 
+        /* Шапка сайта: светлая, чтобы изолированный логотип выглядел чисто */
         .navbar { 
-            background-color: var(--primary-color); 
+            background-color: var(--bg-navbar); 
             padding: 15px 30px; 
             display: flex; 
             justify-content: center; /* Центрируем всё */
             align-items: center; 
             border-bottom: 3px solid var(--accent-color); /* Золотая линия */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
         }
 
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 15px;
-            color: var(--text-on-dark);
+            gap: 20px;
         }
 
+        /* Интеграция изолированного логотипа */
         .logo-container img {
-            height: 100px; /* Большой логотип */
+            max-height: 120px; /* Увеличили логотип */
+            width: auto;
+            object-fit: contain;
         }
 
         .logo-container h1 {
             margin: 0;
-            font-size: 24px;
-            letter-spacing: 1.5px;
+            font-size: 26px;
+            letter-spacing: 1px;
             font-weight: bold;
+            color: var(--primary-color);
         }
 
         .logo-container span {
             font-size: 16px;
-            color: var(--accent-color);
+            color: var(--text-gray);
+            font-weight: normal;
         }
 
+        /* Виджет цитаты в темном, бордовом баннере */
         .quote-widget {
-            background-color: var(--accent-color);
-            color: var(--primary-color);
+            background-color: var(--primary-color);
+            color: var(--accent-color);
             text-align: center;
-            padding: 12px;
+            padding: 15px;
             font-style: italic;
             font-weight: bold;
             font-size: 18px;
-            border-bottom: 2px solid var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .container { 
@@ -76,7 +86,7 @@
 
         .sidebar { 
             width: 250px; 
-            background: var(--text-on-dark); 
+            background: #ffffff; 
             padding: 20px; 
             border-radius: 8px; 
             box-shadow: 0 4px 8px rgba(0,0,0,0.05); 
@@ -114,10 +124,11 @@
 
         .admin-rank { 
             font-size: 14px; 
-            color: var(--accent-color); 
+            color: var(--primary-color); 
             font-weight: bold; 
         }
         
+        /* Кнопки меню в бордовом цвете */
         .menu-btn { 
             display: flex; 
             align-items: center;
@@ -144,14 +155,14 @@
 
         .main-content { 
             flex: 1; 
-            background: var(--text-on-dark); 
+            background: #ffffff; 
             padding: 30px; 
             border-radius: 8px; 
             box-shadow: 0 4px 8px rgba(0,0,0,0.05); 
         }
 
         .news-card {
-            border-left: 5px solid var(--accent-color);
+            border-left: 5px solid var(--primary-color);
             padding: 20px;
             background: #fafafa;
             margin-bottom: 25px;
@@ -165,9 +176,10 @@
             font-size: 20px;
         }
 
+        /* Золотая кнопка для темного баннера */
         .btn-osu {
-            background-color: var(--accent-color);
-            color: var(--primary-color);
+            background-color: var(--primary-color);
+            color: var(--accent-color);
             border: none;
             padding: 10px 25px;
             border-radius: 6px;
@@ -180,8 +192,8 @@
         }
 
         .btn-osu:hover { 
-            background-color: var(--primary-color); 
-            color: var(--text-on-dark); 
+            background-color: var(--accent-color); 
+            color: var(--primary-color); 
         }
     </style>
 </head>
@@ -189,7 +201,7 @@
 
     <div class="navbar">
         <div class="logo-container">
-            <img src="https://media.discordapp.com/attachments/1066030999999999999/1188031000000000000/logo.png" alt="ZANSHIN Logo">
+            <img src="412fb350-33a4-4e6b-a2ac-2b31ff23fc5e.jpeg" alt="ZANSHIN Logo">
             <div>
                 <h1>KWF ZANSHIN</h1>
                 <span>Казахстанская Команда Кёкушинкай</span>
@@ -208,15 +220,15 @@
                 <div class="admin-name">Эрик Дәулетқалиев</div>
                 <div class="admin-rank">3 Дан KWF (Президент)</div>
             </div>
-            <button class="menu-btn">📊 Главная</button>
-            <button class="menu-btn">🥋 Мои ученики</button>
-            <button class="menu-btn">📅 Заявки</button>
+            <button class="menu-btn">📊 Главная (Dashboard)</button>
+            <button class="menu-btn">🥋 Мои ученики (Залы)</button>
+            <button class="menu-btn">📅 Календарь и Заявки</button>
             <button class="menu-btn">⚖️ Судейский корпус</button>
-            <button class="menu-btn">📁 Документы</button>
+            <button class="menu-btn">📁 База знаний</button>
         </div>
 
         <div class="main-content">
-            <h2 style="margin-top: 0; border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; color: var(--primary-color);">Новости и Приказы</h2>
+            <h2 style="margin-top: 0; border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; color: var(--primary-color);">Новости и Приказы Федерации</h2>
             
             <div class="news-card">
                 <h3>Подготовка к Чемпионату Области</h3>
