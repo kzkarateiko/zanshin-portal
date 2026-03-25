@@ -4,76 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KWF ZANSHIN - Алматинская область</title>
-    <link rel="icon" type="image/jpeg" href="IMG_0670.jpeg">
     <style>
-        /* Стиль ZANSHIN Isolated: Чистый, элитарный, на основе логотипа */
+        /* Стиль ZANSHIN: Глубокий бордовый, золотой, кремовый */
         :root {
             --primary-color: #8B0000; /* Глубокий бордовый */
             --accent-color: #D4AF37; /* Золотой (как у Беркута) */
-            --bg-body: #ffffff; /* Чистый белый фон */
-            --bg-navbar: #fdf7ed; /* Чистый кремовый/светлый фон шапки */
+            --bg-color: #f8f1e6; /* Кремовый/светлый фон */
             --text-color: #333333;
-            --text-gray: #666666;
             --text-on-dark: #ffffff;
         }
 
         body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: var(--bg-body); 
+            font-family: 'Montserrat', sans-serif; /* Более угловатый и профессиональный шрифт */
+            background-color: var(--bg-color); 
             margin: 0; 
             padding: 0; 
             color: var(--text-color);
         }
 
-        /* Шапка сайта: светлая, чтобы изолированный логотип выглядел чисто */
         .navbar { 
-            background-color: var(--bg-navbar); 
+            background-color: var(--primary-color); 
             padding: 15px 30px; 
             display: flex; 
             justify-content: center; /* Центрируем всё */
             align-items: center; 
             border-bottom: 3px solid var(--accent-color); /* Золотая линия */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
+            color: var(--text-on-dark);
         }
 
-        /* Интеграция изолированного логотипа */
         .logo-container img {
-            max-height: 120px; /* Увеличили логотип */
-            width: auto;
-            object-fit: contain;
+            height: 100px; /* Большой логотип */
         }
 
         .logo-container h1 {
             margin: 0;
-            font-size: 26px;
-            letter-spacing: 1px;
+            font-size: 24px;
+            letter-spacing: 1.5px;
             font-weight: bold;
-            color: var(--primary-color);
         }
 
         .logo-container span {
             font-size: 16px;
-            color: var(--text-gray);
-            font-weight: normal;
+            color: var(--accent-color);
         }
 
-        /* Виджет цитаты в темном, бордовом баннере */
         .quote-widget {
-            background-color: var(--primary-color);
-            color: var(--accent-color);
+            background-color: var(--accent-color);
+            color: var(--primary-color);
             text-align: center;
-            padding: 15px;
+            padding: 12px;
             font-style: italic;
             font-weight: bold;
             font-size: 18px;
-            border-bottom: 2px solid var(--accent-color);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-bottom: 2px solid var(--primary-color);
         }
 
         .container { 
@@ -86,7 +76,7 @@
 
         .sidebar { 
             width: 250px; 
-            background: #ffffff; 
+            background: var(--text-on-dark); 
             padding: 20px; 
             border-radius: 8px; 
             box-shadow: 0 4px 8px rgba(0,0,0,0.05); 
@@ -124,11 +114,10 @@
 
         .admin-rank { 
             font-size: 14px; 
-            color: var(--primary-color); 
+            color: var(--accent-color); 
             font-weight: bold; 
         }
         
-        /* Кнопки меню в бордовом цвете */
         .menu-btn { 
             display: flex; 
             align-items: center;
@@ -155,14 +144,14 @@
 
         .main-content { 
             flex: 1; 
-            background: #ffffff; 
+            background: var(--text-on-dark); 
             padding: 30px; 
             border-radius: 8px; 
             box-shadow: 0 4px 8px rgba(0,0,0,0.05); 
         }
 
         .news-card {
-            border-left: 5px solid var(--primary-color);
+            border-left: 5px solid var(--accent-color);
             padding: 20px;
             background: #fafafa;
             margin-bottom: 25px;
@@ -176,10 +165,9 @@
             font-size: 20px;
         }
 
-        /* Золотая кнопка для темного баннера */
         .btn-osu {
-            background-color: var(--primary-color);
-            color: var(--accent-color);
+            background-color: var(--accent-color);
+            color: var(--primary-color);
             border: none;
             padding: 10px 25px;
             border-radius: 6px;
@@ -192,8 +180,8 @@
         }
 
         .btn-osu:hover { 
-            background-color: var(--accent-color); 
-            color: var(--primary-color); 
+            background-color: var(--primary-color); 
+            color: var(--text-on-dark); 
         }
     </style>
 </head>
@@ -201,7 +189,7 @@
 
     <div class="navbar">
         <div class="logo-container">
-            <img src="IMG_0670.jpeg" alt="ZANSHIN Logo">
+            <img src="https://media.discordapp.com/attachments/1066030999999999999/1188031000000000000/logo.png" alt="ZANSHIN Logo">
             <div>
                 <h1>KWF ZANSHIN</h1>
                 <span>Казахстанская Команда Кёкушинкай</span>
@@ -246,4 +234,4 @@
     </div>
 
 </body>
-</html>
+    </html>
