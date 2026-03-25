@@ -41,21 +41,14 @@
 
         /* === 3 КОЛОНКИ: ИДЕАЛЬНАЯ СЕТКА ПК === */
         .layout-wrapper { display: flex; padding: 25px; gap: 25px; max-width: 1600px; margin: 0 auto; align-items: flex-start; }
-        
-        /* 1. ЛЕВАЯ КОЛОНКА (Меню 260px) */
         .sidebar-left { width: 260px; flex-shrink: 0; position: sticky; top: 110px; display: flex; flex-direction: column; gap: 15px; }
-        
-        /* 2. ЦЕНТРАЛЬНАЯ КОЛОНКА (Контент) */
         .content-center { flex: 1; min-width: 0; }
-        
-        /* 3. ПРАВАЯ КОЛОНКА (Виджеты 320px) */
         .sidebar-right { width: 320px; flex-shrink: 0; position: sticky; top: 110px; display: flex; flex-direction: column; gap: 15px; }
 
-        /* БЛОКИ В БОКОВИНАХ */
         .widget-block { background: var(--bg-white); padding: 20px; border-radius: var(--border-rad); box-shadow: var(--shadow-sm); }
         
         .admin-profile { text-align: center; margin-bottom: 10px; }
-        .admin-avatar { width: 80px; height: 80px; background: #f8f9fa; border-radius: 50%; margin: 0 auto 10px; border: 2px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 35px; }
+        .admin-avatar { width: 80px; height: 80px; background: #f8f9fa; border-radius: 50%; margin: 0 auto 10px; border: 2px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 35px; overflow: hidden;}
         .admin-name { font-weight: bold; font-size: 16px; color: var(--primary-dark); }
         .admin-rank { font-size: 12px; color: var(--primary-color); font-weight: bold; background: #fff0f0; padding: 3px 10px; border-radius: 12px; display: inline-block; margin-top: 5px; }
         
@@ -67,7 +60,6 @@
         .stat-widget { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f8f9fa; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--primary-color); }
         .stat-widget strong { font-size: 20px; color: var(--primary-dark); }
         
-        /* ТАЙМЕР */
         .timer-widget { background: linear-gradient(135deg, var(--primary-dark), var(--primary-color)); color: white; padding: 20px; border-radius: var(--border-rad); text-align: center; position: relative; box-shadow: 0 10px 20px rgba(139,0,0,0.2); }
         .timer-widget .edit-btn { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.2); border: none; color: white; border-radius: 4px; cursor: pointer; font-size: 11px; padding: 4px 8px; font-weight: bold; }
         .countdown { font-size: 28px; font-weight: 900; font-family: monospace; letter-spacing: 2px; margin: 10px 0; color: var(--accent-gold); text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
@@ -83,15 +75,15 @@
         
         .btn-osu { background: var(--primary-color); color: var(--accent-gold); border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; text-transform: uppercase; transition: 0.2s; }
         .btn-osu:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .btn-link { width: 100%; background: #f8f9fa; border: 1px solid #ddd; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; color: var(--primary-dark); transition: 0.2s; text-transform: uppercase; font-size: 12px; letter-spacing: 1px;}
+        .btn-link:hover { background: #e9ecef; border-color: #ccc; }
 
-        /* ПОСТЫ (НОВОСТИ И АНОНСЫ) */
         .feed-item { background: #fcfcfc; border: 1px solid #eee; padding: 20px; border-radius: var(--border-rad); margin-bottom: 15px; border-left: 5px solid var(--accent-gold); cursor: pointer; transition: 0.2s; }
         .feed-item:hover { transform: translateX(5px); box-shadow: var(--shadow-sm); border-color: #ddd; background: #fff; }
         .feed-date { font-size: 12px; font-weight: 800; color: var(--primary-color); text-transform: uppercase; letter-spacing: 1px;}
         .feed-title { margin: 8px 0; font-size: 18px; color: var(--primary-dark); font-weight: bold; }
         .feed-meta { font-size: 13px; color: var(--text-muted); display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px; background: #f8f9fa; padding: 8px; border-radius: 6px;}
         
-        /* ПРАВЫЕ ВИДЖЕТЫ (ТОПЫ И ИМЕНИННИКИ) */
         .widget-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; }
         .widget-header h3 { margin: 0; font-size: 15px; color: var(--primary-dark); }
         .list-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f0f2f5; }
@@ -101,28 +93,30 @@
         .top-2 { color: #bdc3c7; }
         .top-3 { color: #cd7f32; }
 
-        /* ОПРОСНИК (НОВЫЙ ВИДЖЕТ) */
+        /* ТАБЛИЦЫ */
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .data-table th, .data-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
+        .data-table th { background: #f8f9fa; font-weight: bold; color: var(--text-muted); text-transform: uppercase; font-size: 12px; }
+
+        /* ОПРОСНИК */
         .poll-option { display: block; width: 100%; text-align: left; padding: 12px; margin-bottom: 8px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; color: var(--text-main); transition: 0.2s; }
         .poll-option:hover { background: #fdfafb; border-color: var(--primary-color); color: var(--primary-color); }
 
-        /* ============================================== */
-        /* МАГИЯ АДАПТИВНОСТИ ДЛЯ ТЕЛЕФОНОВ (РЕСПОНСИВ)   */
-        /* ============================================== */
+        /* ФОРМЫ (Профиль) */
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 12px; font-weight: bold; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; }
+        .form-control { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 15px; font-family: inherit;}
+
+        /* АДАПТИВНОСТЬ МАТРИЦЫ НА ТЕЛЕФОНЕ */
         @media (max-width: 1100px) {
-            /* Переход с 3 колонок на мобильный вид */
             .layout-wrapper { flex-direction: column; padding: 15px; }
             .sidebar-left, .sidebar-right { width: 100%; position: static; }
-            
-            /* СУПЕР-ФИШКА: Правые виджеты на телефоне становятся в 2 колонки! */
             .sidebar-right { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-            
             .navbar { flex-direction: column; text-align: center; justify-content: center; }
             .header-left { flex-direction: column; gap: 10px; }
             .header-wisdom { border-left: none; padding-left: 0; text-align: center; margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; }
         }
-        
         @media (max-width: 650px) {
-            /* Для очень маленьких экранов всё в 1 колонку, чтобы не было слишком мелко */
             .sidebar-right { grid-template-columns: 1fr; }
         }
     </style>
@@ -161,10 +155,14 @@
             <div class="sidebar-left">
                 <div class="widget-block">
                     <div class="admin-profile">
-                        <div class="admin-avatar">🥋</div>
+                        <div class="admin-avatar" id="sidebar-avatar">🥋</div>
                         <div class="admin-name" id="profile-name">Загрузка...</div>
                         <div class="admin-rank" id="profile-rank">Загрузка...</div>
-                        <button onclick="logout()" style="background:none; border:none; color: var(--text-muted); text-decoration: underline; font-size: 11px; cursor: pointer; margin-top: 5px;">Выйти из аккаунта</button>
+                        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+                            <button onclick="showTab('profile')" style="background:none; border:none; color: var(--primary-color); font-weight:bold; font-size: 12px; cursor: pointer;">⚙️ Настройки</button>
+                            <span style="color: #ccc;">|</span>
+                            <button onclick="logout()" style="background:none; border:none; color: var(--text-muted); font-size: 12px; cursor: pointer;">Выход</button>
+                        </div>
                     </div>
                 </div>
 
@@ -176,6 +174,7 @@
                     
                     <div class="menu-title">ФЕДЕРАЦИЯ</div>
                     <button class="menu-btn" id="btn-team" onclick="showTab('team')">🇰🇿 Сборная Федерации</button>
+                    <button class="menu-btn" id="btn-athlete-ranking" onclick="showTab('athlete-ranking')">🏆 Рейтинг спортсменов</button>
                     <button class="menu-btn" onclick="alert('Модуль судей в разработке')">⚖️ Судейский корпус</button>
                     <button class="menu-btn" onclick="alert('База знаний в разработке')">📁 Документы и Правила</button>
                 </div>
@@ -196,7 +195,6 @@
             <div class="content-center">
                 
                 <div id="tab-dashboard" class="tab-content active">
-                    
                     <div class="timer-widget" style="margin-bottom: 20px;">
                         <button class="edit-btn" onclick="alert('Настройка таймера доступна Президенту')">⚙️ РЕДАКТИРОВАТЬ</button>
                         <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #ffcccc; margin-bottom: 5px;">Ближайший старт</div>
@@ -213,24 +211,18 @@
                             <button class="btn-osu" style="background: var(--accent-gold); color: var(--primary-dark); font-size: 12px; padding: 6px 12px;" onclick="alert('Добавление анонса')">+ Добавить анонс</button>
                         </div>
                         
-                        <div class="feed-item" onclick="alert('Тут откроется полное описание, афиша и скачивание Регламента')">
+                        <div class="feed-item" onclick="alert('Тут откроется полное описание')">
                             <div class="feed-date">15-18 МАЯ 2026</div>
                             <h3 class="feed-title">Открытый Чемпионат Республики Казахстан KWF</h3>
-                            <p style="font-size: 14px; color: var(--text-muted); margin: 5px 0;">Главный старт сезона. Отбор в Национальную сборную на Чемпионат Мира.</p>
-                            <div class="feed-meta">
-                                <span>📍 г. Астана, Дворец Единоборств</span>
-                                <span>📎 Регламент_ЧРК.pdf</span>
-                            </div>
+                            <div class="feed-meta"><span>📍 г. Астана, Дворец Единоборств</span><span>📎 Регламент_ЧРК.pdf</span></div>
                         </div>
                         <div class="feed-item">
                             <div class="feed-date">10 ИЮНЯ 2026</div>
                             <h3 class="feed-title">Летние Учебно-Тренировочные Сборы (УТС)</h3>
-                            <div class="feed-meta">
-                                <span>📍 Озеро Алаколь, база "Жалын"</span>
-                                <span>📎 2 файла прикреплено</span>
-                            </div>
+                            <div class="feed-meta"><span>📍 Озеро Алаколь, база "Жалын"</span><span>📎 2 файла прикреплено</span></div>
                         </div>
-                        <button style="width: 100%; background: #f8f9fa; border: 1px solid #ddd; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; color: var(--primary-dark); transition: 0.2s;">Показать все мероприятия ⬇️</button>
+                        
+                        <button class="btn-link" onclick="showTab('events-archive')">Все мероприятия и архив ➡️</button>
                     </div>
 
                     <div class="card" style="border-top: 4px solid var(--primary-color);">
@@ -242,46 +234,135 @@
                         <div class="feed-item" style="border-left-color: var(--primary-color);">
                             <div class="feed-date">25 МАРТА 2026</div>
                             <h3 class="feed-title">Запуск цифровой платформы ERP Zanshin</h3>
-                            <p style="font-size: 15px; color: var(--text-main); margin: 10px 0;">Уважаемые сэнсэи и сэмпаи! Мы переходим на современный электронный учет. Просьба всем руководителям филиалов внести списки своих групп до конца месяца.</p>
-                            <div class="feed-action-bar" style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #e0e0e0; display: flex; justify-content: space-between;">
-                                <button style="background: none; border: none; color: var(--primary-color); font-weight: bold; cursor: pointer; font-size: 14px;">❤️ Поддерживаю (24)</button>
-                                <span style="font-size: 12px; color: #aaa;">Просмотров: 105</span>
-                            </div>
+                            <p style="font-size: 14px; margin: 5px 0;">Уважаемые сэнсэи и сэмпаи! Мы переходим на электронный учет.</p>
                         </div>
+                        <div class="feed-item" style="border-left-color: var(--primary-color);">
+                            <div class="feed-date">20 МАРТА 2026</div>
+                            <h3 class="feed-title">Итоги Кубка Алматинской Области</h3>
+                            <p style="font-size: 14px; margin: 5px 0;">Поздравляем команду г. Каскелен с первым общекомандным местом!</p>
+                        </div>
+
+                        <button class="btn-link" onclick="showTab('news-archive')">Архив новостей 🗄️</button>
                     </div>
                 </div>
+
+                <div id="tab-events-archive" class="tab-content"><div class="card"><div class="card-header"><h2>Все Анонсы и Архив Мероприятий</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад на главную</button></div><p>Здесь будет огромный список всех прошедших и будущих турниров.</p></div></div>
+                <div id="tab-news-archive" class="tab-content"><div class="card"><div class="card-header"><h2>Архив Новостей</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад на главную</button></div><p>Здесь хранятся все новости Федерации за прошедшие годы.</p></div></div>
 
                 <div id="tab-dojos" class="tab-content"><div class="card"><div class="card-header"><h2>Управление филиалами</h2><button class="btn-osu" onclick="toggleDojoForm()">+ Добавить филиал</button></div><div id="dojo-form-container" style="display: none;"><p>Форма</p></div><div id="dojos-list"></div></div></div>
                 <div id="tab-students" class="tab-content"><div class="card"><div class="card-header"><h2>База учеников</h2><button class="btn-osu" onclick="toggleStudentForm()">+ Внести ученика</button></div><div id="student-form-container" style="display: none;"><p>Форма</p></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>ФИО</th><th>Возраст</th><th>Пояс</th><th>Группа</th></tr></thead><tbody id="students-table-body"><tr><td colspan="4">Загрузка...</td></tr></tbody></table></div></div></div>
                 <div id="tab-team" class="tab-content"><div class="card accent-gold"><div class="card-header"><h2 style="color: var(--accent-gold);">🇰🇿 Национальная Сборная</h2></div><p>Раздел элитных бойцов.</p></div></div>
 
+                <div id="tab-athlete-ranking" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>🏆 Годовой Рейтинг Спортсменов</h2>
+                            <input type="text" placeholder="🔍 Поиск по ФИО..." style="padding: 8px; border-radius: 6px; border: 1px solid #ddd; width: 200px;">
+                        </div>
+                        <p style="color: var(--text-muted); font-size: 14px;">Рейтинг формируется автоматически на основе занятых мест на турнирах. Итоги подводятся в конце года.</p>
+                        
+                        <div style="overflow-x: auto;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr><th>Место</th><th>ФИО Спортсмена</th><th>Клуб / Тренер</th><th>Золото</th><th>Серебро</th><th>Бронза</th><th>Всего Баллов</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong style="color: var(--accent-gold); font-size: 18px;">1</strong></td>
+                                        <td><strong>Ахметов Данияр</strong></td>
+                                        <td>Zanshin Каскелен / Эрик Д.</td>
+                                        <td>4</td><td>1</td><td>0</td>
+                                        <td><strong style="color: var(--primary-dark); font-size: 16px;">125 б.</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong style="color: #bdc3c7; font-size: 18px;">2</strong></td>
+                                        <td><strong>Оспанова Амина</strong></td>
+                                        <td>Торнадо / Сенсей Али</td>
+                                        <td>2</td><td>3</td><td>1</td>
+                                        <td><strong style="color: var(--primary-dark); font-size: 16px;">84 б.</strong></td>
+                                    </tr>
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-profile" class="tab-content">
+                    <div class="card" style="max-width: 600px; margin: 0 auto;">
+                        <div class="card-header">
+                            <h2>⚙️ Настройки Профиля</h2>
+                        </div>
+                        
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <div style="width: 100px; height: 100px; background: #eee; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 40px; border: 2px dashed #ccc; cursor: pointer;" onclick="alert('Функция загрузки фото с галереи телефона')">📷</div>
+                            <span style="font-size: 12px; color: var(--primary-color); cursor: pointer; font-weight: bold;">Изменить аватарку</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Ваше ФИО</label>
+                            <input type="text" class="form-control" id="prof-name" placeholder="Например: Эрик Дәулетқалиев">
+                        </div>
+                        <div class="form-group">
+                            <label>Квалификация (Дан/Кю)</label>
+                            <input type="text" class="form-control" id="prof-dan" placeholder="Например: 3 Дан">
+                        </div>
+                        <div class="form-group">
+                            <label>Контактный телефон</label>
+                            <input type="tel" class="form-control" placeholder="+7 (700) 000-00-00">
+                        </div>
+                        <div class="form-group">
+                            <label>Новый пароль</label>
+                            <input type="password" class="form-control" placeholder="Оставьте пустым, если не меняете">
+                        </div>
+
+                        <button class="btn-osu" style="width: 100%; margin-top: 10px;" onclick="alert('Сохранение профиля в разработке. Потребуется обновление БД.')">💾 Сохранить изменения</button>
+                    </div>
+                </div>
+
             </div>
 
             <div class="sidebar-right">
                 
-                <div class="widget-block" style="background: linear-gradient(to bottom, #fff, #fef9e7); border: 1px solid #f9e29c; text-align: center;">
-                    <h3 style="margin: 0 0 15px 0; color: var(--accent-gold); font-size: 16px; text-transform: uppercase;">🌟 Лучший боец месяца</h3>
-                    <div style="width: 100px; height: 100px; background: #eee; border-radius: 50%; margin: 0 auto 10px; border: 3px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 40px;">👦🏻</div>
-                    <strong style="font-size: 18px; color: var(--primary-dark);">Ахметов Данияр</strong>
-                    <p style="margin: 5px 0 0 0; font-size: 13px; color: var(--text-muted);">Золото на Кубке РК</p>
+                <div class="widget-block" style="background: linear-gradient(to bottom, #fff, #fef9e7); border: 1px solid #f9e29c;">
+                    <div class="widget-header" style="border-bottom-color: #faebcc;">
+                        <h3 style="color: var(--accent-gold);">🌟 Рейтинг спортсменов</h3>
+                    </div>
+                    
+                    <div class="list-item" style="padding: 8px 0;">
+                        <span class="rank-number top-1" style="font-size: 16px;">1</span>
+                        <div style="flex:1;"><strong style="font-size: 13px;">Ахметов Данияр</strong></div>
+                        <span style="font-weight:bold; color:var(--primary-dark); font-size: 13px;">125 б.</span>
+                    </div>
+                    <div class="list-item" style="padding: 8px 0;">
+                        <span class="rank-number top-2" style="font-size: 16px;">2</span>
+                        <div style="flex:1;"><strong style="font-size: 13px;">Оспанова Амина</strong></div>
+                        <span style="font-weight:bold; color:var(--primary-dark); font-size: 13px;">84 б.</span>
+                    </div>
+                    <div class="list-item" style="padding: 8px 0; border-bottom: none;">
+                        <span class="rank-number top-3" style="font-size: 16px;">3</span>
+                        <div style="flex:1;"><strong style="font-size: 13px;">Смагулов Али</strong></div>
+                        <span style="font-weight:bold; color:var(--primary-dark); font-size: 13px;">60 б.</span>
+                    </div>
+
+                    <button class="btn-link" style="margin-top: 10px; padding: 8px;" onclick="showTab('athlete-ranking')">Весь рейтинг 📊</button>
                 </div>
 
                 <div class="widget-block">
                     <div class="widget-header">
-                        <h3>🏆 Рейтинг по медалям</h3>
+                        <h3>🏆 Тренеры (Медали)</h3>
                         <button style="background:none; border:none; color:var(--primary-color); cursor:pointer; font-size:11px; font-weight:bold; text-decoration: underline;" onclick="alert('Внести баллы')">Начислить</button>
                     </div>
-                    <div class="list-item"><span class="rank-number top-1">1</span><div style="flex:1; font-size: 14px;"><strong>Эрик Дәулетқалиев</strong></div><span style="font-weight:bold; color:var(--primary-dark); font-size: 14px;">450 б.</span></div>
-                    <div class="list-item"><span class="rank-number top-2">2</span><div style="flex:1; font-size: 14px;"><strong>Сенсей Али</strong></div><span style="font-weight:bold; color:var(--primary-dark); font-size: 14px;">320 б.</span></div>
-                    <div class="list-item"><span class="rank-number top-3">3</span><div style="flex:1; font-size: 14px;"><strong>Семпай Руслан</strong></div><span style="font-weight:bold; color:var(--primary-dark); font-size: 14px;">215 б.</span></div>
+                    <div class="list-item"><span class="rank-number top-1">1</span><div style="flex:1; font-size: 13px;"><strong>Эрик Дәулетқалиев</strong></div><span style="font-weight:bold; color:var(--primary-dark); font-size: 13px;">450 б.</span></div>
+                    <div class="list-item"><span class="rank-number top-2">2</span><div style="flex:1; font-size: 13px;"><strong>Сенсей Али</strong></div><span style="font-weight:bold; color:var(--primary-dark); font-size: 13px;">320 б.</span></div>
+                    <div class="list-item"><span class="rank-number top-3">3</span><div style="flex:1; font-size: 13px;"><strong>Семпай Руслан</strong></div><span style="font-weight:bold; color:var(--primary-dark); font-size: 13px;">215 б.</span></div>
                 </div>
 
                 <div class="widget-block">
                     <div class="widget-header">
-                        <h3>👥 Топ по ученикам</h3>
+                        <h3>👥 Тренеры (Кол-во)</h3>
                     </div>
-                    <div class="list-item"><span class="rank-number top-1">1</span><div style="flex:1; font-size: 14px;"><strong>Эрик Дәулетқалиев</strong></div><span style="font-weight:bold; color:var(--text-muted); font-size: 14px;">150 ч.</span></div>
-                    <div class="list-item"><span class="rank-number top-2">2</span><div style="flex:1; font-size: 14px;"><strong>Сенсей Али</strong></div><span style="font-weight:bold; color:var(--text-muted); font-size: 14px;">95 ч.</span></div>
+                    <div class="list-item"><span class="rank-number top-1">1</span><div style="flex:1; font-size: 13px;"><strong>Эрик Дәулетқалиев</strong></div><span style="font-weight:bold; color:var(--text-muted); font-size: 13px;">150 ч.</span></div>
+                    <div class="list-item"><span class="rank-number top-2">2</span><div style="flex:1; font-size: 13px;"><strong>Сенсей Али</strong></div><span style="font-weight:bold; color:var(--text-muted); font-size: 13px;">95 ч.</span></div>
                 </div>
 
                 <div class="widget-block" style="background: #fdfafb; border: 1px solid #e0c8c8;">
@@ -334,8 +415,7 @@
         const quotes = [
             "Победа над собой — величайшая из побед.",
             "Истинный путь постигается десятью тысячами дней тренировок.",
-            "Осу — это терпение и решимость.",
-            "Каратэ — это путь, на котором нет конца."
+            "Осу — это терпение и решимость."
         ];
         document.getElementById('daily-quote').innerText = "«" + quotes[Math.floor(Math.random() * quotes.length)] + "»";
 
@@ -346,18 +426,22 @@
             document.getElementById('tab-' + tabName).classList.add('active');
             let activeBtn = document.getElementById('btn-' + tabName);
             if(activeBtn) activeBtn.classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' }); // Плавная прокрутка наверх
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
         }
 
-        // ЛОГИКА АВТОРИЗАЦИИ (Работает с базой)
+        // ЛОГИКА АВТОРИЗАЦИИ
         async function loadProfile(userId) {
             currentUserId = userId;
             try {
                 const { data, error } = await supabaseClient.from('profiles').select('*').eq('id', userId).single();
                 if (data) {
                     document.getElementById('profile-name').innerText = data.full_name;
+                    // Подставляем данные в форму профиля
+                    document.getElementById('prof-name').value = data.full_name;
+                    document.getElementById('prof-dan').value = data.dan || '';
+                    
                     let roleStr = data.budopassport_num === 'PRESIDENT' ? ' (Президент)' : '';
-                    document.getElementById('profile-rank').innerText = data.dan + ' Черный пояс' + roleStr;
+                    document.getElementById('profile-rank').innerText = (data.dan || 'Пояс не указан') + roleStr;
                 }
                 const { data: grpData } = await supabaseClient.from('groups').select('students_count');
                 if(grpData) {
