@@ -9,15 +9,9 @@
     <style>
         /* === ЭЛИТНЫЙ ДИЗАЙН === */
         :root {
-            --primary-dark: #4a0000;
-            --primary-color: #8B0000; 
-            --accent-gold: #D4AF37; 
-            --bg-main: #f0f2f5; 
-            --bg-white: #ffffff;
-            --text-main: #1c1e21;
-            --text-muted: #606770;
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
-            --shadow-md: 0 8px 16px rgba(0,0,0,0.1);
+            --primary-dark: #4a0000; --primary-color: #8B0000; --accent-gold: #D4AF37; 
+            --bg-main: #f0f2f5; --bg-white: #ffffff; --text-main: #1c1e21; --text-muted: #606770;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.08); --shadow-md: 0 8px 16px rgba(0,0,0,0.1);
             --border-rad: 12px;
         }
 
@@ -64,9 +58,7 @@
         .timer-widget .edit-btn { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.2); border: none; color: white; border-radius: 4px; cursor: pointer; font-size: 11px; padding: 4px 8px; font-weight: bold; }
         .countdown { font-size: 28px; font-weight: 900; font-family: monospace; letter-spacing: 2px; margin: 10px 0; color: var(--accent-gold); text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
 
-        /* ВКЛАДКИ КОНТЕНТА */
-        .tab-content { display: none; } 
-        .tab-content.active { display: block; animation: fadeIn 0.4s; } 
+        .tab-content { display: none; } .tab-content.active { display: block; animation: fadeIn 0.4s; } 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .card { background: var(--bg-white); padding: 25px; border-radius: var(--border-rad); box-shadow: var(--shadow-sm); margin-bottom: 25px; }
@@ -93,21 +85,21 @@
         .top-2 { color: #bdc3c7; }
         .top-3 { color: #cd7f32; }
 
-        /* ТАБЛИЦЫ */
+        /* ТАБЛИЦЫ И ФОРМЫ */
         .data-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         .data-table th, .data-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
         .data-table th { background: #f8f9fa; font-weight: bold; color: var(--text-muted); text-transform: uppercase; font-size: 12px; }
+        
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
+        .form-control { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 14px; font-family: inherit; background: #fcfcfc; }
+        .form-control:focus { border-color: var(--primary-color); outline: none; background: #fff; box-shadow: 0 0 0 3px rgba(139,0,0,0.1); }
+        .form-label { display: block; font-size: 12px; font-weight: bold; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; }
 
-        /* ОПРОСНИК */
-        .poll-option { display: block; width: 100%; text-align: left; padding: 12px; margin-bottom: 8px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; color: var(--text-main); transition: 0.2s; }
-        .poll-option:hover { background: #fdfafb; border-color: var(--primary-color); color: var(--primary-color); }
+        /* ВСПЛЫВАЮЩИЕ ОКНА (МОДАЛКИ) */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 20px; box-sizing: border-box; }
+        .modal-box { background: #fff; padding: 25px; border-radius: 12px; width: 100%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-top: 5px solid var(--primary-color); position: relative; animation: fadeIn 0.3s; }
+        .close-modal { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 20px; cursor: pointer; color: #888; }
 
-        /* ФОРМЫ (Профиль) */
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 12px; font-weight: bold; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; }
-        .form-control { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 15px; font-family: inherit;}
-
-        /* АДАПТИВНОСТЬ МАТРИЦЫ НА ТЕЛЕФОНЕ */
         @media (max-width: 1100px) {
             .layout-wrapper { flex-direction: column; padding: 15px; }
             .sidebar-left, .sidebar-right { width: 100%; position: static; }
@@ -116,9 +108,7 @@
             .header-left { flex-direction: column; gap: 10px; }
             .header-wisdom { border-left: none; padding-left: 0; text-align: center; margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; }
         }
-        @media (max-width: 650px) {
-            .sidebar-right { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 650px) { .sidebar-right { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -132,6 +122,36 @@
             <input type="password" id="password" placeholder="Пароль">
             <button class="btn-osu" onclick="login()" style="width: 100%; margin-top: 15px;">Войти в Додзё 👊</button>
             <p id="error-msg" style="color: red; font-size: 14px; display: none; margin-top: 15px;">Ошибка доступа!</p>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-news">
+        <div class="modal-box">
+            <button class="close-modal" onclick="closeModal('modal-news')">✖</button>
+            <h2 style="margin-top:0; color: var(--primary-dark);">📰 Новая публикация</h2>
+            <label class="form-label">Заголовок новости</label>
+            <input type="text" id="news-title" class="form-control" style="margin-bottom:15px;" placeholder="Напр: Итоги турнира...">
+            <label class="form-label">Текст новости</label>
+            <textarea id="news-content" class="form-control" style="margin-bottom:15px; height: 100px; resize: vertical;" placeholder="Напишите подробности..."></textarea>
+            <button class="btn-osu" style="width: 100%;" onclick="saveNews()">Опубликовать новость</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-event">
+        <div class="modal-box">
+            <button class="close-modal" onclick="closeModal('modal-event')">✖</button>
+            <h2 style="margin-top:0; color: var(--accent-gold);">🔥 Новый анонс турнира</h2>
+            <label class="form-label">Название мероприятия</label>
+            <input type="text" id="ev-title" class="form-control" style="margin-bottom:10px;" placeholder="Напр: Кубок Алматинской области">
+            <div class="form-grid">
+                <div><label class="form-label">Дата проведения</label><input type="date" id="ev-date" class="form-control"></div>
+                <div><label class="form-label">Город / Зал</label><input type="text" id="ev-loc" class="form-control" placeholder="г. Каскелен"></div>
+            </div>
+            <label class="form-label">Краткое описание</label>
+            <textarea id="ev-desc" class="form-control" style="margin-bottom:10px; height: 60px;" placeholder="Краткая суть..."></textarea>
+            <label class="form-label">Прикрепить файл (Пока только название)</label>
+            <input type="text" id="ev-file" class="form-control" style="margin-bottom:15px;" placeholder="Напр: Положение.pdf">
+            <button class="btn-osu" style="width: 100%; background: var(--accent-gold); color: var(--primary-dark);" onclick="saveEvent()">Добавить анонс</button>
         </div>
     </div>
 
@@ -209,72 +229,101 @@
                     <div class="card" style="border-top: 4px solid var(--accent-gold);">
                         <div class="card-header">
                             <h2>🔥 Анонсы и Мероприятия</h2>
-                            <button class="btn-osu" style="background: var(--accent-gold); color: var(--primary-dark); font-size: 12px; padding: 6px 12px;" onclick="alert('Добавление анонса')">+ Добавить анонс</button>
+                            <button id="admin-btn-event" class="btn-osu" style="background: var(--accent-gold); color: var(--primary-dark); font-size: 12px; padding: 6px 12px; display: none;" onclick="openModal('modal-event')">+ Добавить анонс</button>
                         </div>
-                        
-                        <div id="events-feed-container">
-                            <p style="text-align: center; color: #888;">Загрузка свежих турниров...</p>
-                        </div>
-                        
+                        <div id="events-feed-container"><p style="text-align: center; color: #888;">Загрузка свежих турниров...</p></div>
                         <button class="btn-link" onclick="showTab('events-archive')">Все мероприятия и архив ➡️</button>
                     </div>
 
                     <div class="card" style="border-top: 4px solid var(--primary-color);">
                         <div class="card-header">
                             <h2>📰 Новости Федерации</h2>
-                            <button class="btn-osu" style="font-size: 12px; padding: 6px 12px;" onclick="alert('Написать новость')">+ Опубликовать новость</button>
+                            <button id="admin-btn-news" class="btn-osu" style="font-size: 12px; padding: 6px 12px; display: none;" onclick="openModal('modal-news')">+ Опубликовать новость</button>
                         </div>
-                        
-                        <div id="news-feed-container">
-                            <p style="text-align: center; color: #888;">Загрузка свежих новостей...</p>
-                        </div>
-
+                        <div id="news-feed-container"><p style="text-align: center; color: #888;">Загрузка свежих новостей...</p></div>
                         <button class="btn-link" onclick="showTab('news-archive')">Архив новостей 🗄️</button>
                     </div>
                 </div>
 
-                <div id="tab-events-archive" class="tab-content"><div class="card"><div class="card-header"><h2>Все Анонсы и Архив Мероприятий</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад на главную</button></div><p>Здесь будет огромный список всех прошедших и будущих турниров.</p></div></div>
-                <div id="tab-news-archive" class="tab-content"><div class="card"><div class="card-header"><h2>Архив Новостей</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад на главную</button></div><p>Здесь хранятся все новости Федерации за прошедшие годы.</p></div></div>
-
-                <div id="tab-dojos" class="tab-content"><div class="card"><div class="card-header"><h2>Управление филиалами</h2><button class="btn-osu" onclick="toggleDojoForm()">+ Добавить филиал</button></div><div id="dojo-form-container" style="display: none;"><p>Форма</p></div><div id="dojos-list"></div></div></div>
-                <div id="tab-students" class="tab-content"><div class="card"><div class="card-header"><h2>База учеников</h2><button class="btn-osu" onclick="toggleStudentForm()">+ Внести ученика</button></div><div id="student-form-container" style="display: none;"><p>Форма</p></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>ФИО</th><th>Возраст</th><th>Пояс</th><th>Группа</th></tr></thead><tbody id="students-table-body"><tr><td colspan="4">Загрузка...</td></tr></tbody></table></div></div></div>
-                <div id="tab-team" class="tab-content"><div class="card accent-gold"><div class="card-header"><h2 style="color: var(--accent-gold);">🇰🇿 Национальная Сборная</h2></div><p>Раздел элитных бойцов.</p></div></div>
-
-                <div id="tab-athlete-ranking" class="tab-content">
+                <div id="tab-dojos" class="tab-content">
                     <div class="card">
                         <div class="card-header">
-                            <h2>🏆 Годовой Рейтинг Спортсменов</h2>
-                            <input type="text" placeholder="🔍 Поиск по ФИО..." style="padding: 8px; border-radius: 6px; border: 1px solid #ddd; width: 200px;">
+                            <h2>Управление филиалами</h2>
+                            <button class="btn-osu" onclick="toggleForm('dojo-form-container')">+ Добавить зал</button>
                         </div>
-                        <p style="color: var(--text-muted); font-size: 14px;">Рейтинг формируется автоматически на основе занятых мест на турнирах. Итоги подводятся в конце года.</p>
+                        <div id="dojo-form-container" style="display: none; background: #fdfafb; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e0c8c8;">
+                            <h3 style="margin-top: 0; color: var(--primary-dark); font-size: 16px;">Локация филиала</h3>
+                            <div class="form-grid">
+                                <div><label class="form-label">Город/Поселок</label><input type="text" id="dojo-city" class="form-control" placeholder="напр. Каскелен"></div>
+                                <div><label class="form-label">Точный адрес</label><input type="text" id="dojo-address" class="form-control" placeholder="напр. ул. Абая 15, СШ №2"></div>
+                            </div>
+                            
+                            <h3 style="margin-top: 15px; color: var(--primary-dark); font-size: 16px;">Группы в зале</h3>
+                            <div id="groups-container">
+                                </div>
+                            <button onclick="addGroupRow()" class="btn-link" style="margin-bottom: 20px; border-style: dashed; background: transparent;">+ Добавить еще одну группу</button>
+                            
+                            <div style="display: flex; gap: 15px;">
+                                <button class="btn-osu" onclick="saveDojo()" style="flex: 2;">💾 Сохранить зал</button>
+                                <button class="btn-osu" onclick="toggleForm('dojo-form-container')" style="flex: 1; background: #e0e0e0; color: #333;">Отмена</button>
+                            </div>
+                        </div>
+                        <div id="dojos-list"></div>
+                    </div>
+                </div>
+
+                <div id="tab-students" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>База учеников</h2>
+                            <button class="btn-osu" onclick="toggleForm('student-form-container')">+ Внести ученика</button>
+                        </div>
+                        
+                        <div id="student-form-container" style="display: none; background: #fdfafb; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e0c8c8;">
+                            <div class="form-grid">
+                                <div><label class="form-label">ФИО Ученика</label><input type="text" id="st-name" class="form-control" placeholder="Иванов Иван"></div>
+                                <div><label class="form-label">Дата рождения</label><input type="date" id="st-dob" class="form-control"></div>
+                                <div><label class="form-label">Пол</label>
+                                    <select id="st-gender" class="form-control"><option>Мужской</option><option>Женский</option></select>
+                                </div>
+                            </div>
+                            <div class="form-grid">
+                                <div><label class="form-label">Текущий Кю/Дан</label>
+                                    <select id="st-kyu" class="form-control">
+                                        <option value="11 Кю (Белый)">11 Кю (Белый)</option>
+                                        <option value="10 Кю (Оранжевый)">10 Кю (Оранжевый)</option>
+                                        <option value="9 Кю (Оранж-полоса)">9 Кю (Оранж-полоса)</option>
+                                        <option value="8 Кю (Синий)">8 Кю (Синий)</option>
+                                    </select>
+                                </div>
+                                <div><label class="form-label">Вес (кг)</label><input type="number" id="st-weight" class="form-control" placeholder="Например: 45.5"></div>
+                                <div><label class="form-label">Группа (Зал)</label>
+                                    <select id="st-group" class="form-control"><option value="">Загрузка залов...</option></select>
+                                </div>
+                            </div>
+                            <div class="form-grid" style="grid-template-columns: 1fr;">
+                                <div><label class="form-label">Достижения</label><input type="text" id="st-achievements" class="form-control" placeholder="Чемпион РК, призер города..."></div>
+                            </div>
+                            <div style="display: flex; gap: 15px;">
+                                <button class="btn-osu" onclick="saveStudent()" style="flex: 2;">💾 Сохранить ученика</button>
+                                <button class="btn-osu" onclick="toggleForm('student-form-container')" style="flex: 1; background: #e0e0e0; color: #333;">Отмена</button>
+                            </div>
+                        </div>
+
                         <div style="overflow-x: auto;">
                             <table class="data-table">
-                                <thead>
-                                    <tr><th>Место</th><th>ФИО Спортсмена</th><th>Клуб / Тренер</th><th>Золото</th><th>Серебро</th><th>Бронза</th><th>Всего Баллов</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td><strong style="color: var(--accent-gold); font-size: 18px;">1</strong></td><td><strong>Ахметов Данияр</strong></td><td>Zanshin Каскелен / Эрик Д.</td><td>4</td><td>1</td><td>0</td><td><strong style="color: var(--primary-dark); font-size: 16px;">125 б.</strong></td></tr>
-                                    <tr><td><strong style="color: #bdc3c7; font-size: 18px;">2</strong></td><td><strong>Оспанова Амина</strong></td><td>Торнадо / Сенсей Али</td><td>2</td><td>3</td><td>1</td><td><strong style="color: var(--primary-dark); font-size: 16px;">84 б.</strong></td></tr>
-                                </tbody>
+                                <thead><tr><th>ФИО</th><th>Возраст</th><th>Квалификация</th><th>Вес</th><th>Группа</th></tr></thead>
+                                <tbody id="students-table-body"><tr><td colspan="5" style="text-align: center;">Загрузка...</td></tr></tbody>
                             </table>
                         </div>
                     </div>
                 </div>
 
-                <div id="tab-profile" class="tab-content">
-                    <div class="card" style="max-width: 600px; margin: 0 auto;">
-                        <div class="card-header"><h2>⚙️ Настройки Профиля</h2></div>
-                        <div style="text-align: center; margin-bottom: 20px;">
-                            <div style="width: 100px; height: 100px; background: #eee; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 40px; border: 2px dashed #ccc; cursor: pointer;">📷</div>
-                            <span style="font-size: 12px; color: var(--primary-color); cursor: pointer; font-weight: bold;">Изменить аватарку</span>
-                        </div>
-                        <div class="form-group"><label>Ваше ФИО</label><input type="text" class="form-control" id="prof-name"></div>
-                        <div class="form-group"><label>Квалификация (Дан/Кю)</label><input type="text" class="form-control" id="prof-dan"></div>
-                        <div class="form-group"><label>Контактный телефон</label><input type="tel" class="form-control" placeholder="+7 (700) 000-00-00"></div>
-                        <div class="form-group"><label>Новый пароль</label><input type="password" class="form-control" placeholder="Оставьте пустым, если не меняете"></div>
-                        <button class="btn-osu" style="width: 100%; margin-top: 10px;" onclick="alert('Сохранение профиля в разработке.')">💾 Сохранить изменения</button>
-                    </div>
-                </div>
+                <div id="tab-team" class="tab-content"><div class="card accent-gold"><div class="card-header"><h2 style="color: var(--accent-gold);">🇰🇿 Национальная Сборная</h2></div><p>Раздел элитных бойцов в разработке.</p></div></div>
+                <div id="tab-athlete-ranking" class="tab-content"><div class="card"><div class="card-header"><h2>🏆 Годовой Рейтинг</h2></div><p>Рейтинг формируется на основе турниров.</p></div></div>
+                <div id="tab-profile" class="tab-content"><div class="card"><h2>⚙️ Настройки Профиля</h2><p>Форма профиля.</p></div></div>
+                <div id="tab-events-archive" class="tab-content"><div class="card"><div class="card-header"><h2>Все Анонсы</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад</button></div></div></div>
+                <div id="tab-news-archive" class="tab-content"><div class="card"><div class="card-header"><h2>Архив Новостей</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад</button></div></div></div>
 
             </div>
 
@@ -288,9 +337,7 @@
                 </div>
 
                 <div class="widget-block" style="background: linear-gradient(to bottom, #fff, #fef9e7); border: 1px solid #f9e29c;">
-                    <div class="widget-header" style="border-bottom-color: #faebcc;">
-                        <h3 style="color: var(--accent-gold);">🌟 Рейтинг спортсменов</h3>
-                    </div>
+                    <div class="widget-header" style="border-bottom-color: #faebcc;"><h3 style="color: var(--accent-gold);">🌟 Рейтинг спортсменов</h3></div>
                     <div class="list-item" style="padding: 8px 0;"><span class="rank-number top-1" style="font-size: 16px;">1</span><div style="flex:1;"><strong style="font-size: 13px;">Ахметов Данияр</strong></div><span style="font-weight:bold; color:var(--primary-dark); font-size: 13px;">125 б.</span></div>
                     <div class="list-item" style="padding: 8px 0;"><span class="rank-number top-2" style="font-size: 16px;">2</span><div style="flex:1;"><strong style="font-size: 13px;">Оспанова Амина</strong></div><span style="font-weight:bold; color:var(--primary-dark); font-size: 13px;">84 б.</span></div>
                     <div class="list-item" style="padding: 8px 0; border-bottom: none;"><span class="rank-number top-3" style="font-size: 16px;">3</span><div style="flex:1;"><strong style="font-size: 13px;">Смагулов Али</strong></div><span style="font-weight:bold; color:var(--primary-dark); font-size: 13px;">60 б.</span></div>
@@ -304,26 +351,19 @@
                     </div>
                     <div class="list-item"><span class="rank-number top-1">1</span><div style="flex:1; font-size: 13px;"><strong>Эрик Дәулетқалиев</strong></div><span style="font-weight:bold; color:var(--primary-dark); font-size: 13px;">450 б.</span></div>
                     <div class="list-item"><span class="rank-number top-2">2</span><div style="flex:1; font-size: 13px;"><strong>Сенсей Али</strong></div><span style="font-weight:bold; color:var(--primary-dark); font-size: 13px;">320 б.</span></div>
-                    <div class="list-item"><span class="rank-number top-3">3</span><div style="flex:1; font-size: 13px;"><strong>Семпай Руслан</strong></div><span style="font-weight:bold; color:var(--primary-dark); font-size: 13px;">215 б.</span></div>
                 </div>
 
                 <div class="widget-block">
-                    <div class="widget-header">
-                        <h3>👥 Тренеры (Кол-во)</h3>
-                    </div>
+                    <div class="widget-header"><h3>👥 Тренеры (Кол-во)</h3></div>
                     <div class="list-item"><span class="rank-number top-1">1</span><div style="flex:1; font-size: 13px;"><strong>Эрик Дәулетқалиев</strong></div><span style="font-weight:bold; color:var(--text-muted); font-size: 13px;">150 ч.</span></div>
-                    <div class="list-item"><span class="rank-number top-2">2</span><div style="flex:1; font-size: 13px;"><strong>Сенсей Али</strong></div><span style="font-weight:bold; color:var(--text-muted); font-size: 13px;">95 ч.</span></div>
                 </div>
 
                 <div class="widget-block" style="background: #fdfafb; border: 1px solid #e0c8c8;">
-                    <div class="widget-header" style="border-bottom-color: #e0c8c8;">
-                        <h3 style="color: var(--primary-dark);">📊 Опрос Федерации</h3>
-                    </div>
+                    <div class="widget-header" style="border-bottom-color: #e0c8c8;"><h3 style="color: var(--primary-dark);">📊 Опрос Федерации</h3></div>
                     <p style="font-size: 13px; margin: 0 0 10px 0; font-weight: bold;">Где проведем Зимнюю Школу?</p>
                     <button class="poll-option" onclick="alert('Голос учтен!')">Алматы (База ЦСКА)</button>
                     <button class="poll-option" onclick="alert('Голос учтен!')">Боровое (Щучинск)</button>
                     <button class="poll-option" onclick="alert('Голос учтен!')">Талдыкорган</button>
-                    <p style="font-size: 11px; color: #888; text-align: center; margin: 5px 0 0 0;">Проголосовало: 18 чел.</p>
                 </div>
 
                 <div class="widget-block" style="background: #fffcf5; border: 1px solid #faebcc;">
@@ -344,7 +384,9 @@
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5eml0b2tidnJvY2xraHRvbm5zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MzYxNTksImV4cCI6MjA5MDAxMjE1OX0.xoFmiYEoegyPUti2AVzQ4ex7HXCi_PtqRisXdYbB6yo';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         let currentUserId = null; 
+        let globalGroups = [];
 
+        // ИМИТАЦИЯ ТАЙМЕРА
         setInterval(() => {
             const el = document.getElementById('tournament-timer');
             if(el) {
@@ -359,6 +401,7 @@
         const quotes = ["Победа над собой — величайшая из побед.", "Истинный путь постигается десятью тысячами дней тренировок.", "Осу — это терпение и решимость."];
         document.getElementById('daily-quote').innerText = "«" + quotes[Math.floor(Math.random() * quotes.length)] + "»";
 
+        // === ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ (УИ) ===
         function showTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.menu-btn').forEach(btn => btn.classList.remove('active'));
@@ -367,62 +410,189 @@
             if(activeBtn) activeBtn.classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' }); 
         }
+        function toggleForm(id) {
+            const el = document.getElementById(id);
+            el.style.display = el.style.display === 'none' ? 'block' : 'none';
+        }
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function calculateAge(birthday) {
+            const ageDifMs = Date.now() - new Date(birthday).getTime();
+            return Math.abs(new Date(ageDifMs).getUTCFullYear() - 1970);
+        }
 
-        // ================= МАГИЯ: ЗАГРУЗКА НОВОСТЕЙ И АНОНСОВ =================
+        // === ЭТАП 1: ФОРМЫ ЗАЛОВ И УЧЕНИКОВ ===
+        function addGroupRow() {
+            const container = document.getElementById('groups-container');
+            const row = document.createElement('div');
+            row.className = 'form-grid';
+            row.style.background = '#fff'; row.style.padding = '10px'; row.style.border = '1px dashed #ccc'; row.style.borderRadius = '6px';
+            row.innerHTML = `
+                <div><label class="form-label">Название группы</label><input type="text" class="form-control group-name" placeholder="напр. Младшая"></div>
+                <div><label class="form-label">Дни и Время</label><input type="text" class="form-control group-schedule" placeholder="напр. Пн-Ср-Пт 18:00"></div>
+                <div><label class="form-label">Кол-во сейчас</label><input type="number" class="form-control group-count" placeholder="15"></div>
+            `;
+            container.appendChild(row);
+        }
+        document.addEventListener("DOMContentLoaded", () => { addGroupRow(); });
+
+        async function saveDojo() {
+            const city = document.getElementById('dojo-city').value.trim();
+            const address = document.getElementById('dojo-address').value.trim();
+            const groupRows = document.getElementById('groups-container').children;
+            let groupsToInsert = [];
+            for (let row of groupRows) {
+                const name = row.querySelector('.group-name').value.trim();
+                const schedule = row.querySelector('.group-schedule').value.trim();
+                const count = parseInt(row.querySelector('.group-count').value) || 0;
+                if (name) groupsToInsert.push({ profile_id: currentUserId, address_city: city, address_raw: address, group_name: name, schedule: schedule, students_count: count });
+            }
+            if (!city || !address || groupsToInsert.length === 0) return alert("Заполните город, адрес и название группы.");
+            try {
+                const { error } = await supabaseClient.from('groups').insert(groupsToInsert);
+                if (error) throw error;
+                alert("Зал сохранен!");
+                toggleForm('dojo-form-container');
+                document.getElementById('dojo-city').value = ''; document.getElementById('dojo-address').value = '';
+                document.getElementById('groups-container').innerHTML = ''; addGroupRow();
+                loadDojos();
+            } catch (err) { alert("Ошибка: " + err.message); }
+        }
+
+        async function loadDojos() {
+            try {
+                const { data, error } = await supabaseClient.from('groups').select('*').eq('profile_id', currentUserId).order('id', { ascending: false });
+                if (error) throw error;
+                globalGroups = data; 
+                
+                const select = document.getElementById('st-group');
+                select.innerHTML = '<option value="">-- Выберите группу --</option>';
+                data.forEach(g => { select.innerHTML += `<option value="${g.id}">${g.address_city}, ${g.group_name}</option>`; });
+
+                if (data.length === 0) { document.getElementById('dojos-list').innerHTML = '<p>Нет залов.</p>'; return; }
+                const grouped = {}; data.forEach(g => { const key = g.address_city + ' | ' + g.address_raw; if(!grouped[key]) grouped[key] = []; grouped[key].push(g); });
+
+                let html = '';
+                for (const [addressKey, groups] of Object.entries(grouped)) {
+                    html += `<div class="card" style="padding: 15px;"><h3 style="margin: 0 0 10px 0; font-size: 16px;">📍 ${addressKey}</h3>`;
+                    groups.forEach(g => {
+                        html += `<div style="padding: 8px; border-bottom: 1px dashed #eee; display: flex; justify-content: space-between;">
+                            <span>🥋 ${g.group_name} <br><small style="color:#888;">🕒 ${g.schedule}</small></span><strong>👥 ${g.students_count}</strong>
+                        </div>`;
+                    });
+                    html += `</div>`;
+                }
+                document.getElementById('dojos-list').innerHTML = html;
+            } catch (err) { console.error(err); }
+        }
+
+        async function saveStudent() {
+            const name = document.getElementById('st-name').value.trim();
+            const dob = document.getElementById('st-dob').value;
+            const groupId = document.getElementById('st-group').value;
+            if (!name || !dob || !groupId) return alert("Введите ФИО, Дату рождения и выберите Группу.");
+            try {
+                const { error } = await supabaseClient.from('students').insert([{
+                    profile_id: currentUserId, group_id: groupId, full_name: name, birth_date: dob,
+                    gender: document.getElementById('st-gender').value, current_kyu: document.getElementById('st-kyu').value,
+                    current_weight: parseFloat(document.getElementById('st-weight').value) || null, achievements_raw: document.getElementById('st-achievements').value
+                }]);
+                if (error) throw error;
+                alert("Ученик добавлен!");
+                toggleForm('student-form-container');
+                loadStudents(); 
+            } catch(e) { alert("Ошибка: " + e.message); }
+        }
+
+        async function loadStudents() {
+            try {
+                const { data, error } = await supabaseClient.from('students').select('*, groups(group_name, address_city)').eq('profile_id', currentUserId);
+                if (error) throw error;
+                const tbody = document.getElementById('students-table-body');
+                if (data.length === 0) { tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">В базе нет учеников.</td></tr>'; return; }
+                let html = '';
+                data.forEach(s => {
+                    const groupName = s.groups ? `${s.groups.address_city} - ${s.groups.group_name}` : 'Без группы';
+                    html += `<tr>
+                        <td><strong>${s.full_name}</strong><br><small>${s.achievements_raw || ''}</small></td>
+                        <td>${calculateAge(s.birth_date)} лет</td><td><span style="background:#333; color:#fff; padding:4px 8px; border-radius:10px;">${s.current_kyu}</span></td>
+                        <td>${s.current_weight || '-'}</td><td>${groupName}</td>
+                    </tr>`;
+                });
+                tbody.innerHTML = html;
+            } catch(e) { console.error(e); }
+        }
+
+        // === ЭТАП 2: ЗАГРУЗКА И ПУБЛИКАЦИЯ НОВОСТЕЙ/АНОНСОВ ===
+        async function saveNews() {
+            const title = document.getElementById('news-title').value.trim();
+            const content = document.getElementById('news-content').value.trim();
+            if (!title || !content) return alert("Заполните заголовок и текст!");
+            try {
+                const { error } = await supabaseClient.from('news').insert([{ title: title, content: content }]);
+                if (error) throw error;
+                alert("Новость опубликована!");
+                closeModal('modal-news');
+                document.getElementById('news-title').value = ''; document.getElementById('news-content').value = '';
+                loadNewsAndEvents(); // Перезагружаем ленту
+            } catch (err) { alert("Ошибка: " + err.message); }
+        }
+
+        async function saveEvent() {
+            const title = document.getElementById('ev-title').value.trim();
+            const date = document.getElementById('ev-date').value;
+            const loc = document.getElementById('ev-loc').value.trim();
+            const desc = document.getElementById('ev-desc').value.trim();
+            const file = document.getElementById('ev-file').value.trim();
+            if (!title || !date) return alert("Название и дата обязательны!");
+            try {
+                const { error } = await supabaseClient.from('events').insert([{ title: title, event_date: date, location: loc, description: desc, file_name: file }]);
+                if (error) throw error;
+                alert("Анонс добавлен!");
+                closeModal('modal-event');
+                loadNewsAndEvents();
+            } catch (err) { alert("Ошибка: " + err.message); }
+        }
+
         async function loadNewsAndEvents() {
             try {
-                // Загружаем Анонсы
                 const { data: eventsData } = await supabaseClient.from('events').select('*').order('event_date', { ascending: true }).limit(2);
                 if (eventsData && eventsData.length > 0) {
                     let html = '';
                     eventsData.forEach(ev => {
-                        html += `
-                        <div class="feed-item" onclick="alert('Тут откроется полное описание турнира')">
-                            <div class="feed-date">${ev.event_date}</div>
-                            <h3 class="feed-title">${ev.title}</h3>
-                            <p style="font-size: 14px; color: var(--text-muted); margin: 5px 0;">${ev.description || ''}</p>
-                            <div class="feed-meta">
-                                <span>📍 ${ev.location || 'Место не указано'}</span>
-                                <span>📎 ${ev.file_name || 'Нет файла'}</span>
-                            </div>
-                        </div>`;
+                        html += `<div class="feed-item"><div class="feed-date">${ev.event_date}</div><h3 class="feed-title">${ev.title}</h3>
+                            <p style="font-size: 14px; margin: 5px 0;">${ev.description || ''}</p>
+                            <div class="feed-meta"><span>📍 ${ev.location || '-'}</span><span>📎 ${ev.file_name || 'Нет файла'}</span></div></div>`;
                     });
                     document.getElementById('events-feed-container').innerHTML = html;
                 }
-
-                // Загружаем Новости
                 const { data: newsData } = await supabaseClient.from('news').select('*').order('published_at', { ascending: false }).limit(2);
                 if (newsData && newsData.length > 0) {
                     let html = '';
                     newsData.forEach(n => {
-                        html += `
-                        <div class="feed-item" style="border-left-color: var(--primary-color);">
-                            <div class="feed-date">${n.published_at}</div>
-                            <h3 class="feed-title">${n.title}</h3>
-                            <p style="font-size: 15px; margin: 10px 0;">${n.content}</p>
-                            <div class="feed-action-bar" style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #e0e0e0; display: flex; justify-content: space-between;">
-                                <button style="background: none; border: none; color: var(--primary-color); font-weight: bold; cursor: pointer; font-size: 14px;" onclick="alert('Вы поддержали новость!')">❤️ Поддерживаю (${n.likes_count || 0})</button>
-                                <span style="font-size: 12px; color: #aaa;">Просмотров: ${n.views_count || 0}</span>
-                            </div>
-                        </div>`;
+                        html += `<div class="feed-item" style="border-left-color: var(--primary-color);"><div class="feed-date">${n.published_at}</div>
+                            <h3 class="feed-title">${n.title}</h3><p style="font-size: 14px; margin: 5px 0;">${n.content}</p></div>`;
                     });
                     document.getElementById('news-feed-container').innerHTML = html;
                 }
-            } catch (err) {
-                console.error("Ошибка загрузки ленты:", err);
-            }
+            } catch (err) { console.error("Ошибка загрузки ленты:", err); }
         }
 
+        // === ИНИЦИАЛИЗАЦИЯ И ВХОД ===
         async function loadProfile(userId) {
             currentUserId = userId;
             try {
                 const { data } = await supabaseClient.from('profiles').select('*').eq('id', userId).single();
                 if (data) {
                     document.getElementById('profile-name').innerText = data.full_name;
-                    document.getElementById('prof-name').value = data.full_name;
-                    document.getElementById('prof-dan').value = data.dan || '';
-                    let roleStr = data.budopassport_num === 'PRESIDENT' ? ' (Президент)' : '';
-                    document.getElementById('profile-rank').innerText = (data.dan || 'Пояс не указан') + roleStr;
+                    let isPres = data.budopassport_num === 'PRESIDENT';
+                    document.getElementById('profile-rank').innerText = (data.dan || 'Пояс') + (isPres ? ' (Президент)' : '');
+                    
+                    // Показываем кнопки "Добавить новость" только Президенту!
+                    if (isPres) {
+                        document.getElementById('admin-btn-news').style.display = 'block';
+                        document.getElementById('admin-btn-event').style.display = 'block';
+                    }
                 }
                 const { data: grpData } = await supabaseClient.from('groups').select('students_count');
                 if(grpData) {
@@ -430,9 +600,10 @@
                     document.getElementById('dash-total-students').innerText = grpData.reduce((sum, g) => sum + (g.students_count || 0), 0);
                 }
                 
-                // Вызываем функцию скачивания новостей
                 loadNewsAndEvents();
-            } catch (err) {}
+                loadDojos();
+                loadStudents();
+            } catch (err) { console.error(err); }
         }
 
         async function login() {
@@ -451,12 +622,7 @@
             } catch (err) {}
         }
 
-        async function logout() {
-            await supabaseClient.auth.signOut();
-            document.getElementById('app-content').style.display = 'none';
-            document.getElementById('login-screen').style.display = 'flex';
-        }
-
+        async function logout() { await supabaseClient.auth.signOut(); location.reload(); }
         async function checkSession() {
             try {
                 const { data: { session } } = await supabaseClient.auth.getSession();
