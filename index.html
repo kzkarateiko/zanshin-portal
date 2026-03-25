@@ -3,33 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Закрытый портал - KWF Алматинской области</title>
+    <title>KWF ZANSHIN - Алматинская область</title>
     <style>
-        /* Строгий стиль Кёкушинкай: черный, белый, красный */
+        /* Стиль ZANSHIN: Глубокий бордовый, золотой, кремовый */
+        :root {
+            --primary-color: #8B0000; /* Глубокий бордовый */
+            --accent-color: #D4AF37; /* Золотой (как у Беркута) */
+            --bg-color: #f8f1e6; /* Кремовый/светлый фон */
+            --text-color: #333333;
+            --text-on-dark: #ffffff;
+        }
+
         body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #f4f4f4; 
+            font-family: 'Montserrat', sans-serif; /* Более угловатый и профессиональный шрифт */
+            background-color: var(--bg-color); 
             margin: 0; 
             padding: 0; 
+            color: var(--text-color);
         }
+
         .navbar { 
-            background-color: #000000; 
-            color: #ffffff; 
+            background-color: var(--primary-color); 
             padding: 15px 30px; 
             display: flex; 
-            justify-content: space-between; 
+            justify-content: center; /* Центрируем всё */
             align-items: center; 
-            border-bottom: 4px solid #cc0000; /* Красная линия */
+            border-bottom: 3px solid var(--accent-color); /* Золотая линия */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-        .navbar h1 { margin: 0; font-size: 20px; letter-spacing: 1px; }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-on-dark);
+        }
+
+        .logo-container img {
+            height: 100px; /* Большой логотип */
+        }
+
+        .logo-container h1 {
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 1.5px;
+            font-weight: bold;
+        }
+
+        .logo-container span {
+            font-size: 16px;
+            color: var(--accent-color);
+        }
+
         .quote-widget {
-            background-color: #ffffff;
+            background-color: var(--accent-color);
+            color: var(--primary-color);
             text-align: center;
-            padding: 15px;
+            padding: 12px;
             font-style: italic;
-            color: #333;
-            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+            font-size: 18px;
+            border-bottom: 2px solid var(--primary-color);
         }
+
         .container { 
             display: flex; 
             padding: 20px; 
@@ -37,77 +73,128 @@
             max-width: 1200px; 
             margin: 0 auto; 
         }
+
         .sidebar { 
             width: 250px; 
-            background: #ffffff; 
+            background: var(--text-on-dark); 
             padding: 20px; 
             border-radius: 8px; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05); 
+            position: sticky; /* Меню всегда видно при прокрутке */
+            top: 20px;
         }
-        /* Профиль Президента */
-        .admin-profile { text-align: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+
+        .admin-profile { 
+            text-align: center; 
+            margin-bottom: 25px; 
+            border-bottom: 1px solid #ddd; 
+            padding-bottom: 20px; 
+        }
+
         .admin-avatar {
             width: 100px; 
             height: 100px; 
             background-color: #eee; 
             border-radius: 50%; 
             margin: 0 auto 10px;
-            border: 3px solid #cc0000;
+            border: 3px solid var(--accent-color);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 12px;
             color: #666;
         }
-        .admin-name { font-weight: bold; font-size: 18px; color: #000; margin-bottom: 5px; }
-        .admin-rank { font-size: 14px; color: #cc0000; font-weight: bold; }
+
+        .admin-name { 
+            font-weight: bold; 
+            font-size: 18px; 
+            color: var(--text-color); 
+            margin-bottom: 5px; 
+        }
+
+        .admin-rank { 
+            font-size: 14px; 
+            color: var(--accent-color); 
+            font-weight: bold; 
+        }
         
         .menu-btn { 
-            display: block; 
+            display: flex; 
+            align-items: center;
+            gap: 10px;
             width: 100%; 
-            padding: 12px; 
-            margin-bottom: 10px; 
-            background: #f8f9fa; 
-            border: 1px solid #ddd; 
-            border-radius: 4px; 
+            padding: 14px; 
+            margin-bottom: 12px; 
+            background: transparent; 
+            border: 2px solid var(--primary-color); 
+            border-radius: 6px; 
             text-align: left; 
             cursor: pointer; 
             font-weight: bold; 
             transition: 0.3s;
+            color: var(--primary-color);
+            font-size: 16px;
         }
-        .menu-btn:hover { background: #cc0000; color: white; border-color: #cc0000; }
-        
+
+        .menu-btn:hover { 
+            background: var(--primary-color); 
+            color: var(--text-on-dark); 
+            border-color: var(--primary-color); 
+        }
+
         .main-content { 
             flex: 1; 
-            background: #ffffff; 
+            background: var(--text-on-dark); 
             padding: 30px; 
             border-radius: 8px; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05); 
         }
+
         .news-card {
-            border-left: 5px solid #cc0000;
-            padding: 15px;
-            background: #fdfdfd;
-            margin-bottom: 20px;
+            border-left: 5px solid var(--accent-color);
+            padding: 20px;
+            background: #fafafa;
+            margin-bottom: 25px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .btn-osu {
-            background-color: #000000;
-            color: white;
-            border: none;
-            padding: 8px 20px;
             border-radius: 4px;
+        }
+
+        .news-card h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 20px;
+        }
+
+        .btn-osu {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
         }
-        .btn-osu:hover { background-color: #cc0000; }
+
+        .btn-osu:hover { 
+            background-color: var(--primary-color); 
+            color: var(--text-on-dark); 
+        }
     </style>
 </head>
 <body>
 
     <div class="navbar">
-        <h1>🥋 KWF Алматинская область | Закрытый портал</h1>
-        <div>Статус: Онлайн</div>
+        <div class="logo-container">
+            <img src="https://media.discordapp.com/attachments/1066030999999999999/1188031000000000000/logo.png" alt="ZANSHIN Logo">
+            <div>
+                <h1>KWF ZANSHIN</h1>
+                <span>Казахстанская Команда Кёкушинкай</span>
+            </div>
+        </div>
     </div>
 
     <div class="quote-widget">
@@ -117,29 +204,29 @@
     <div class="container">
         <div class="sidebar">
             <div class="admin-profile">
-                <div class="admin-avatar">Фото в белом кимоно</div>
+                <div class="admin-avatar">Фото</div>
                 <div class="admin-name">Эрик Дәулетқалиев</div>
                 <div class="admin-rank">3 Дан KWF (Президент)</div>
             </div>
-            <button class="menu-btn">📊 Главная (Dashboard)</button>
-            <button class="menu-btn">🥋 Мои ученики (Залы)</button>
-            <button class="menu-btn">📅 Календарь и Заявки</button>
+            <button class="menu-btn">📊 Главная</button>
+            <button class="menu-btn">🥋 Мои ученики</button>
+            <button class="menu-btn">📅 Заявки</button>
             <button class="menu-btn">⚖️ Судейский корпус</button>
-            <button class="menu-btn">📁 База знаний</button>
+            <button class="menu-btn">📁 Документы</button>
         </div>
 
         <div class="main-content">
-            <h2 style="margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px;">Лента новостей и приказов</h2>
+            <h2 style="margin-top: 0; border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; color: var(--primary-color);">Новости и Приказы</h2>
             
             <div class="news-card">
-                <h3 style="margin-top: 0; color: #cc0000;">Подготовка к Чемпионату Области</h3>
+                <h3>Подготовка к Чемпионату Области</h3>
                 <p><strong>Дата:</strong> 15 мая | <strong>Место:</strong> г. Талгар</p>
                 <p>Уважаемые тренеры! Открыта электронная подача заявок на предстоящий турнир. Просьба обновить весовые категории ваших учеников в базе до 10 мая.</p>
                 <button class="btn-osu">Осу! 👊 (Ознакомлен)</button>
             </div>
             
-            <div class="news-card" style="border-left-color: #000;">
-                <h3 style="margin-top: 0;">Обновление регламента по Ката</h3>
+            <div class="news-card">
+                <h3>Обновление регламента по Ката</h3>
                 <p>В раздел "База знаний" загружены новые стандарты выполнения эталонных ката KWF. Обязательно к изучению всем тренерам.</p>
                 <button class="btn-osu">Осу! 👊 (Ознакомлен)</button>
             </div>
