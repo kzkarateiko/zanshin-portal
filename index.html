@@ -3,447 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ФЕДЕРАЦИЯ КАРАТЭ-ДО КЁКУШИНКАЙ KWF АЛМАТИНСКОЙ ОБЛАСТИ</title>
+    <title>ФЕДЕРАЦИЯ КАРАТЭ-ДО КЁКУШИНКАЙ KWF</title>
     <link rel="icon" type="image/jpeg" href="IMG_0670.jpeg">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        /* ГРАНДИОЗНЫЙ И АДАПТИВНЫЙ ДИЗАЙН */
+        /* ЦВЕТА И ШРИФТЫ */
         :root {
-            --primary-dark: #4a0000;
-            --primary-color: #8B0000; 
-            --accent-gold: #D4AF37; 
-            --bg-main: #f0f2f5; 
-            --bg-white: #ffffff;
-            --text-main: #1c1e21;
-            --text-muted: #606770;
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
-            --shadow-md: 0 8px 16px rgba(0,0,0,0.1);
-            --border-rad: 10px;
+            --primary-dark: #4a0000; --primary-color: #8B0000; --accent-gold: #D4AF37; 
+            --bg-main: #f0f2f5; --bg-white: #ffffff; --text-main: #1c1e21; --text-muted: #65676b;
+            --shadow: 0 4px 12px rgba(0,0,0,0.05); --rad: 12px;
         }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg-main); margin: 0; padding: 0; color: var(--text-main); }
+        button { font-family: inherit; }
 
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-main); margin: 0; padding: 0; color: var(--text-main); }
-
-        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom right, #ffffff, #f0f2f5); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; }
-        .login-box { background: var(--bg-white); padding: 40px; border-radius: var(--border-rad); box-shadow: var(--shadow-md); text-align: center; width: 90%; max-width: 400px; border-top: 5px solid var(--primary-color); }
-        .login-box input { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; background: #f8f9fa; }
+        /* ВХОД */
+        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-main); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .login-box { background: var(--bg-white); padding: 40px; border-radius: var(--rad); box-shadow: var(--shadow); text-align: center; width: 90%; max-width: 380px; border-top: 5px solid var(--primary-color); }
+        .login-box input { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; background: #f8f9fa; }
         #app-content { display: none; }
 
-        /* ИДЕАЛЬНАЯ ШАПКА */
-        .navbar { background-color: var(--bg-white); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--accent-gold); flex-wrap: wrap; gap: 15px; }
+        /* ШАПКА */
+        .navbar { background: var(--bg-white); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 100; }
         .header-left { display: flex; align-items: center; gap: 20px; }
-        .header-left img { max-height: 80px; }
-        .header-titles h1 { margin: 0; font-size: 20px; color: var(--primary-dark); font-weight: 800; text-transform: uppercase; }
-        .header-titles h2 { margin: 2px 0 0 0; font-size: 14px; color: var(--text-muted); font-weight: 600; }
-        
-        /* МУДРОСТЬ В ШАПКЕ */
-        .header-wisdom { max-width: 400px; text-align: right; border-left: 2px solid #eee; padding-left: 20px; }
-        .header-wisdom h4 { margin: 0; color: var(--accent-gold); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
-        .header-wisdom p { margin: 4px 0 0 0; font-size: 14px; font-style: italic; color: var(--text-main); font-weight: 500; }
+        .header-left img { max-height: 70px; }
+        .header-titles h1 { margin: 0; font-size: 22px; color: var(--primary-dark); font-weight: 900; text-transform: uppercase; }
+        .header-titles h2 { margin: 2px 0 0 0; font-size: 13px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;}
+        .header-wisdom { text-align: right; border-left: 3px solid var(--accent-gold); padding-left: 20px; max-width: 400px; }
+        .header-wisdom h4 { margin: 0; color: var(--accent-gold); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+        .header-wisdom p { margin: 4px 0 0 0; font-size: 14px; font-style: italic; font-weight: 600; color: var(--primary-dark); }
 
-        .container { display: flex; padding: 20px; gap: 20px; max-width: 1600px; margin: 0 auto; align-items: flex-start; }
+        /* АРХИТЕКТУРА 3-Х КОЛОНОК */
+        .layout-wrapper { display: grid; grid-template-columns: 260px 1fr 320px; gap: 25px; max-width: 1600px; margin: 0 auto; padding: 25px; align-items: start; }
         
-        /* БОКОВАЯ ПАНЕЛЬ С ВИДЖЕТАМИ */
-        .sidebar { width: 280px; flex-shrink: 0; display: flex; flex-direction: column; gap: 15px; position: sticky; top: 110px; }
-        .sidebar-block { background: var(--bg-white); padding: 20px; border-radius: var(--border-rad); box-shadow: var(--shadow-sm); }
+        /* КОЛОНКА 1: ЛЕВОЕ МЕНЮ */
+        .sidebar { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 110px; }
+        .sidebar-block { background: var(--bg-white); padding: 20px; border-radius: var(--rad); box-shadow: var(--shadow); }
         
-        .admin-profile { text-align: center; margin-bottom: 10px; }
-        .admin-avatar { width: 80px; height: 80px; background: #f8f9fa; border-radius: 50%; margin: 0 auto 10px; border: 2px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 35px; }
-        .admin-name { font-weight: bold; font-size: 16px; color: var(--primary-dark); }
+        .admin-profile { text-align: center; margin-bottom: 5px; }
+        .admin-avatar { width: 80px; height: 80px; background: #f0f2f5; border-radius: 50%; margin: 0 auto 10px; border: 2px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 35px; }
+        .admin-name { font-weight: 800; font-size: 16px; color: var(--primary-dark); }
         .admin-rank { font-size: 12px; color: var(--primary-color); font-weight: bold; background: #fff0f0; padding: 3px 10px; border-radius: 12px; display: inline-block; margin-top: 5px; }
         
-        .menu-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: bold; margin: 15px 0 5px 10px; letter-spacing: 1px;}
-        .menu-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px 15px; margin-bottom: 5px; background: transparent; border: none; border-radius: 6px; text-align: left; cursor: pointer; font-weight: 600; color: var(--text-main); font-size: 14px; transition: 0.2s; }
+        .menu-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: bold; margin: 15px 0 5px 10px; }
+        .menu-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px 15px; margin-bottom: 5px; background: transparent; border: none; border-radius: 8px; text-align: left; cursor: pointer; font-weight: 600; color: var(--text-main); font-size: 14px; transition: 0.2s; }
         .menu-btn:hover { background: #f0f2f5; color: var(--primary-color); }
-        .menu-btn.active { background: var(--primary-color); color: var(--bg-white); box-shadow: 0 4px 8px rgba(139,0,0,0.2); }
+        .menu-btn.active { background: var(--primary-color); color: var(--bg-white); box-shadow: 0 4px 10px rgba(139,0,0,0.2); }
 
-        /* ВИДЖЕТЫ СЛЕВА */
-        .stat-widget { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f8f9fa; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--primary-color); }
-        .stat-widget strong { font-size: 20px; color: var(--primary-dark); }
-        .timer-widget { background: linear-gradient(135deg, var(--primary-dark), var(--primary-color)); color: white; padding: 15px; border-radius: 8px; text-align: center; position: relative; }
-        .timer-widget .edit-btn { position: absolute; top: 5px; right: 5px; background: rgba(255,255,255,0.2); border: none; color: white; border-radius: 4px; cursor: pointer; font-size: 10px; padding: 3px 6px; }
-        .countdown { font-size: 24px; font-weight: 800; font-family: monospace; letter-spacing: 2px; margin: 10px 0; color: var(--accent-gold); }
+        .stat-badge { display: flex; justify-content: space-between; background: #f8f9fa; padding: 12px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--primary-color); align-items: center;}
+        .stat-badge span { font-size: 12px; color: var(--text-muted); font-weight: bold; text-transform: uppercase;}
+        .stat-badge strong { font-size: 20px; color: var(--primary-dark); }
 
-        /* ОСНОВНОЙ КОНТЕНТ */
-        .main-content { flex: 1; min-width: 0; }
-        .tab-content { display: none; } 
-        .tab-content.active { display: block; animation: fadeIn 0.3s; } 
+        /* КОЛОНКА 2: ЦЕНТР (Главный контент) */
+        .main-center { min-width: 0; }
+        .tab-content { display: none; animation: fadeIn 0.3s; }
+        .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        .card { background: var(--bg-white); padding: 25px; border-radius: var(--border-rad); box-shadow: var(--shadow-sm); margin-bottom: 20px; }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f0f2f5; padding-bottom: 10px; flex-wrap: wrap; gap: 10px;}
-        .card-header h2 { margin: 0; color: var(--primary-dark); font-size: 20px; font-weight: bold; }
+        .card { background: var(--bg-white); padding: 25px; border-radius: var(--rad); box-shadow: var(--shadow); margin-bottom: 25px; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f0f2f5; padding-bottom: 15px; flex-wrap: wrap; gap: 10px;}
+        .card-header h2 { margin: 0; color: var(--primary-dark); font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 10px;}
         
-        .btn-osu { background: var(--primary-color); color: var(--accent-gold); border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; text-transform: uppercase; transition: 0.2s; }
-        .btn-osu:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .btn-osu { background: var(--primary-color); color: var(--accent-gold); border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; text-transform: uppercase; transition: 0.2s; box-shadow: 0 4px 10px rgba(139,0,0,0.2);}
+        .btn-osu:hover { background: var(--primary-dark); transform: translateY(-2px); }
 
-        /* СЕТКА ВИДЖЕТОВ (АДАПТИВНАЯ) */
-        .dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
-        .widget-column { display: flex; flex-direction: column; gap: 20px; }
-
-        .feed-item { background: #fdfcf8; border: 1px solid #f0e6d2; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid var(--accent-gold); cursor: pointer; transition: 0.2s; }
-        .feed-item:hover { transform: translateX(3px); box-shadow: var(--shadow-sm); }
-        .feed-date { font-size: 12px; font-weight: bold; color: var(--primary-color); text-transform: uppercase; }
-        .feed-title { margin: 5px 0; font-size: 16px; color: var(--primary-dark); }
-        .feed-meta { font-size: 13px; color: var(--text-muted); display: flex; gap: 15px; flex-wrap: wrap;}
-        .feed-action-bar { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e0e0e0; display: flex; justify-content: space-between; align-items: center; }
+        /* Таймер по центру */
+        .timer-widget { background: linear-gradient(135deg, var(--primary-dark), var(--primary-color)); color: white; padding: 25px; border-radius: var(--rad); text-align: center; position: relative; margin-bottom: 25px; box-shadow: 0 8px 20px rgba(139,0,0,0.3); border: 2px solid var(--accent-gold);}
+        .timer-widget .edit-btn { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.2); border: none; color: white; border-radius: 6px; cursor: pointer; font-size: 12px; padding: 5px 10px; font-weight: bold;}
+        .countdown { font-size: 40px; font-weight: 900; font-family: 'Courier New', monospace; letter-spacing: 3px; margin: 10px 0; color: var(--accent-gold); text-shadow: 0 2px 4px rgba(0,0,0,0.5);}
         
-        .list-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f0f2f5; }
-        .list-item:last-child { border-bottom: none; }
-        .rank-number { font-size: 18px; font-weight: 900; color: #ccc; width: 25px; }
+        /* Лента (Анонсы и Новости) */
+        .feed-item { background: #fcfcfc; border: 1px solid #eee; padding: 20px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid var(--accent-gold); cursor: pointer; transition: 0.2s; }
+        .feed-item:hover { background: #fff; box-shadow: var(--shadow); transform: translateX(5px); }
+        .feed-date { font-size: 12px; font-weight: 800; color: var(--primary-color); text-transform: uppercase; letter-spacing: 1px;}
+        .feed-title { margin: 8px 0; font-size: 18px; color: var(--primary-dark); font-weight: bold;}
+        .feed-meta { font-size: 13px; color: var(--text-muted); display: flex; gap: 20px; flex-wrap: wrap;}
+        
+        /* КОЛОНКА 3: ПРАВЫЕ ВИДЖЕТЫ (Топы) */
+        .widgets-right { display: flex; flex-direction: column; gap: 25px; position: sticky; top: 110px; }
+        
+        .widget-box { background: var(--bg-white); padding: 20px; border-radius: var(--rad); box-shadow: var(--shadow); }
+        .widget-title { font-size: 15px; font-weight: 800; color: var(--primary-dark); margin: 0 0 15px 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f0f2f5; padding-bottom: 10px;}
+        
+        .list-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f0f2f5; }
+        .list-item:last-child { border-bottom: none; padding-bottom: 0;}
+        .rank-number { font-size: 20px; font-weight: 900; color: #d1d5db; width: 25px; text-align: center;}
         .top-1 { color: var(--accent-gold); }
-        .top-2 { color: #bdc3c7; }
-        .top-3 { color: #cd7f32; }
+        .top-2 { color: #9ca3af; }
+        .top-3 { color: #b45309; }
         
+        /* Таблицы */
         .data-table { width: 100%; border-collapse: collapse; }
-        .data-table th, .data-table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
-        .data-table th { background: #f8f9fa; font-weight: bold; color: var(--text-muted); text-transform: uppercase; font-size: 12px; }
+        .data-table th, .data-table td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
+        .data-table th { background: #f8f9fa; font-weight: bold; color: var(--text-muted); text-transform: uppercase; font-size: 12px; letter-spacing: 0.5px;}
 
         /* ========================================= */
-        /* МАГИЯ ДЛЯ ТЕЛЕФОНОВ (РЕСПОНСИВНЫЙ ДИЗАЙН) */
+        /* АДАПТИВНОСТЬ (МОБИЛЬНЫЕ И ПЛАНШЕТЫ)       */
         /* ========================================= */
-        @media (max-width: 900px) {
-            .navbar { flex-direction: column; text-align: center; justify-content: center; }
-            .header-left { flex-direction: column; gap: 10px; }
-            .header-wisdom { border-left: none; padding-left: 0; text-align: center; margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; }
-            
-            .container { flex-direction: column; padding: 10px; }
-            .sidebar { width: 100%; position: static; } /* Боковое меню уходит наверх */
-            
-            .dashboard-grid { grid-template-columns: 1fr; } /* Виджеты выстраиваются в ОДИН столбик! */
-            
-            .card { padding: 15px; } /* Уменьшаем отступы по краям на телефоне */
-            .data-table { display: block; overflow-x: auto; white-space: nowrap; } /* Чтобы таблица скроллилась вправо */
-        }
-    </style>
-</head>
-<body>
-
-    <div id="login-screen">
-        <div class="login-box">
-            <img src="IMG_0670.jpeg" alt="ZANSHIN Logo" style="max-height: 140px; margin-bottom: 15px;">
-            <h2 style="color: var(--primary-dark); margin: 0 0 5px 0;">ВХОД В СИСТЕМУ</h2>
-            <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Закрытый портал Федерации</p>
-            <input type="email" id="email" placeholder="Email тренера">
-            <input type="password" id="password" placeholder="Пароль">
-            <button class="btn-osu" onclick="login()" style="width: 100%; margin-top: 15px;">Войти в Додзё 👊</button>
-            <p id="error-msg" style="color: red; font-size: 14px; display: none; margin-top: 15px;">Ошибка доступа!</p>
-        </div>
-    </div>
-
-    <div id="app-content">
-        <div class="navbar">
-            <div class="header-left">
-                <img src="IMG_0670.jpeg" alt="ZANSHIN Logo">
-                <div class="header-titles">
-                    <h1>Клуб «ZANSHIN»</h1>
-                    <h2>ОО "ФЕДЕРАЦИЯ КАРАТЭ-ДО КЁКУШИНКАЙ KWF АЛМАТИНСКОЙ ОБЛАСТИ"</h2>
-                </div>
-            </div>
-            <div class="header-wisdom">
-                <h4>Мудрость Додзё</h4>
-                <p id="daily-quote">"Победа над собой — величайшая из побед."</p>
-            </div>
-        </div>
         
-        <div class="container">
-            <div class="sidebar">
-                
-                <div class="sidebar-block">
-                    <div class="admin-profile">
-                        <div class="admin-avatar">🥋</div>
-                        <div class="admin-name" id="profile-name">Загрузка...</div>
-                        <div class="admin-rank" id="profile-rank">Загрузка...</div>
-                        <button onclick="logout()" style="background:none; border:none; color: var(--text-muted); text-decoration: underline; font-size: 11px; cursor: pointer; margin-top: 5px;">Выйти из аккаунта</button>
-                    </div>
-                </div>
-
-                <div class="sidebar-block" style="padding: 10px;">
-                    <div class="menu-title">УПРАВЛЕНИЕ</div>
-                    <button class="menu-btn active" id="btn-dashboard" onclick="showTab('dashboard')">🏠 Главная панель</button>
-                    <button class="menu-btn" id="btn-dojos" onclick="showTab('dojos')">🏢 Мои филиалы</button>
-                    <button class="menu-btn" id="btn-students" onclick="showTab('students')">🥋 База учеников</button>
-                    
-                    <div class="menu-title">ФЕДЕРАЦИЯ</div>
-                    <button class="menu-btn" id="btn-team" onclick="showTab('team')">🇰🇿 Сборная Федерации</button>
-                    <button class="menu-btn" onclick="alert('Модуль судей в разработке')">⚖️ Судейский корпус</button>
-                    <button class="menu-btn" onclick="alert('База знаний в разработке')">📁 Файлы и Документы</button>
-                </div>
-
-                <div class="sidebar-block" style="padding: 15px;">
-                    <div class="menu-title" style="margin: 0 0 10px 0;">СВОДКА ФЕДЕРАЦИИ</div>
-                    <div class="stat-widget">
-                        <div><span style="font-size: 12px; color: var(--text-muted);">Всего учеников</span></div>
-                        <strong id="dash-total-students">0</strong>
-                    </div>
-                    <div class="stat-widget" style="border-left-color: var(--accent-gold);">
-                        <div><span style="font-size: 12px; color: var(--text-muted);">Филиалов / Групп</span></div>
-                        <strong id="dash-total-groups">0</strong>
-                    </div>
-                </div>
-
-                <div class="sidebar-block timer-widget">
-                    <button class="edit-btn" onclick="alert('Настройка таймера')">⚙️ Ред.</button>
-                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #ffcccc;">Ближайший турнир</div>
-                    <div style="font-size: 14px; font-weight: bold; margin-top: 5px;">Чемпионат Азии (Токио)</div>
-                    <div class="countdown" id="tournament-timer">45:12:08:33</div>
-                    <div style="font-size: 10px; color: #ffcccc; display: flex; justify-content: space-around;">
-                        <span>ДНЕЙ</span><span>ЧАСОВ</span><span>МИНУТ</span><span>СЕК</span>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="main-content">
-                
-                <div id="tab-dashboard" class="tab-content active">
-                    
-                    <div class="dashboard-grid">
-                        <div class="widget-column">
-                            
-                            <div class="card" style="border-top: 4px solid var(--accent-gold);">
-                                <div class="card-header">
-                                    <h2>🔥 Анонсы и Мероприятия</h2>
-                                    <button class="btn-osu" style="background: var(--accent-gold); color: var(--primary-dark); font-size: 12px; padding: 6px 12px;" onclick="alert('Добавление анонса')">+ Добавить анонс</button>
-                                </div>
-                                
-                                <div class="feed-item" onclick="alert('Тут откроется полное описание, афиша и скачивание Регламента')">
-                                    <div class="feed-date">15-18 МАЯ 2026</div>
-                                    <h3 class="feed-title">Открытый Чемпионат Республики Казахстан KWF</h3>
-                                    <div class="feed-meta">
-                                        <span>📍 г. Астана, Дворец Единоборств</span>
-                                        <span>📎 Прикреплен Регламент (PDF)</span>
-                                    </div>
-                                </div>
-                                <div class="feed-item">
-                                    <div class="feed-date">10 ИЮНЯ 2026</div>
-                                    <h3 class="feed-title">Летние Учебно-Тренировочные Сборы (УТС)</h3>
-                                    <div class="feed-meta">
-                                        <span>📍 Озеро Алаколь</span>
-                                        <span>📎 2 файла прикреплено</span>
-                                    </div>
-                                </div>
-                                <button style="width: 100%; background: none; border: 1px solid #ddd; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; color: var(--text-muted);">Загрузить еще...</button>
-                            </div>
-
-                            <div class="card" style="border-top: 4px solid var(--primary-color);">
-                                <div class="card-header">
-                                    <h2>📰 Новости Федерации</h2>
-                                    <button class="btn-osu" style="font-size: 12px; padding: 6px 12px;" onclick="alert('Написать новость')">+ Написать новость</button>
-                                </div>
-                                
-                                <div class="feed-item" style="border-left-color: var(--primary-color);">
-                                    <div class="feed-date">25 МАРТА 2026</div>
-                                    <h3 class="feed-title">Запуск цифровой платформы ERP Zanshin</h3>
-                                    <p style="font-size: 14px; color: var(--text-muted); margin: 5px 0 0 0;">Уважаемые тренеры! Мы переходим на электронный учет. Просьба внести списки своих групп.</p>
-                                    <div class="feed-action-bar">
-                                        <button style="background: none; border: none; color: var(--primary-color); font-weight: bold; cursor: pointer;">❤️ Нравится (24)</button>
-                                        <span style="font-size: 12px; color: #aaa;">Просмотров: 105</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="widget-column">
-                            
-                            <div class="card" style="padding: 15px;">
-                                <div class="card-header" style="margin-bottom: 10px; padding-bottom: 5px;">
-                                    <h2 style="font-size: 16px;">🏆 Рейтинг по медалям</h2>
-                                    <button style="background:none; border:none; color:var(--primary-color); cursor:pointer; font-size:12px; font-weight:bold;" onclick="alert('Внести баллы')">+ Внести рез-ты</button>
-                                </div>
-                                <div class="list-item"><span class="rank-number top-1">1</span><div style="flex:1;"><strong>Эрик Дәулетқалиев</strong></div><span style="font-weight:bold; color:var(--primary-dark);">450 б.</span></div>
-                                <div class="list-item"><span class="rank-number top-2">2</span><div style="flex:1;"><strong>Сенсей Али</strong></div><span style="font-weight:bold; color:var(--primary-dark);">320 б.</span></div>
-                                <div class="list-item"><span class="rank-number top-3">3</span><div style="flex:1;"><strong>Семпай Руслан</strong></div><span style="font-weight:bold; color:var(--primary-dark);">215 б.</span></div>
-                                <div class="list-item"><span class="rank-number">4</span><div style="flex:1;"><strong>Сенсей Дамир</strong></div><span style="font-weight:bold; color:var(--primary-dark);">180 б.</span></div>
-                            </div>
-
-                            <div class="card" style="padding: 15px;">
-                                <div class="card-header" style="margin-bottom: 10px; padding-bottom: 5px;">
-                                    <h2 style="font-size: 16px;">👥 Топ по кол-ву учеников</h2>
-                                </div>
-                                <div class="list-item"><span class="rank-number top-1">1</span><div style="flex:1;"><strong>Эрик Дәулетқалиев</strong></div><span style="font-weight:bold; color:var(--text-muted);">150 чел.</span></div>
-                                <div class="list-item"><span class="rank-number top-2">2</span><div style="flex:1;"><strong>Сенсей Али</strong></div><span style="font-weight:bold; color:var(--text-muted);">95 чел.</span></div>
-                            </div>
-
-                            <div class="card" style="padding: 15px; background: #fffcf5; border: 1px solid #faebcc;">
-                                <h2 style="font-size: 16px; margin: 0 0 10px 0; color: #8a6d3b;">🎂 Дни рождения (Тренеры)</h2>
-                                <div class="list-item" style="border-bottom-color: #fcf8e3;"><div style="flex:1;"><strong>Семпай Руслан</strong></div><span style="font-size:12px; color:#8a6d3b; font-weight:bold;">Завтра (27 Марта)</span></div>
-                                <div class="list-item" style="border-bottom-color: #fcf8e3;"><div style="flex:1;"><strong>Сенсей Дамир</strong></div><span style="font-size:12px; color:#8a6d3b;">2 Апреля</span></div>
-                            </div>
-
-                            <div class="card" style="padding: 15px; background: #f4f8fa; border: 1px solid #bce8f1;">
-                                <h2 style="font-size: 16px; margin: 0 0 10px 0; color: #31708f;">🎈 Дни рождения (Ученики)</h2>
-                                <div class="list-item" style="border-bottom-color: #d9edf7;"><div style="flex:1;"><strong>Иванов Артем</strong></div><span style="font-size:12px; color:#31708f; font-weight:bold;">Сегодня! (8 лет)</span></div>
-                                <div class="list-item" style="border-bottom-color: #d9edf7;"><div style="flex:1;"><strong>Смагулов Али</strong></div><span style="font-size:12px; color:#31708f;">28 Марта (10 лет)</span></div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div id="tab-team" class="tab-content">
-                    <div class="card accent-gold" style="border-left: 4px solid var(--accent-gold);">
-                        <div class="card-header">
-                            <h2 style="color: var(--accent-gold);">🇰🇿 Основной состав сборной (Национальная команда)</h2>
-                            <button class="btn-osu" style="background: var(--accent-gold); color: var(--primary-dark);" onclick="alert('Добавление спортсмена в сборную')">+ Зачислить в сборную</button>
-                        </div>
-                        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">
-                            Здесь представлен элитный состав бойцов, отобранных для представления Федерации на республиканских и международных турнирах.
-                        </p>
-                        
-                        <table class="data-table">
-                            <thead>
-                                <tr><th>Спортсмен</th><th>Категория</th><th>Квалификация</th><th>Тренер</th><th>Рейтинг</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Ахметов Данияр</strong><br><small style="color:var(--text-muted);">МСМК, Чемпион Азии</small></td>
-                                    <td>Мужчины до 70 кг</td>
-                                    <td><span style="background: #333; color: white; padding: 3px 8px; border-radius: 10px; font-size: 11px;">1 Дан (Черный)</span></td>
-                                    <td>Эрик Дәулетқалиев</td>
-                                    <td><span style="color: var(--accent-gold); font-weight: bold;">Топ-1</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Оспанова Амина</strong><br><small style="color:var(--text-muted);">КМС, Призер РК</small></td>
-                                    <td>Юниорки 16-17 лет (55 кг)</td>
-                                    <td><span style="background: #8B4513; color: white; padding: 3px 8px; border-radius: 10px; font-size: 11px;">2 Кю (Коричневый)</span></td>
-                                    <td>Сенсей Али</td>
-                                    <td><span style="font-weight: bold;">Топ-3</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div id="tab-dojos" class="tab-content">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Управление филиалами и группами</h2>
-                            <button class="btn-osu" onclick="toggleDojoForm()">+ Добавить филиал</button>
-                        </div>
-                        <div id="dojo-form-container" style="display: none; background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #ddd;">
-                            <p style="color: green; font-weight: bold;">Рабочая форма скрыта здесь (см. JS логику)</p>
-                        </div>
-                        <div id="dojos-list"></div>
-                    </div>
-                </div>
-
-                <div id="tab-students" class="tab-content">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>База учеников</h2>
-                            <button class="btn-osu" onclick="toggleStudentForm()">+ Внести ученика</button>
-                        </div>
-                        <div id="student-form-container" style="display: none; background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #ddd;">
-                            <p style="color: green; font-weight: bold;">Рабочая форма учеников скрыта здесь (см. JS логику)</p>
-                        </div>
-                        <div style="overflow-x: auto;">
-                            <table class="data-table">
-                                <thead><tr><th>ФИО</th><th>Возраст</th><th>Квалификация</th><th>Вес</th><th>Группа</th></tr></thead>
-                                <tbody id="students-table-body">
-                                    <tr><td colspan="5" style="text-align: center;">Загрузка...</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // ИНИЦИАЛИЗАЦИЯ БАЗЫ ДАННЫХ SUPABASE
-        const SUPABASE_URL = 'https://kyzitokbvroclkhtonns.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5eml0b2tidnJvY2xraHRvbm5zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MzYxNTksImV4cCI6MjA5MDAxMjE1OX0.xoFmiYEoegyPUti2AVzQ4ex7HXCi_PtqRisXdYbB6yo';
-        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        let currentUserId = null; 
-
-        // ИМИТАЦИЯ ТАЙМЕРА ДЛЯ ТУРНИРА
-        setInterval(() => {
-            const el = document.getElementById('tournament-timer');
-            if(el) {
-                let parts = el.innerText.split(':');
-                let s = parseInt(parts[3]) - 1;
-                if(s < 0) { s = 59; parts[2] = parseInt(parts[2])-1; }
-                parts[3] = s.toString().padStart(2, '0');
-                el.innerText = parts.join(':');
-            }
-        }, 1000);
-
-        // МНОГО МУДРОСТЕЙ
-        const quotes = [
-            "Победа над собой — величайшая из побед.",
-            "Истинный путь боевого искусства постигается десятью тысячами дней тренировок.",
-            "Осу — это терпение и решимость.",
-            "Голову держи низко, глаза высоко, будь сдержан в словах.",
-            "Каратэ — это путь, на котором нет конца.",
-            "Тысяча дней тренировок — это только начало. Десять тысяч дней — это шаг к совершенству."
-        ];
-        document.getElementById('daily-quote').innerText = "«" + quotes[Math.floor(Math.random() * quotes.length)] + "»";
-
-        // НАВИГАЦИЯ ПО ВКЛАДКАМ
-        function showTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.menu-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('tab-' + tabName).classList.add('active');
-            
-            // Если кнопка есть, делаем её активной
-            let activeBtn = document.getElementById('btn-' + tabName);
-            if(activeBtn) activeBtn.classList.add('active');
-        }
-
-        // --- СОХРАНЕНИЕ СТАРОЙ ЛОГИКИ (РАБОТАЕТ КАК ЧАСЫ) ---
-        async function loadProfile(userId) {
-            currentUserId = userId;
-            try {
-                const { data, error } = await supabaseClient.from('profiles').select('*').eq('id', userId).single();
-                if (data) {
-                    document.getElementById('profile-name').innerText = data.full_name;
-                    let roleStr = data.budopassport_num === 'PRESIDENT' ? ' (Президент)' : '';
-                    document.getElementById('profile-rank').innerText = data.dan + ' Черный пояс' + roleStr;
-                }
-                const { data: grpData } = await supabaseClient.from('groups').select('students_count');
-                if(grpData) {
-                    document.getElementById('dash-total-groups').innerText = grpData.length;
-                    document.getElementById('dash-total-students').innerText = grpData.reduce((sum, g) => sum + (g.students_count || 0), 0);
-                }
-            } catch (err) { console.error(err); }
-        }
-
-        async function login() {
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value.trim();
-            const errorMsg = document.getElementById('error-msg');
-            errorMsg.style.display = 'none';
-            if (!email || !password) return;
-            try {
-                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-                if (error) { errorMsg.style.display = 'block'; } else {
-                    document.getElementById('login-screen').style.display = 'none';
-                    document.getElementById('app-content').style.display = 'block';
-                    loadProfile(data.user.id);
-                }
-            } catch (err) {}
-        }
-
-        async function logout() {
-            await supabaseClient.auth.signOut();
-            document.getElementById('app-content').style.display = 'none';
-            document.getElementById('login-screen').style.display = 'flex';
-        }
-
-        async function checkSession() {
-            try {
-                const { data: { session } } = await supabaseClient.auth.getSession();
-                if (session) {
-                    document.getElementById('login-screen').style.display = 'none';
-                    document.getElementById('app-content').style.display = 'block';
-                    loadProfile(session.user.id);
-                }
-            } catch(e) {}
-        }
-        checkSession();
-    </script>
-</body>
-</html>
+        /* Для Планшетов (убираем правую колонку вниз) */
+        @media (max-width: 1200px) {
+            .layout-wrapper { grid-template-columns: 250px 1fr; }
+            .widgets-right { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; position: static; }
+            .widget
