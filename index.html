@@ -3,69 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KWF ZANSHIN - Алматинская область</title>
+    <title>KWF ZANSHIN - ERP Система Федерации</title>
     <link rel="icon" type="image/jpeg" href="IMG_0670.jpeg">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
+        /* ЭПИЧНЫЙ СОВРЕМЕННЫЙ ДИЗАЙН */
         :root {
-            --primary-color: #8B0000; --accent-color: #D4AF37; --bg-body: #ffffff; 
-            --bg-navbar: #fdf7ed; --text-color: #333333; --text-gray: #666666; --text-on-dark: #ffffff;
+            --primary-dark: #660000; /* Глубокий бордовый */
+            --primary-color: #8B0000; /* Классический красный Кёкушин */
+            --accent-gold: #D4AF37; /* Золото */
+            --bg-main: #f4f6f9; /* Светло-серый фон для контраста карточек */
+            --bg-white: #ffffff;
+            --text-main: #2c3e50;
+            --text-muted: #7f8c8d;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-hover: 0 8px 24px rgba(139, 0, 0, 0.15);
+            --border-rad: 12px;
         }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-body); margin: 0; padding: 0; color: var(--text-color); }
 
-        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--bg-navbar); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; }
-        .login-box { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 90%; max-width: 350px; border-top: 5px solid var(--primary-color); }
-        .login-box input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: var(--bg-main); margin: 0; padding: 0; color: var(--text-main); line-height: 1.6; }
+
+        /* ЭКРАН ВХОДА */
+        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, var(--bg-main) 0%, #e0e5ec 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; }
+        .login-box { background: var(--bg-white); padding: 40px; border-radius: var(--border-rad); box-shadow: var(--shadow-md); text-align: center; width: 90%; max-width: 380px; border-top: 5px solid var(--primary-color); }
+        .login-box input { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; transition: 0.3s; }
+        .login-box input:focus { border-color: var(--primary-color); outline: none; box-shadow: 0 0 0 3px rgba(139,0,0,0.1); }
         #app-content { display: none; }
 
-        .navbar { background-color: var(--bg-navbar); padding: 15px 30px; display: flex; justify-content: center; align-items: center; border-bottom: 3px solid var(--accent-color); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
-        .logo-container { display: flex; align-items: center; gap: 20px; }
-        .logo-container img { max-height: 120px; width: auto; object-fit: contain; }
-        .logo-container h1 { margin: 0; font-size: 26px; font-weight: bold; color: var(--primary-color); }
-        .logo-container span { font-size: 16px; color: var(--text-gray); }
-        .quote-widget { background-color: var(--primary-color); color: var(--accent-color); text-align: center; padding: 15px; font-style: italic; font-weight: bold; font-size: 18px; border-bottom: 2px solid var(--accent-color); }
-        .container { display: flex; padding: 20px; gap: 20px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; }
+        /* ВЕРХНЯЯ ПАНЕЛЬ (Идеально для логотипа) */
+        .navbar { background-color: var(--bg-white); padding: 10px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100; }
+        .logo-container { display: flex; align-items: center; gap: 15px; }
+        .logo-container img { max-height: 70px; width: auto; object-fit: contain; } /* Уменьшен логотип для аккуратности */
+        .logo-container h1 { margin: 0; font-size: 22px; font-weight: 800; color: var(--primary-dark); text-transform: uppercase; letter-spacing: 1px; }
+        .logo-container span { font-size: 13px; color: var(--text-muted); font-weight: 500; display: block; }
+
+        /* ОСНОВНАЯ СЕТКА */
+        .container { display: flex; padding: 25px; gap: 25px; max-width: 1400px; margin: 0 auto; align-items: flex-start; }
         
-        .sidebar { width: 250px; background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); height: fit-content; flex-shrink: 0; }
-        .admin-profile { text-align: center; margin-bottom: 25px; border-bottom: 1px solid #ddd; padding-bottom: 20px; }
-        .admin-avatar { width: 100px; height: 100px; background-color: #eee; border-radius: 50%; margin: 0 auto 10px; border: 3px solid var(--accent-color); display: flex; align-items: center; justify-content: center; font-size: 45px; }
-        .admin-name { font-weight: bold; font-size: 18px; color: var(--text-color); margin-bottom: 5px; }
-        .admin-rank { font-size: 14px; color: var(--primary-color); font-weight: bold; }
-        .menu-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 14px; margin-bottom: 12px; background: transparent; border: 2px solid var(--primary-color); border-radius: 6px; text-align: left; cursor: pointer; font-weight: bold; transition: 0.3s; color: var(--primary-color); font-size: 16px; }
-        .menu-btn:hover, .menu-btn.active { background: var(--primary-color); color: var(--text-on-dark); border-color: var(--primary-color); }
+        /* БОКОВОЕ МЕНЮ */
+        .sidebar { width: 260px; background: var(--bg-white); padding: 20px; border-radius: var(--border-rad); box-shadow: var(--shadow-sm); position: sticky; top: 100px; flex-shrink: 0; }
+        .admin-profile { text-align: center; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+        .admin-avatar { width: 90px; height: 90px; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); border-radius: 50%; margin: 0 auto 15px; border: 3px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 40px; box-shadow: var(--shadow-sm); }
+        .admin-name { font-weight: 700; font-size: 17px; color: var(--primary-dark); margin-bottom: 5px; }
+        .admin-rank { font-size: 13px; color: var(--text-muted); font-weight: 600; background: #f8f9fa; padding: 4px 10px; border-radius: 20px; display: inline-block; border: 1px solid #eee; }
         
-        .main-content { flex: 1; background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); min-width: 300px; }
-        .tab-content { display: none; } 
+        .menu-btn { display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px 16px; margin-bottom: 8px; background: transparent; border: none; border-radius: 8px; text-align: left; cursor: pointer; font-weight: 600; transition: all 0.2s ease; color: var(--text-muted); font-size: 15px; }
+        .menu-btn:hover { background: #f8f9fa; color: var(--primary-color); transform: translateX(5px); }
+        .menu-btn.active { background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%); color: var(--bg-white); box-shadow: 0 4px 10px rgba(139,0,0,0.2); transform: none; }
+        
+        /* КОНТЕНТНАЯ ЧАСТЬ */
+        .main-content { flex: 1; min-width: 300px; }
+        .tab-content { display: none; animation: fadeIn 0.4s ease; } 
         .tab-content.active { display: block; } 
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .news-card { border-left: 5px solid var(--primary-color); padding: 20px; background: #fafafa; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-radius: 4px; }
-        .news-card h3 { margin-top: 0; color: var(--primary-color); font-size: 20px; }
-        .btn-osu { background-color: var(--primary-color); color: var(--accent-color); border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; text-transform: uppercase; transition: 0.3s; }
-        .btn-osu:hover { background-color: var(--accent-color); color: var(--primary-color); }
+        /* УНИВЕРСАЛЬНЫЕ КАРТОЧКИ */
+        .card { background: var(--bg-white); padding: 25px; border-radius: var(--border-rad); box-shadow: var(--shadow-sm); margin-bottom: 25px; border-left: 4px solid transparent; }
+        .card.accent-red { border-left-color: var(--primary-color); }
+        .card.accent-gold { border-left-color: var(--accent-gold); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .card-header h2 { margin: 0; color: var(--primary-dark); font-size: 20px; font-weight: 700; }
         
-        .form-input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; font-family: inherit; }
+        /* КНОПКИ */
+        .btn-osu { background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%); color: var(--accent-gold); border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.3s; box-shadow: 0 4px 10px rgba(139,0,0,0.2); }
+        .btn-osu:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+        .btn-outline { background: transparent; border: 2px solid var(--primary-color); color: var(--primary-color); }
+        .btn-outline:hover { background: var(--primary-color); color: var(--bg-white); }
         
-        /* СТИЛИ НОВОЙ ГРУППЫ */
-        .group-row { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; background: #fff; padding: 15px; border: 1px dashed var(--primary-color); border-radius: 6px; }
-        .group-row input, .group-row select { margin-bottom: 0; }
-        .flex-row { display: flex; gap: 10px; }
+        /* ФОРМЫ */
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .form-input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; font-family: inherit; transition: 0.3s; background: #fcfcfc; }
+        .form-input:focus { border-color: var(--primary-color); outline: none; background: #fff; box-shadow: 0 0 0 3px rgba(139,0,0,0.1); }
         
-        .dojo-card { background: #fff; border: 1px solid #eee; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 5px solid var(--accent-color); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
-        .dojo-card h3 { margin: 0 0 15px 0; color: var(--primary-color); border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .group-item { background: #fafafa; padding: 10px; border-radius: 4px; margin-bottom: 5px; border-left: 3px solid var(--primary-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;}
-        .student-badge { background-color: var(--primary-color); color: white; padding: 5px 10px; border-radius: 20px; font-size: 14px; font-weight: bold; }
+        /* ТАБЛИЦЫ (Для учеников) */
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .data-table th { background: #f8f9fa; color: var(--text-muted); font-weight: 600; text-align: left; padding: 12px 15px; font-size: 13px; text-transform: uppercase; border-bottom: 2px solid #eee; }
+        .data-table td { padding: 15px; border-bottom: 1px solid #eee; font-size: 14px; color: var(--text-main); }
+        .data-table tr:hover { background: #fcfcfc; }
+        .badge { padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+        .badge-belt { background: #333; color: #fff; } /* Заглушка для пояса */
+
+        /* ВИДЖЕТЫ ГЛАВНОЙ ПАНЕЛИ */
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 25px; }
+        .stat-card { background: var(--bg-white); padding: 20px; border-radius: var(--border-rad); box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 15px; }
+        .stat-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; }
+        .stat-info h4 { margin: 0; font-size: 13px; color: var(--text-muted); text-transform: uppercase; }
+        .stat-info p { margin: 0; font-size: 24px; font-weight: 800; color: var(--primary-dark); }
+
+        /* Вспомогательные классы */
+        .hidden { display: none !important; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
     </style>
 </head>
 <body>
 
     <div id="login-screen">
-        <img src="IMG_0670.jpeg" alt="ZANSHIN Logo" style="max-height: 150px; margin-bottom: 20px;">
         <div class="login-box">
-            <h2 style="color: var(--primary-color); margin-top: 0;">ВХОД ДЛЯ ТРЕНЕРОВ</h2>
-            <input type="email" id="email" placeholder="Ваш Email">
+            <img src="IMG_0670.jpeg" alt="ZANSHIN Logo" style="max-height: 120px; margin-bottom: 20px;">
+            <h2 style="color: var(--primary-dark); margin-top: 0;">ПОРТАЛ ФЕДЕРАЦИИ</h2>
+            <input type="email" id="email" placeholder="Электронная почта">
             <input type="password" id="password" placeholder="Пароль">
             <button class="btn-osu" onclick="login()" style="width: 100%; margin-top: 15px;">Войти 👊</button>
-            <p id="error-msg" style="color: red; font-size: 14px; display: none; margin-top: 15px;">Неверный логин или пароль!</p>
+            <p id="error-msg" style="color: #e74c3c; font-size: 14px; display: none; margin-top: 15px; font-weight: bold;">Ошибка авторизации!</p>
         </div>
     </div>
 
@@ -78,9 +118,8 @@
                     <span>Казахстанская Команда Кёкушинкай</span>
                 </div>
             </div>
-            <button class="btn-osu" onclick="logout()" style="padding: 5px 15px; font-size: 12px; margin-left: auto;">Выход</button>
+            <button class="btn-osu btn-outline" onclick="logout()" style="padding: 8px 16px; font-size: 12px;">Выход из системы</button>
         </div>
-        <div class="quote-widget">"Истинный путь боевого искусства начинается с тысячи дней..."</div>
         
         <div class="container">
             <div class="sidebar">
@@ -89,54 +128,179 @@
                     <div class="admin-name" id="profile-name">Загрузка...</div>
                     <div class="admin-rank" id="profile-rank">Загрузка данных...</div>
                 </div>
-                <button class="menu-btn active" id="btn-dashboard" onclick="showTab('dashboard')">📊 Главная (Dashboard)</button>
-                <button class="menu-btn" id="btn-dojos" onclick="showTab('dojos')">🥋 Мои ученики (Залы)</button>
+                
+                <p style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: bold; margin-bottom: 10px; padding-left: 10px;">Управление</p>
+                <button class="menu-btn active" id="btn-dashboard" onclick="showTab('dashboard')">📊 Главная панель</button>
+                <button class="menu-btn" id="btn-dojos" onclick="showTab('dojos')">🏢 Мои филиалы</button>
+                <button class="menu-btn" id="btn-students" onclick="showTab('students')">🥋 База учеников</button>
+                
+                <p style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: bold; margin: 20px 0 10px 0; padding-left: 10px;">Федерация</p>
+                <button class="menu-btn" id="btn-referees" onclick="showTab('referees')">⚖️ Судейский корпус</button>
+                <button class="menu-btn" id="btn-ranking" onclick="showTab('ranking')">🏆 Топ Рейтинг</button>
+                <button class="menu-btn" id="btn-events" onclick="showTab('events')">📅 Календарь турниров</button>
+                <button class="menu-btn" id="btn-files" onclick="showTab('files')">📁 Документы / Приказы</button>
             </div>
 
             <div class="main-content">
                 
                 <div id="tab-dashboard" class="tab-content active">
-                    <h2 style="margin-top: 0; border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; color: var(--primary-color);">Добро пожаловать в Додзё!</h2>
-                    <div class="news-card">
-                        <h3>Панель управления активна</h3>
-                        <p>Связь с базой данных установлена. Ваш профиль успешно загружен.</p>
+                    
+                    <div class="dashboard-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">🥋</div>
+                            <div class="stat-info"><h4>Всего учеников</h4><p id="dash-total-students">0</p></div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #f1c40f, #f39c12);">🏢</div>
+                            <div class="stat-info"><h4>Филиалов / Групп</h4><p id="dash-total-groups">0</p></div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">🏅</div>
+                            <div class="stat-info"><h4>Ближайший турнир</h4><p style="font-size: 16px; margin-top:5px;">Чемпионат РК (Май)</p></div>
+                        </div>
+                    </div>
+
+                    <div class="card accent-gold" style="background: linear-gradient(to right, #ffffff, #fffdf8);">
+                        <div class="flex-between" style="margin-bottom: 10px;">
+                            <h3 style="margin: 0; color: var(--accent-gold); font-size: 16px; text-transform: uppercase;">Мудрость Додзё</h3>
+                            <span style="font-size: 20px;">⛩️</span>
+                        </div>
+                        <p id="quote-ru" style="font-size: 18px; font-weight: 600; font-style: italic; color: var(--text-main); margin-bottom: 5px;">Загрузка мудрости...</p>
+                        <p id="quote-kz" style="font-size: 14px; color: var(--text-muted); margin: 0;"></p>
+                    </div>
+
+                    <div class="card accent-red">
+                        <div class="card-header">
+                            <h2>Новости Федерации</h2>
+                        </div>
+                        <div style="background: #fdfafb; padding: 20px; border-radius: 8px; border-left: 4px solid var(--primary-color);">
+                            <h3 style="margin: 0 0 10px 0; color: var(--primary-dark);">Запуск нового портала ERP Zanshin</h3>
+                            <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 15px;">Уважаемые сэнсэи и сэмпаи! Мы успешно запустили электронную базу данных. Просьба всем руководителям филиалов заполнить информацию о залах и приступить к внесению учеников.</p>
+                            <button class="btn-osu btn-outline" style="padding: 6px 15px; font-size: 12px; border-radius: 20px;" onclick="alert('Спасибо! Ваш голос учтен.')">👍 Мне нравится (12)</button>
+                        </div>
                     </div>
                 </div>
 
                 <div id="tab-dojos" class="tab-content">
-                    <h2 style="margin-top: 0; border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; color: var(--primary-color);">Управление филиалами</h2>
-                    <button class="btn-osu" style="margin-bottom: 20px;" onclick="toggleDojoForm()">+ Добавить новый зал</button>
-
-                    <div id="dojo-form-container" style="display: none; background: #fafafa; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 2px solid var(--accent-color);">
-                        <h3 style="margin-top: 0; color: var(--primary-color);">Адрес филиала</h3>
-                        <input type="text" id="dojo-city" class="form-input" placeholder="Город/Поселок (напр. Каскелен)">
-                        <input type="text" id="dojo-address" class="form-input" placeholder="Точный адрес (напр. ул. Абая 15, СШ №2)">
+                    <div class="card accent-red">
+                        <div class="card-header">
+                            <h2>Управление филиалами и группами</h2>
+                            <button class="btn-osu" onclick="toggleDojoForm()">+ Добавить филиал</button>
+                        </div>
                         
-                        <h3 style="margin-top: 15px; margin-bottom: 10px; color: var(--primary-color);">Группы в этом зале</h3>
-                        <div id="groups-container">
+                        <div id="dojo-form-container" class="hidden" style="background: #fdfafb; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #e0c8c8;">
+                            <h3 style="margin-top: 0; color: var(--primary-dark); font-size: 16px;">Локация филиала</h3>
+                            <div class="form-grid">
+                                <input type="text" id="dojo-city" class="form-input" placeholder="Город/Поселок (напр. Каскелен)">
+                                <input type="text" id="dojo-address" class="form-input" placeholder="Адрес (напр. ул. Абая 15, СШ №2)">
                             </div>
-                        
-                        <button onclick="addGroupRow()" style="background: transparent; border: 2px dashed var(--primary-color); color: var(--primary-color); padding: 10px; border-radius: 4px; width: 100%; cursor: pointer; font-weight: bold; margin-bottom: 20px;">+ ДОБАВИТЬ ЕЩЕ ОДНУ ГРУППУ</button>
-                        
-                        <div style="display: flex; gap: 10px;">
-                            <button class="btn-osu" onclick="saveDojo()" style="flex: 1;">Сохранить зал 💾</button>
-                            <button class="btn-osu" onclick="toggleDojoForm()" style="flex: 1; background-color: #ccc; color: #333;">Отмена</button>
+                            
+                            <h3 style="margin-top: 15px; color: var(--primary-dark); font-size: 16px;">Группы в зале</h3>
+                            <div id="groups-container"></div>
+                            
+                            <button onclick="addGroupRow()" class="btn-osu btn-outline" style="width: 100%; margin-bottom: 20px; border-style: dashed;">+ Добавить еще одну группу</button>
+                            
+                            <div style="display: flex; gap: 15px;">
+                                <button class="btn-osu" onclick="saveDojo()" style="flex: 2;">💾 Сохранить данные</button>
+                                <button class="btn-osu" onclick="toggleDojoForm()" style="flex: 1; background: #e0e0e0; color: #333;">Отмена</button>
+                            </div>
+                        </div>
+
+                        <div id="dojos-list"></div>
+                    </div>
+                </div>
+
+                <div id="tab-students" class="tab-content">
+                    <div class="card accent-red">
+                        <div class="card-header">
+                            <h2>База учеников</h2>
+                            <button class="btn-osu" onclick="toggleStudentForm()">+ Внести ученика</button>
+                        </div>
+
+                        <div id="student-form-container" class="hidden" style="background: #fdfafb; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #e0c8c8;">
+                            <div class="form-grid">
+                                <div><label style="font-size: 12px; color: var(--text-muted);">ФИО Ученика</label><input type="text" id="st-name" class="form-input" placeholder="Иванов Иван Иванович"></div>
+                                <div><label style="font-size: 12px; color: var(--text-muted);">Дата рождения</label><input type="date" id="st-dob" class="form-input"></div>
+                                <div><label style="font-size: 12px; color: var(--text-muted);">Пол</label>
+                                    <select id="st-gender" class="form-input">
+                                        <option value="Мужской">Мужской</option><option value="Женский">Женский</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-grid">
+                                <div><label style="font-size: 12px; color: var(--text-muted);">Текущий Кю/Дан</label>
+                                    <select id="st-kyu" class="form-input">
+                                        <option value="11 Кю (Белый)">11 Кю (Белый)</option><option value="10 Кю (Оранжевый)">10 Кю (Оранжевый)</option>
+                                        <option value="9 Кю (Оранж-полоса)">9 Кю (Оранж-полоса)</option><option value="8 Кю (Синий)">8 Кю (Синий)</option>
+                                    </select>
+                                </div>
+                                <div><label style="font-size: 12px; color: var(--text-muted);">Вес (кг)</label><input type="number" id="st-weight" class="form-input" placeholder="Например: 45.5"></div>
+                                <div><label style="font-size: 12px; color: var(--text-muted);">Группа (Филиал)</label>
+                                    <select id="st-group" class="form-input"><option value="">Сначала добавьте залы</option></select>
+                                </div>
+                            </div>
+                            <div class="form-grid" style="grid-template-columns: 1fr;">
+                                <div><label style="font-size: 12px; color: var(--text-muted);">Достижения (Чемпион РК и т.д.)</label><input type="text" id="st-achievements" class="form-input" placeholder="Краткий список наград..."></div>
+                            </div>
+                            <div style="display: flex; gap: 15px; margin-top: 10px;">
+                                <button class="btn-osu" onclick="saveStudent()" style="flex: 2;">💾 Сохранить ученика</button>
+                                <button class="btn-osu" onclick="toggleStudentForm()" style="flex: 1; background: #e0e0e0; color: #333;">Отмена</button>
+                            </div>
+                        </div>
+
+                        <div style="background: #fffdf8; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid var(--accent-gold); display: flex; align-items: center; gap: 15px;">
+                            <span style="font-size: 24px;">🎂</span>
+                            <div>
+                                <h4 style="margin: 0; color: var(--primary-dark);">Именинники в этом месяце</h4>
+                                <p style="margin: 0; font-size: 13px; color: var(--text-muted);" id="birthday-list">Функция поиска именинников активна...</p>
+                            </div>
+                        </div>
+
+                        <div style="overflow-x: auto;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr><th>ФИО</th><th>Возраст</th><th>Квалификация</th><th>Вес</th><th>Группа</th></tr>
+                                </thead>
+                                <tbody id="students-table-body">
+                                    <tr><td colspan="5" style="text-align: center;">Загрузка базы...</td></tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-
-                    <div id="dojos-list"></div>
                 </div>
+
+                <div id="tab-referees" class="tab-content"><div class="card"><h2>⚖️ Судейский корпус</h2><p>Модуль сертификации и учета судей в разработке. Здесь будет база судей, их категории (Национальная, Международная) и история работы на татами.</p></div></div>
+                <div id="tab-ranking" class="tab-content"><div class="card"><h2>🏆 Топ Рейтинг</h2><p>Модуль начисления баллов находится в разработке. Сайт будет автоматически считать баллы спортсменов за призовые места.</p></div></div>
+                <div id="tab-events" class="tab-content"><div class="card"><h2>📅 Календарь</h2><p>Модуль заявок на турниры и УТС в разработке.</p></div></div>
+                <div id="tab-files" class="tab-content"><div class="card"><h2>📁 База Знаний</h2><p>Облачное хранилище для положений, правил соревнований и бланков.</p></div></div>
 
             </div>
         </div>
     </div>
 
     <script>
+        // ИНИЦИАЛИЗАЦИЯ БАЗЫ (Ключи те же)
         const SUPABASE_URL = 'https://kyzitokbvroclkhtonns.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5eml0b2tidnJvY2xraHRvbm5zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MzYxNTksImV4cCI6MjA5MDAxMjE1OX0.xoFmiYEoegyPUti2AVzQ4ex7HXCi_PtqRisXdYbB6yo';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         let currentUserId = null; 
+        let globalGroups = []; // Храним залы для выпадающего списка учеников
 
+        // 1. ЦИТАТЫ И МОТИВАЦИЯ
+        const quotes = [
+            { ru: "Истинный путь боевого искусства начинается с тысячи дней изучения и постигается десятью тысячами дней тренировок.", kz: "Жауынгерлік өнердің шынайы жолы мың күндік оқумен басталып, он мың күндік жаттығумен меңгеріледі." },
+            { ru: "Осу — это терпение и решимость.", kz: "Осу — бұл шыдамдылық пен табандылық." },
+            { ru: "Голову держи низко, глаза высоко, будь сдержан в словах.", kz: "Басыңды төмен ұста, көзіңді жоғары таста, сөзіңе берік бол." },
+            { ru: "Каратэ — это путь, на котором нет конца.", kz: "Каратэ — бұл шегі жоқ жол." }
+        ];
+
+        function setRandomQuote() {
+            const q = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('quote-ru').innerText = `«${q.ru}»`;
+            document.getElementById('quote-kz').innerText = q.kz;
+        }
+
+        // 2. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ УИ
         function showTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.menu-btn').forEach(btn => btn.classList.remove('active'));
@@ -144,180 +308,187 @@
             document.getElementById('btn-' + tabName).classList.add('active');
         }
 
-        function toggleDojoForm() {
-            const form = document.getElementById('dojo-form-container');
-            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        function toggleDojoForm() { document.getElementById('dojo-form-container').classList.toggle('hidden'); }
+        function toggleStudentForm() { document.getElementById('student-form-container').classList.toggle('hidden'); }
+
+        // Расчет возраста
+        function calculateAge(birthday) {
+            const ageDifMs = Date.now() - new Date(birthday).getTime();
+            const ageDate = new Date(ageDifMs); 
+            return Math.abs(ageDate.getUTCFullYear() - 1970);
         }
 
-        // Логика показа скрытого поля "Свои дни"
-        function handleDaysChange(selectElement) {
-            const customInput = selectElement.parentElement.parentElement.querySelector('.group-custom-days');
-            if (selectElement.value === 'custom') {
-                customInput.style.display = 'block';
-                customInput.focus();
-            } else {
-                customInput.style.display = 'none';
-                customInput.value = '';
-            }
-        }
-
-        // HTML-шаблон для одной группы
+        // 3. ЛОГИКА ЗАЛОВ (ФИЛИАЛОВ)
         const groupRowTemplate = `
-            <div class="flex-row">
-                <input type="text" class="form-input group-name" style="flex: 1;" placeholder="🥋 Название (напр. Младшая)">
-                <input type="text" class="form-input group-age" style="flex: 1;" placeholder="👦 Возраст (напр. 6-8 лет)">
+            <div class="form-grid" style="margin-bottom: 5px;">
+                <input type="text" class="form-input group-name" placeholder="Название (напр. Младшая 6-8 лет)">
+                <input type="text" class="form-input group-schedule" placeholder="Дни и время (Пн-Ср-Пт 18:00)">
+                <input type="number" class="form-input group-count" placeholder="Кол-во учеников" min="0">
             </div>
-            <div class="flex-row">
-                <select class="form-input group-days" style="flex: 1.5;" onchange="handleDaysChange(this)">
-                    <option value="" disabled selected>📅 Выберите дни</option>
-                    <option value="Пн-Ср-Пт">Пн-Ср-Пт</option>
-                    <option value="Вт-Чт-Сб">Вт-Чт-Сб</option>
-                    <option value="Сб-Вс">Сб-Вс (Выходные)</option>
-                    <option value="custom">Свои дни (Ввести вручную)...</option>
-                </select>
-                <input type="time" class="form-input group-time" style="flex: 1;">
-            </div>
-            <input type="text" class="form-input group-custom-days" placeholder="Введите ваши дни (напр. Пн-Ср-Чт)" style="display: none;">
-            <input type="number" class="form-input group-count" placeholder="👥 Количество учеников сейчас (напр. 15)" min="0">
         `;
 
         function addGroupRow() {
-            const container = document.getElementById('groups-container');
             const row = document.createElement('div');
-            row.className = 'group-row';
             row.innerHTML = groupRowTemplate;
-            container.appendChild(row);
+            document.getElementById('groups-container').appendChild(row);
         }
-
-        // Заполняем первую пустую группу при загрузке страницы
-        document.addEventListener("DOMContentLoaded", () => {
-            addGroupRow();
-        });
 
         async function saveDojo() {
             const city = document.getElementById('dojo-city').value.trim();
             const address = document.getElementById('dojo-address').value.trim();
-            const groupRows = document.querySelectorAll('.group-row');
+            const groupRows = document.getElementById('groups-container').children;
             let groupsToInsert = [];
             
             for (let row of groupRows) {
                 const name = row.querySelector('.group-name').value.trim();
-                const age = row.querySelector('.group-age').value.trim();
-                const daysSelect = row.querySelector('.group-days').value;
-                const customDays = row.querySelector('.group-custom-days').value.trim();
-                const time = row.querySelector('.group-time').value;
+                const schedule = row.querySelector('.group-schedule').value.trim();
                 const count = parseInt(row.querySelector('.group-count').value) || 0;
-
-                if (name) { // Если ввели название, сохраняем группу
-                    let finalDays = daysSelect;
-                    if (daysSelect === 'custom') finalDays = customDays;
-                    if (!finalDays) finalDays = "Дни не указаны";
-                    
-                    const finalSchedule = `${finalDays} ${time}`.trim();
-                    const finalName = age ? `${name} (${age})` : name;
-
-                    groupsToInsert.push({
-                        profile_id: currentUserId,
-                        address_city: city,
-                        address_raw: address,
-                        group_name: finalName,
-                        schedule: finalSchedule,
-                        students_count: count
-                    });
+                if (name && schedule) {
+                    groupsToInsert.push({ profile_id: currentUserId, address_city: city, address_raw: address, group_name: name, schedule: schedule, students_count: count });
                 }
             }
-
-            if (!city || !address || groupsToInsert.length === 0) {
-                alert("Осу! Заполните Город, Адрес и хотя бы Название одной группы.");
-                return;
-            }
+            if (!city || !address || groupsToInsert.length === 0) return alert("Заполните все поля города, адреса и хотя бы одной группы.");
 
             try {
                 const { error } = await supabaseClient.from('groups').insert(groupsToInsert);
                 if (error) throw error;
-
-                alert("Филиал и группы успешно сохранены!");
+                alert("Филиал сохранен!");
                 toggleDojoForm();
-                
-                // Очистка формы
-                document.getElementById('dojo-city').value = '';
-                document.getElementById('dojo-address').value = '';
-                document.getElementById('groups-container').innerHTML = '';
-                addGroupRow(); // Добавляем одну пустую
-                
+                document.getElementById('dojo-city').value = ''; document.getElementById('dojo-address').value = '';
+                document.getElementById('groups-container').innerHTML = ''; addGroupRow();
                 loadDojos();
             } catch (err) { alert("Ошибка: " + err.message); }
         }
 
         async function loadDojos() {
-            const listDiv = document.getElementById('dojos-list');
-            listDiv.innerHTML = '<p>Загрузка данных...</p>';
-
             try {
-                const { data, error } = await supabaseClient
-                    .from('groups')
-                    .select('*')
-                    .eq('profile_id', currentUserId)
-                    .order('id', { ascending: false });
-
+                const { data, error } = await supabaseClient.from('groups').select('*').eq('profile_id', currentUserId).order('id', { ascending: false });
                 if (error) throw error;
-
-                if (data.length === 0) {
-                    listDiv.innerHTML = `<div style="background: #fafafa; padding: 20px; border: 1px dashed #ccc; text-align: center; border-radius: 8px;"><p style="color: var(--text-gray);">У вас пока нет добавленных залов.</p></div>`;
-                    return;
-                }
-
-                // АНАЛИТИКА: Подсчет всех учеников
-                let totalStudents = 0;
-                let totalGroupsCount = data.length;
-                const grouped = {};
                 
-                data.forEach(g => {
-                    totalStudents += (g.students_count || 0);
-                    
-                    const key = g.address_city + ' | ' + g.address_raw;
-                    if(!grouped[key]) grouped[key] = [];
-                    grouped[key].push(g);
-                });
+                globalGroups = data; // Сохраняем для выпадающего списка в Учениках
+                updateGroupsDropdown();
 
-                // Рисуем панель статистики (САМОЕ ВАЖНОЕ!)
-                let html = `
-                    <div style="background: var(--primary-color); color: var(--accent-color); padding: 20px; border-radius: 8px; margin-bottom: 25px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                        <h2 style="margin: 0; font-size: 26px;">🏆 Всего учеников: ${totalStudents}</h2>
-                        <p style="margin: 5px 0 0 0; font-size: 15px; color: #fff;">Ваши филиалы (групп: ${totalGroupsCount})</p>
-                    </div>
-                `;
-
-                // Рисуем карточки залов
-                for (const [addressKey, groups] of Object.entries(grouped)) {
-                    const city = groups[0].address_city;
-                    const address = groups[0].address_raw;
-                    
-                    html += `<div class="dojo-card">
-                        <h3>📍 г. ${city}, ${address}</h3>
-                        <div>`;
-                        
-                    groups.forEach(g => {
-                        html += `
-                            <div class="group-item">
-                                <div>
-                                    <strong style="font-size: 16px;">🥋 ${g.group_name}</strong> <br>
-                                    <span style="font-size: 14px; color: #666;">🕒 ${g.schedule}</span>
-                                </div>
-                                <div class="student-badge">👥 ${g.students_count} чел.</div>
-                            </div>
-                        `;
+                let totalStudents = 0;
+                let html = '';
+                
+                if (data.length === 0) {
+                    html = '<p style="color: #888;">Нет филиалов.</p>';
+                } else {
+                    const grouped = {};
+                    data.forEach(g => {
+                        totalStudents += (g.students_count || 0);
+                        const key = g.address_city + ' | ' + g.address_raw;
+                        if(!grouped[key]) grouped[key] = [];
+                        grouped[key].push(g);
                     });
-                    
-                    html += `</div></div>`;
+
+                    for (const [addressKey, groups] of Object.entries(grouped)) {
+                        html += `<div class="card" style="padding: 15px;">
+                            <h3 style="margin: 0 0 10px 0; font-size: 16px;">📍 ${addressKey}</h3>`;
+                        groups.forEach(g => {
+                            html += `<div style="padding: 8px; border-bottom: 1px dashed #eee; display: flex; justify-content: space-between;">
+                                <span>🥋 ${g.group_name} <br><small style="color:#888;">🕒 ${g.schedule}</small></span>
+                                <strong>👥 ${g.students_count}</strong>
+                            </div>`;
+                        });
+                        html += `</div>`;
+                    }
                 }
-                listDiv.innerHTML = html;
+                
+                document.getElementById('dojos-list').innerHTML = html;
+                document.getElementById('dash-total-groups').innerText = data.length;
+                document.getElementById('dash-total-students').innerText = totalStudents;
 
             } catch (err) { console.error(err); }
         }
 
+        // Обновление выпадающего списка групп в форме Учеников
+        function updateGroupsDropdown() {
+            const select = document.getElementById('st-group');
+            if (globalGroups.length === 0) {
+                select.innerHTML = '<option value="">Сначала добавьте залы</option>';
+                return;
+            }
+            select.innerHTML = '<option value="">-- Выберите группу --</option>';
+            globalGroups.forEach(g => {
+                const opt = document.createElement('option');
+                opt.value = g.id;
+                opt.text = `${g.address_city}, ${g.group_name}`;
+                select.appendChild(opt);
+            });
+        }
+
+        // 4. ЛОГИКА УЧЕНИКОВ
+        async function saveStudent() {
+            const name = document.getElementById('st-name').value.trim();
+            const dob = document.getElementById('st-dob').value;
+            const gender = document.getElementById('st-gender').value;
+            const kyu = document.getElementById('st-kyu').value;
+            const weight = document.getElementById('st-weight').value;
+            const groupId = document.getElementById('st-group').value;
+            const achievements = document.getElementById('st-achievements').value;
+
+            if (!name || !dob || !groupId) return alert("Осу! Введите ФИО, Дату рождения и выберите Группу.");
+
+            try {
+                const { error } = await supabaseClient.from('students').insert([{
+                    profile_id: currentUserId,
+                    group_id: groupId,
+                    full_name: name,
+                    birth_date: dob,
+                    gender: gender,
+                    current_kyu: kyu,
+                    current_weight: parseFloat(weight) || null,
+                    achievements_raw: achievements
+                }]);
+
+                if (error) throw error;
+                alert("Ученик успешно добавлен в базу!");
+                toggleStudentForm();
+                loadStudents(); // Перезагрузить таблицу
+            } catch(e) { alert("Ошибка сохранения: " + e.message); }
+        }
+
+        async function loadStudents() {
+            try {
+                const { data, error } = await supabaseClient.from('students').select('*, groups(group_name, address_city)').eq('profile_id', currentUserId);
+                if (error) throw error;
+
+                const tbody = document.getElementById('students-table-body');
+                
+                if (data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #888;">В базе пока нет учеников. Добавьте первого!</td></tr>';
+                    return;
+                }
+
+                let html = '';
+                data.forEach(s => {
+                    const age = calculateAge(s.birth_date);
+                    const groupName = s.groups ? `${s.groups.address_city} - ${s.groups.group_name}` : 'Без группы';
+                    const beltColor = s.current_kyu.includes('Белый') ? '#fff; color: #000; border: 1px solid #ccc;' : 
+                                      s.current_kyu.includes('Оранж') ? '#e67e22; color: #fff;' : 
+                                      s.current_kyu.includes('Син') ? '#2980b9; color: #fff;' : '#333; color: #fff;';
+
+                    html += `
+                        <tr>
+                            <td><strong>${s.full_name}</strong><br><small style="color:var(--text-muted);">${s.achievements_raw || ''}</small></td>
+                            <td>${age} лет<br><small style="color:#aaa;">${s.birth_date}</small></td>
+                            <td><span class="badge" style="background: ${beltColor}">${s.current_kyu}</span></td>
+                            <td>${s.current_weight ? s.current_weight + ' кг' : '-'}</td>
+                            <td>${groupName}</td>
+                        </tr>
+                    `;
+                });
+                tbody.innerHTML = html;
+
+            } catch(e) { console.error(e); }
+        }
+
+        // 5. ГЛОБАЛЬНАЯ ЗАГРУЗКА
         async function loadProfile(userId) {
             currentUserId = userId;
+            setRandomQuote();
+            addGroupRow(); // Инициализация формы залов
             try {
                 const { data, error } = await supabaseClient.from('profiles').select('*').eq('id', userId).single();
                 if (data) {
@@ -325,31 +496,32 @@
                     let roleStr = data.budopassport_num === 'PRESIDENT' ? ' (Президент)' : '';
                     document.getElementById('profile-rank').innerText = data.dan + ' Черный пояс' + roleStr;
                 }
-                loadDojos();
+                await loadDojos();
+                await loadStudents();
             } catch (err) { console.error(err); }
         }
 
+        // АВТОРИЗАЦИЯ
         async function login() {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const errorMsg = document.getElementById('error-msg');
+            errorMsg.style.display = 'none';
+            if (!email || !password) return;
             try {
-                const email = document.getElementById('email').value.trim();
-                const password = document.getElementById('password').value.trim();
-                const errorMsg = document.getElementById('error-msg');
-                errorMsg.style.display = 'none';
-                if (!email || !password) return alert("Введите Email и Пароль!");
                 const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
                 if (error) { errorMsg.style.display = 'block'; } else {
                     document.getElementById('login-screen').style.display = 'none';
                     document.getElementById('app-content').style.display = 'block';
                     loadProfile(data.user.id);
                 }
-            } catch (err) { alert(err.message); }
+            } catch (err) {}
         }
 
         async function logout() {
             await supabaseClient.auth.signOut();
             document.getElementById('app-content').style.display = 'none';
             document.getElementById('login-screen').style.display = 'flex';
-            document.getElementById('password').value = '';
         }
 
         async function checkSession() {
