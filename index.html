@@ -26,7 +26,7 @@
             color: var(--text-color);
         }
 
-        /* --- ЭКРАН ВХОДА (НОВОЕ) --- */
+        /* --- ЭКРАН ВХОДА --- */
         #login-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--bg-navbar);
@@ -50,7 +50,7 @@
         /* Основной контент сайта (скрыт до ввода пароля) */
         #app-content { display: none; }
 
-        /* --- ДИЗАЙН ПОРТАЛА (СТАРОЕ) --- */
+        /* --- ДИЗАЙН ПОРТАЛА --- */
         .navbar { 
             background-color: var(--bg-navbar); padding: 15px 30px; display: flex; 
             justify-content: center; align-items: center; 
@@ -60,12 +60,14 @@
         .logo-container img { max-height: 120px; width: auto; object-fit: contain; }
         .logo-container h1 { margin: 0; font-size: 26px; letter-spacing: 1px; font-weight: bold; color: var(--primary-color); }
         .logo-container span { font-size: 16px; color: var(--text-gray); font-weight: normal; }
+        
         .quote-widget {
             background-color: var(--primary-color); color: var(--accent-color); text-align: center;
             padding: 15px; font-style: italic; font-weight: bold; font-size: 18px;
             border-bottom: 2px solid var(--accent-color); box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         .container { display: flex; padding: 20px; gap: 20px; max-width: 1200px; margin: 0 auto; }
+        
         .sidebar { 
             width: 250px; background: #ffffff; padding: 20px; border-radius: 8px; 
             box-shadow: 0 4px 8px rgba(0,0,0,0.05); position: sticky; top: 20px; height: fit-content;
@@ -77,18 +79,21 @@
         }
         .admin-name { font-weight: bold; font-size: 18px; color: var(--text-color); margin-bottom: 5px; }
         .admin-rank { font-size: 14px; color: var(--primary-color); font-weight: bold; }
+        
         .menu-btn { 
             display: flex; align-items: center; gap: 10px; width: 100%; padding: 14px; margin-bottom: 12px; 
             background: transparent; border: 2px solid var(--primary-color); border-radius: 6px; 
             text-align: left; cursor: pointer; font-weight: bold; transition: 0.3s; color: var(--primary-color); font-size: 16px;
         }
         .menu-btn:hover { background: var(--primary-color); color: var(--text-on-dark); border-color: var(--primary-color); }
+        
         .main-content { flex: 1; background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
         .news-card {
             border-left: 5px solid var(--primary-color); padding: 20px; background: #fafafa;
             margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-radius: 4px;
         }
         .news-card h3 { margin-top: 0; color: var(--primary-color); font-size: 20px; }
+        
         .btn-osu {
             background-color: var(--primary-color); color: var(--accent-color); border: none; padding: 10px 25px;
             border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; text-transform: uppercase;
@@ -129,9 +134,9 @@
         <div class="container">
             <div class="sidebar">
                 <div class="admin-profile">
-                    <div class="admin-avatar">Фото</div>
-                    <div class="admin-name" id="profile-name">Загрузка...</div>
-                    <div class="admin-rank" id="profile-rank">Загрузка...</div>
+                    <div class="admin-avatar">🥋</div>
+                    <div class="admin-name" id="profile-name">Сенсей</div>
+                    <div class="admin-rank" id="profile-rank">Загрузка данных...</div>
                 </div>
                 <button class="menu-btn">📊 Главная (Dashboard)</button>
                 <button class="menu-btn">🥋 Мои ученики (Залы)</button>
@@ -140,39 +145,59 @@
             </div>
 
             <div class="main-content">
-                <h2 style="margin-top: 0; border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; color: var(--primary-color);">Новости и Приказы Федерации</h2>
+                <h2 style="margin-top: 0; border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; color: var(--primary-color);">Добро пожаловать в Додзё!</h2>
+                
                 <div class="news-card">
-                    <h3>Система успешно подключена!</h3>
-                    <p>База данных портала Zanshin активирована. Ожидается добавление профилей тренеров.</p>
+                    <h3>Вход выполнен успешно!</h3>
+                    <p>База данных портала Zanshin активирована. Вы успешно прошли систему безопасности. Скоро здесь появится база учеников области.</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Ваши ключи от базы
+        // Ваши ключи от базы (уже встроены и исправлены!)
         const SUPABASE_URL = 'https://kyzitokbvroclkhtonns.supabase.co';
-        const SUPABASE_ANON_KEY = 'Sb_publishable_gldhbRLXdIaaAf_UwHc2aA_ue1La77k';
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5eml0b2tidnJvY2xraHRvbm5zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MzYxNTksImV4cCI6MjA5MDAxMjE1OX0.xoFmiYEoegyPUti2AVzQ4ex7HXCi_PtqRisXdYbB6yo';
+        
+        let supabase;
+        try {
+            supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        } catch (e) {
+            alert("Ошибка инициализации базы данных. Проверьте подключение к интернету.");
+        }
 
         // Функция авторизации
         async function login() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const errorMsg = document.getElementById('error-msg');
-            
-            errorMsg.style.display = 'none';
+            try {
+                // .trim() автоматически удаляет случайные пробелы, которые ставит iPhone!
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value.trim();
+                const errorMsg = document.getElementById('error-msg');
+                
+                errorMsg.style.display = 'none';
 
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password,
-            });
+                if (!email || !password) {
+                    alert("Пожалуйста, введите Email и Пароль.");
+                    return;
+                }
 
-            if (error) {
-                errorMsg.style.display = 'block';
-            } else {
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('app-content').style.display = 'block';
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password,
+                });
+
+                if (error) {
+                    // Показываем точную ошибку телефона
+                    alert("Ошибка входа: " + error.message);
+                    errorMsg.style.display = 'block';
+                } else {
+                    alert("Осу! Вход разрешен.");
+                    document.getElementById('login-screen').style.display = 'none';
+                    document.getElementById('app-content').style.display = 'block';
+                }
+            } catch (err) {
+                alert("Критическая ошибка кода: " + err.message);
             }
         }
 
@@ -181,15 +206,19 @@
             await supabase.auth.signOut();
             document.getElementById('app-content').style.display = 'none';
             document.getElementById('login-screen').style.display = 'flex';
+            // Очищаем поля
+            document.getElementById('password').value = '';
         }
 
-        // Проверка при обновлении страницы: авторизован ли уже человек?
+        // Проверка при обновлении страницы
         async function checkSession() {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session) {
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('app-content').style.display = 'block';
-            }
+            try {
+                const { data: { session } } = await supabase.auth.getSession();
+                if (session) {
+                    document.getElementById('login-screen').style.display = 'none';
+                    document.getElementById('app-content').style.display = 'block';
+                }
+            } catch(e) {}
         }
         
         checkSession();
