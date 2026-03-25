@@ -13,13 +13,11 @@
         }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-body); margin: 0; padding: 0; color: var(--text-color); }
 
-        /* ЭКРАН ВХОДА */
         #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--bg-navbar); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; }
         .login-box { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 90%; max-width: 350px; border-top: 5px solid var(--primary-color); }
         .login-box input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
         #app-content { display: none; }
 
-        /* ДИЗАЙН ПОРТАЛА */
         .navbar { background-color: var(--bg-navbar); padding: 15px 30px; display: flex; justify-content: center; align-items: center; border-bottom: 3px solid var(--accent-color); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
         .logo-container { display: flex; align-items: center; gap: 20px; }
         .logo-container img { max-height: 120px; width: auto; object-fit: contain; }
@@ -28,7 +26,6 @@
         .quote-widget { background-color: var(--primary-color); color: var(--accent-color); text-align: center; padding: 15px; font-style: italic; font-weight: bold; font-size: 18px; border-bottom: 2px solid var(--accent-color); }
         .container { display: flex; padding: 20px; gap: 20px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; }
         
-        /* БОКОВОЕ МЕНЮ */
         .sidebar { width: 250px; background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); height: fit-content; flex-shrink: 0; }
         .admin-profile { text-align: center; margin-bottom: 25px; border-bottom: 1px solid #ddd; padding-bottom: 20px; }
         .admin-avatar { width: 100px; height: 100px; background-color: #eee; border-radius: 50%; margin: 0 auto 10px; border: 3px solid var(--accent-color); display: flex; align-items: center; justify-content: center; font-size: 45px; }
@@ -37,7 +34,6 @@
         .menu-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 14px; margin-bottom: 12px; background: transparent; border: 2px solid var(--primary-color); border-radius: 6px; text-align: left; cursor: pointer; font-weight: bold; transition: 0.3s; color: var(--primary-color); font-size: 16px; }
         .menu-btn:hover, .menu-btn.active { background: var(--primary-color); color: var(--text-on-dark); border-color: var(--primary-color); }
         
-        /* ОСНОВНОЙ КОНТЕНТ */
         .main-content { flex: 1; background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); min-width: 300px; }
         .tab-content { display: none; } 
         .tab-content.active { display: block; } 
@@ -47,8 +43,15 @@
         .btn-osu { background-color: var(--primary-color); color: var(--accent-color); border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; text-transform: uppercase; transition: 0.3s; }
         .btn-osu:hover { background-color: var(--accent-color); color: var(--primary-color); }
         
-        /* Форма ввода */
-        .form-input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
+        .form-input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
+        
+        /* Стили для групп внутри зала */
+        .group-row { display: flex; gap: 10px; margin-bottom: 10px; background: #fff; padding: 10px; border: 1px dashed #ccc; border-radius: 6px; }
+        .group-row input { margin-bottom: 0; }
+        
+        .dojo-card { background: #fff; border: 1px solid #eee; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 5px solid var(--accent-color); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+        .dojo-card h3 { margin: 0 0 15px 0; color: var(--primary-color); border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .group-item { background: #fafafa; padding: 10px; border-radius: 4px; margin-bottom: 5px; border-left: 3px solid var(--primary-color); }
     </style>
 </head>
 <body>
@@ -103,20 +106,27 @@
                     <button class="btn-osu" style="margin-bottom: 20px;" onclick="toggleDojoForm()">+ Добавить новый зал</button>
                     
                     <div id="dojo-form-container" style="display: none; background: #fafafa; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 2px solid var(--accent-color);">
-                        <h3 style="margin-top: 0; color: var(--primary-color);">Данные нового зала</h3>
+                        <h3 style="margin-top: 0; color: var(--primary-color);">Адрес филиала</h3>
                         <input type="text" id="dojo-city" class="form-input" placeholder="Город/Поселок (напр. Каскелен)">
                         <input type="text" id="dojo-address" class="form-input" placeholder="Точный адрес (напр. ул. Абая 15, СШ №2)">
-                        <input type="text" id="dojo-name" class="form-input" placeholder="Название группы (напр. Младшая 6-8 лет)">
-                        <input type="text" id="dojo-schedule" class="form-input" placeholder="Расписание (напр. Пн-Ср-Пт 18:00)">
+                        
+                        <h3 style="margin-top: 15px; margin-bottom: 10px; color: var(--primary-color);">Группы в этом зале</h3>
+                        <div id="groups-container">
+                            <div class="group-row">
+                                <input type="text" class="form-input group-name" placeholder="Название (напр. Младшая)">
+                                <input type="text" class="form-input group-schedule" placeholder="Расписание (напр. Пн-Ср-Пт 18:00)">
+                            </div>
+                        </div>
+                        
+                        <button onclick="addGroupRow()" style="background: transparent; border: 2px dashed var(--primary-color); color: var(--primary-color); padding: 10px; border-radius: 4px; width: 100%; cursor: pointer; font-weight: bold; margin-bottom: 20px;">+ ДОБАВИТЬ ЕЩЕ ОДНУ ГРУППУ</button>
                         
                         <div style="display: flex; gap: 10px;">
-                            <button class="btn-osu" onclick="saveDojo()" style="flex: 1;">Сохранить зал 💾</button>
+                            <button class="btn-osu" onclick="saveDojo()" style="flex: 1;">Сохранить филиал 💾</button>
                             <button class="btn-osu" onclick="toggleDojoForm()" style="flex: 1; background-color: #ccc; color: #333;">Отмена</button>
                         </div>
                     </div>
 
-                    <div id="dojos-list">
-                        </div>
+                    <div id="dojos-list"></div>
                 </div>
 
             </div>
@@ -127,8 +137,7 @@
         const SUPABASE_URL = 'https://kyzitokbvroclkhtonns.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5eml0b2tidnJvY2xraHRvbm5zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MzYxNTksImV4cCI6MjA5MDAxMjE1OX0.xoFmiYEoegyPUti2AVzQ4ex7HXCi_PtqRisXdYbB6yo';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        
-        let currentUserId = null; // Запоминаем ID тренера
+        let currentUserId = null; 
 
         function showTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
@@ -137,55 +146,71 @@
             document.getElementById('btn-' + tabName).classList.add('active');
         }
 
-        // Показать/Скрыть форму добавления зала
         function toggleDojoForm() {
             const form = document.getElementById('dojo-form-container');
             form.style.display = form.style.display === 'none' ? 'block' : 'none';
         }
 
-        // Сохранить новый зал в базу
+        // Функция добавляет новую пустую строчку для группы
+        function addGroupRow() {
+            const container = document.getElementById('groups-container');
+            const row = document.createElement('div');
+            row.className = 'group-row';
+            row.innerHTML = `
+                <input type="text" class="form-input group-name" placeholder="Название (напр. Старшая)">
+                <input type="text" class="form-input group-schedule" placeholder="Расписание (напр. Вт-Чт-Сб 19:00)">
+            `;
+            container.appendChild(row);
+        }
+
         async function saveDojo() {
             const city = document.getElementById('dojo-city').value.trim();
             const address = document.getElementById('dojo-address').value.trim();
-            const name = document.getElementById('dojo-name').value.trim();
-            const schedule = document.getElementById('dojo-schedule').value.trim();
-
-            if (!city || !address || !name || !schedule) {
-                alert("Осу! Пожалуйста, заполните все поля.");
-                return;
-            }
-
-            try {
-                const { error } = await supabaseClient
-                    .from('groups')
-                    .insert([{
+            
+            // Собираем все заполненные группы
+            const groupRows = document.querySelectorAll('.group-row');
+            let groupsToInsert = [];
+            
+            for (let row of groupRows) {
+                const name = row.querySelector('.group-name').value.trim();
+                const schedule = row.querySelector('.group-schedule').value.trim();
+                if (name && schedule) {
+                    groupsToInsert.push({
                         profile_id: currentUserId,
                         address_city: city,
                         address_raw: address,
                         group_name: name,
                         schedule: schedule
-                    }]);
+                    });
+                }
+            }
 
+            if (!city || !address || groupsToInsert.length === 0) {
+                alert("Осу! Заполните Город, Адрес и хотя бы одну группу полностью.");
+                return;
+            }
+
+            try {
+                const { error } = await supabaseClient.from('groups').insert(groupsToInsert);
                 if (error) throw error;
 
-                alert("Зал успешно добавлен!");
+                alert("Филиал и группы успешно сохранены!");
                 toggleDojoForm();
                 
-                // Очищаем поля
+                // Очищаем форму (оставляем только одну пустую строку)
                 document.getElementById('dojo-city').value = '';
                 document.getElementById('dojo-address').value = '';
-                document.getElementById('dojo-name').value = '';
-                document.getElementById('dojo-schedule').value = '';
+                document.getElementById('groups-container').innerHTML = `
+                    <div class="group-row">
+                        <input type="text" class="form-input group-name" placeholder="Название (напр. Младшая)">
+                        <input type="text" class="form-input group-schedule" placeholder="Расписание (напр. Пн-Ср-Пт 18:00)">
+                    </div>
+                `;
                 
-                // Обновляем список залов на экране
                 loadDojos();
-
-            } catch (err) {
-                alert("Ошибка при сохранении: " + err.message);
-            }
+            } catch (err) { alert("Ошибка: " + err.message); }
         }
 
-        // Скачать и показать залы из базы
         async function loadDojos() {
             const listDiv = document.getElementById('dojos-list');
             listDiv.innerHTML = '<p>Загрузка данных...</p>';
@@ -194,40 +219,51 @@
                 const { data, error } = await supabaseClient
                     .from('groups')
                     .select('*')
-                    .eq('profile_id', currentUserId) // Ищем залы только этого тренера
-                    .order('id', { ascending: false }); // Новые сверху
+                    .eq('profile_id', currentUserId)
+                    .order('id', { ascending: false });
 
                 if (error) throw error;
 
                 if (data.length === 0) {
-                    listDiv.innerHTML = `
-                        <div style="background: #fafafa; padding: 20px; border: 1px dashed #ccc; text-align: center; border-radius: 8px;">
-                            <p style="color: var(--text-gray); font-size: 16px;">У вас пока нет добавленных залов.</p>
-                        </div>`;
+                    listDiv.innerHTML = `<div style="background: #fafafa; padding: 20px; border: 1px dashed #ccc; text-align: center; border-radius: 8px;"><p style="color: var(--text-gray);">У вас пока нет добавленных залов.</p></div>`;
                     return;
                 }
 
-                let html = '';
-                data.forEach(dojo => {
-                    html += `
-                        <div style="background: #fff; border: 1px solid #eee; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 5px solid var(--accent-color); box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
-                            <h3 style="margin: 0 0 10px 0; color: var(--primary-color);">${dojo.group_name}</h3>
-                            <p style="margin: 0 0 5px 0; font-size: 15px;"><strong>📍 Город:</strong> ${dojo.address_city}</p>
-                            <p style="margin: 0 0 5px 0; font-size: 15px;"><strong>🏢 Адрес:</strong> ${dojo.address_raw}</p>
-                            <p style="margin: 0; font-size: 15px;"><strong>🕒 Расписание:</strong> ${dojo.schedule}</p>
-                        </div>
-                    `;
+                // Группируем залы по адресу
+                const grouped = {};
+                data.forEach(g => {
+                    const key = g.address_city + ' | ' + g.address_raw;
+                    if(!grouped[key]) grouped[key] = [];
+                    grouped[key].push(g);
                 });
+
+                let html = '';
+                for (const [addressKey, groups] of Object.entries(grouped)) {
+                    const city = groups[0].address_city;
+                    const address = groups[0].address_raw;
+                    
+                    html += `<div class="dojo-card">
+                        <h3>📍 г. ${city}, ${address}</h3>
+                        <div>`;
+                        
+                    groups.forEach(g => {
+                        html += `
+                            <div class="group-item">
+                                <strong>🥋 ${g.group_name}</strong> <br>
+                                <span style="font-size: 14px; color: #555;">🕒 ${g.schedule} | 👥 Учеников: ${g.students_count}</span>
+                            </div>
+                        `;
+                    });
+                    
+                    html += `</div></div>`;
+                }
                 listDiv.innerHTML = html;
 
-            } catch (err) {
-                console.error(err);
-                listDiv.innerHTML = '<p style="color: red;">Ошибка загрузки залов.</p>';
-            }
+            } catch (err) { console.error(err); }
         }
 
         async function loadProfile(userId) {
-            currentUserId = userId; // Запоминаем, кто сейчас вошел
+            currentUserId = userId;
             try {
                 const { data, error } = await supabaseClient.from('profiles').select('*').eq('id', userId).single();
                 if (data) {
@@ -235,8 +271,6 @@
                     let roleStr = data.budopassport_num === 'PRESIDENT' ? ' (Президент)' : '';
                     document.getElementById('profile-rank').innerText = data.dan + ' Черный пояс' + roleStr;
                 }
-                
-                // Как только узнали кто вошел, сразу грузим его залы
                 loadDojos();
             } catch (err) { console.error(err); }
         }
@@ -247,14 +281,9 @@
                 const password = document.getElementById('password').value.trim();
                 const errorMsg = document.getElementById('error-msg');
                 errorMsg.style.display = 'none';
-
                 if (!email || !password) return alert("Введите Email и Пароль!");
-
                 const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-
-                if (error) {
-                    errorMsg.style.display = 'block';
-                } else {
+                if (error) { errorMsg.style.display = 'block'; } else {
                     document.getElementById('login-screen').style.display = 'none';
                     document.getElementById('app-content').style.display = 'block';
                     loadProfile(data.user.id);
@@ -279,7 +308,6 @@
                 }
             } catch(e) {}
         }
-        
         checkSession();
     </script>
 </body>
