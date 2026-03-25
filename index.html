@@ -37,7 +37,7 @@
         .container { display: flex; padding: 20px; gap: 20px; max-width: 1200px; margin: 0 auto; }
         .sidebar { width: 250px; background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); position: sticky; top: 20px; height: fit-content; }
         .admin-profile { text-align: center; margin-bottom: 25px; border-bottom: 1px solid #ddd; padding-bottom: 20px; }
-        .admin-avatar { width: 100px; height: 100px; background-color: #eee; border-radius: 50%; margin: 0 auto 10px; border: 3px solid var(--accent-color); display: flex; align-items: center; justify-content: center; color: #666; font-size: 40px; }
+        .admin-avatar { width: 100px; height: 100px; background-color: #eee; border-radius: 50%; margin: 0 auto 10px; border: 3px solid var(--accent-color); display: flex; align-items: center; justify-content: center; color: #666; font-size: 45px; }
         .admin-name { font-weight: bold; font-size: 18px; color: var(--text-color); margin-bottom: 5px; }
         .admin-rank { font-size: 14px; color: var(--primary-color); font-weight: bold; }
         .menu-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 14px; margin-bottom: 12px; background: transparent; border: 2px solid var(--primary-color); border-radius: 6px; text-align: left; cursor: pointer; font-weight: bold; transition: 0.3s; color: var(--primary-color); font-size: 16px; }
@@ -78,7 +78,7 @@
             <div class="sidebar">
                 <div class="admin-profile">
                     <div class="admin-avatar">🥋</div>
-                    <div class="admin-name" id="profile-name">Сенсей</div>
+                    <div class="admin-name" id="profile-name">Загрузка...</div>
                     <div class="admin-rank" id="profile-rank">Загрузка данных...</div>
                 </div>
                 <button class="menu-btn">📊 Главная (Dashboard)</button>
@@ -87,8 +87,8 @@
             <div class="main-content">
                 <h2 style="margin-top: 0; border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; color: var(--primary-color);">Добро пожаловать в Додзё!</h2>
                 <div class="news-card">
-                    <h3>Вход выполнен успешно!</h3>
-                    <p>Связь с базой данных установлена. Вы успешно прошли систему безопасности.</p>
+                    <h3>Панель управления активна</h3>
+                    <p>Связь с базой данных установлена. Ваш профиль загружен.</p>
                 </div>
             </div>
         </div>
@@ -98,8 +98,30 @@
         const SUPABASE_URL = 'https://kyzitokbvroclkhtonns.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5eml0b2tidnJvY2xraHRvbm5zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MzYxNTksImV4cCI6MjA5MDAxMjE1OX0.xoFmiYEoegyPUti2AVzQ4ex7HXCi_PtqRisXdYbB6yo';
         
-        // Исправлена критическая ошибка здесь
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Функция для загрузки данных профиля из базы
+        async function loadProfile(userId) {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', userId)
+                    .single();
+
+                if (data) {
+                    document.getElementById('profile-name').innerText = data.full_name;
+                    // Проверяем, если это президент - добавляем титул и черный пояс
+                    let roleStr = data.budopassport_num === 'PRESIDENT' ? ' (Президент)' : '';
+                    document.getElementById('profile-rank').innerText = data.dan + ' Черный пояс' + roleStr;
+                } else {
+                    document.getElementById('profile-name').innerText = "Новый Тренер";
+                    document.getElementById('profile-rank').innerText = "Профиль не заполнен";
+                }
+            } catch (err) {
+                console.error("Ошибка загрузки профиля", err);
+            }
+        }
 
         async function login() {
             try {
@@ -114,7 +136,6 @@
                     return;
                 }
 
-                // Исправлено здесь
                 const { data, error } = await supabaseClient.auth.signInWithPassword({
                     email: email,
                     password: password,
@@ -126,6 +147,8 @@
                 } else {
                     document.getElementById('login-screen').style.display = 'none';
                     document.getElementById('app-content').style.display = 'block';
+                    // Вызываем загрузку профиля после входа
+                    loadProfile(data.user.id);
                 }
             } catch (err) {
                 alert("Ошибка: " + err.message);
@@ -145,6 +168,8 @@
                 if (session) {
                     document.getElementById('login-screen').style.display = 'none';
                     document.getElementById('app-content').style.display = 'block';
+                    // Вызываем загрузку профиля если сессия уже активна
+                    loadProfile(session.user.id);
                 }
             } catch(e) {}
         }
