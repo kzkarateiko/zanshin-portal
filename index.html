@@ -171,6 +171,7 @@
                     <button class="menu-btn active" id="btn-dashboard" onclick="showTab('dashboard')">🏠 Главная панель</button>
                     <button class="menu-btn" id="btn-dojos" onclick="showTab('dojos')">🏢 Мои филиалы</button>
                     <button class="menu-btn" id="btn-students" onclick="showTab('students')">🥋 База учеников</button>
+                    <button class="menu-btn" id="btn-exams" onclick="alert('Модуль Аттестации (Кю-тесты) в разработке')">🥋 Аттестация (Кю-тест)</button>
                     
                     <div class="menu-title">ФЕДЕРАЦИЯ</div>
                     <button class="menu-btn" id="btn-team" onclick="showTab('team')">🇰🇿 Сборная Федерации</button>
@@ -211,15 +212,8 @@
                             <button class="btn-osu" style="background: var(--accent-gold); color: var(--primary-dark); font-size: 12px; padding: 6px 12px;" onclick="alert('Добавление анонса')">+ Добавить анонс</button>
                         </div>
                         
-                        <div class="feed-item" onclick="alert('Тут откроется полное описание')">
-                            <div class="feed-date">15-18 МАЯ 2026</div>
-                            <h3 class="feed-title">Открытый Чемпионат Республики Казахстан KWF</h3>
-                            <div class="feed-meta"><span>📍 г. Астана, Дворец Единоборств</span><span>📎 Регламент_ЧРК.pdf</span></div>
-                        </div>
-                        <div class="feed-item">
-                            <div class="feed-date">10 ИЮНЯ 2026</div>
-                            <h3 class="feed-title">Летние Учебно-Тренировочные Сборы (УТС)</h3>
-                            <div class="feed-meta"><span>📍 Озеро Алаколь, база "Жалын"</span><span>📎 2 файла прикреплено</span></div>
+                        <div id="events-feed-container">
+                            <p style="text-align: center; color: #888;">Загрузка свежих турниров...</p>
                         </div>
                         
                         <button class="btn-link" onclick="showTab('events-archive')">Все мероприятия и архив ➡️</button>
@@ -231,15 +225,8 @@
                             <button class="btn-osu" style="font-size: 12px; padding: 6px 12px;" onclick="alert('Написать новость')">+ Опубликовать новость</button>
                         </div>
                         
-                        <div class="feed-item" style="border-left-color: var(--primary-color);">
-                            <div class="feed-date">25 МАРТА 2026</div>
-                            <h3 class="feed-title">Запуск цифровой платформы ERP Zanshin</h3>
-                            <p style="font-size: 14px; margin: 5px 0;">Уважаемые сэнсэи и сэмпаи! Мы переходим на электронный учет.</p>
-                        </div>
-                        <div class="feed-item" style="border-left-color: var(--primary-color);">
-                            <div class="feed-date">20 МАРТА 2026</div>
-                            <h3 class="feed-title">Итоги Кубка Алматинской Области</h3>
-                            <p style="font-size: 14px; margin: 5px 0;">Поздравляем команду г. Каскелен с первым общекомандным местом!</p>
+                        <div id="news-feed-container">
+                            <p style="text-align: center; color: #888;">Загрузка свежих новостей...</p>
                         </div>
 
                         <button class="btn-link" onclick="showTab('news-archive')">Архив новостей 🗄️</button>
@@ -260,28 +247,15 @@
                             <input type="text" placeholder="🔍 Поиск по ФИО..." style="padding: 8px; border-radius: 6px; border: 1px solid #ddd; width: 200px;">
                         </div>
                         <p style="color: var(--text-muted); font-size: 14px;">Рейтинг формируется автоматически на основе занятых мест на турнирах. Итоги подводятся в конце года.</p>
-                        
                         <div style="overflow-x: auto;">
                             <table class="data-table">
                                 <thead>
                                     <tr><th>Место</th><th>ФИО Спортсмена</th><th>Клуб / Тренер</th><th>Золото</th><th>Серебро</th><th>Бронза</th><th>Всего Баллов</th></tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td><strong style="color: var(--accent-gold); font-size: 18px;">1</strong></td>
-                                        <td><strong>Ахметов Данияр</strong></td>
-                                        <td>Zanshin Каскелен / Эрик Д.</td>
-                                        <td>4</td><td>1</td><td>0</td>
-                                        <td><strong style="color: var(--primary-dark); font-size: 16px;">125 б.</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong style="color: #bdc3c7; font-size: 18px;">2</strong></td>
-                                        <td><strong>Оспанова Амина</strong></td>
-                                        <td>Торнадо / Сенсей Али</td>
-                                        <td>2</td><td>3</td><td>1</td>
-                                        <td><strong style="color: var(--primary-dark); font-size: 16px;">84 б.</strong></td>
-                                    </tr>
-                                    </tbody>
+                                    <tr><td><strong style="color: var(--accent-gold); font-size: 18px;">1</strong></td><td><strong>Ахметов Данияр</strong></td><td>Zanshin Каскелен / Эрик Д.</td><td>4</td><td>1</td><td>0</td><td><strong style="color: var(--primary-dark); font-size: 16px;">125 б.</strong></td></tr>
+                                    <tr><td><strong style="color: #bdc3c7; font-size: 18px;">2</strong></td><td><strong>Оспанова Амина</strong></td><td>Торнадо / Сенсей Али</td><td>2</td><td>3</td><td>1</td><td><strong style="color: var(--primary-dark); font-size: 16px;">84 б.</strong></td></tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -289,33 +263,16 @@
 
                 <div id="tab-profile" class="tab-content">
                     <div class="card" style="max-width: 600px; margin: 0 auto;">
-                        <div class="card-header">
-                            <h2>⚙️ Настройки Профиля</h2>
-                        </div>
-                        
+                        <div class="card-header"><h2>⚙️ Настройки Профиля</h2></div>
                         <div style="text-align: center; margin-bottom: 20px;">
-                            <div style="width: 100px; height: 100px; background: #eee; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 40px; border: 2px dashed #ccc; cursor: pointer;" onclick="alert('Функция загрузки фото с галереи телефона')">📷</div>
+                            <div style="width: 100px; height: 100px; background: #eee; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 40px; border: 2px dashed #ccc; cursor: pointer;">📷</div>
                             <span style="font-size: 12px; color: var(--primary-color); cursor: pointer; font-weight: bold;">Изменить аватарку</span>
                         </div>
-
-                        <div class="form-group">
-                            <label>Ваше ФИО</label>
-                            <input type="text" class="form-control" id="prof-name" placeholder="Например: Эрик Дәулетқалиев">
-                        </div>
-                        <div class="form-group">
-                            <label>Квалификация (Дан/Кю)</label>
-                            <input type="text" class="form-control" id="prof-dan" placeholder="Например: 3 Дан">
-                        </div>
-                        <div class="form-group">
-                            <label>Контактный телефон</label>
-                            <input type="tel" class="form-control" placeholder="+7 (700) 000-00-00">
-                        </div>
-                        <div class="form-group">
-                            <label>Новый пароль</label>
-                            <input type="password" class="form-control" placeholder="Оставьте пустым, если не меняете">
-                        </div>
-
-                        <button class="btn-osu" style="width: 100%; margin-top: 10px;" onclick="alert('Сохранение профиля в разработке. Потребуется обновление БД.')">💾 Сохранить изменения</button>
+                        <div class="form-group"><label>Ваше ФИО</label><input type="text" class="form-control" id="prof-name"></div>
+                        <div class="form-group"><label>Квалификация (Дан/Кю)</label><input type="text" class="form-control" id="prof-dan"></div>
+                        <div class="form-group"><label>Контактный телефон</label><input type="tel" class="form-control" placeholder="+7 (700) 000-00-00"></div>
+                        <div class="form-group"><label>Новый пароль</label><input type="password" class="form-control" placeholder="Оставьте пустым, если не меняете"></div>
+                        <button class="btn-osu" style="width: 100%; margin-top: 10px;" onclick="alert('Сохранение профиля в разработке.')">💾 Сохранить изменения</button>
                     </div>
                 </div>
 
@@ -323,27 +280,20 @@
 
             <div class="sidebar-right">
                 
+                <div class="widget-block" style="background: linear-gradient(to bottom, #fff, #fef9e7); border: 1px solid #f9e29c; text-align: center;">
+                    <h3 style="margin: 0 0 15px 0; color: var(--accent-gold); font-size: 16px; text-transform: uppercase;">🌟 Лучший боец месяца</h3>
+                    <div style="width: 100px; height: 100px; background: #eee; border-radius: 50%; margin: 0 auto 10px; border: 3px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 40px;">👦🏻</div>
+                    <strong style="font-size: 18px; color: var(--primary-dark);">Ахметов Данияр</strong>
+                    <p style="margin: 5px 0 0 0; font-size: 13px; color: var(--text-muted);">Золото на Кубке РК</p>
+                </div>
+
                 <div class="widget-block" style="background: linear-gradient(to bottom, #fff, #fef9e7); border: 1px solid #f9e29c;">
                     <div class="widget-header" style="border-bottom-color: #faebcc;">
                         <h3 style="color: var(--accent-gold);">🌟 Рейтинг спортсменов</h3>
                     </div>
-                    
-                    <div class="list-item" style="padding: 8px 0;">
-                        <span class="rank-number top-1" style="font-size: 16px;">1</span>
-                        <div style="flex:1;"><strong style="font-size: 13px;">Ахметов Данияр</strong></div>
-                        <span style="font-weight:bold; color:var(--primary-dark); font-size: 13px;">125 б.</span>
-                    </div>
-                    <div class="list-item" style="padding: 8px 0;">
-                        <span class="rank-number top-2" style="font-size: 16px;">2</span>
-                        <div style="flex:1;"><strong style="font-size: 13px;">Оспанова Амина</strong></div>
-                        <span style="font-weight:bold; color:var(--primary-dark); font-size: 13px;">84 б.</span>
-                    </div>
-                    <div class="list-item" style="padding: 8px 0; border-bottom: none;">
-                        <span class="rank-number top-3" style="font-size: 16px;">3</span>
-                        <div style="flex:1;"><strong style="font-size: 13px;">Смагулов Али</strong></div>
-                        <span style="font-weight:bold; color:var(--primary-dark); font-size: 13px;">60 б.</span>
-                    </div>
-
+                    <div class="list-item" style="padding: 8px 0;"><span class="rank-number top-1" style="font-size: 16px;">1</span><div style="flex:1;"><strong style="font-size: 13px;">Ахметов Данияр</strong></div><span style="font-weight:bold; color:var(--primary-dark); font-size: 13px;">125 б.</span></div>
+                    <div class="list-item" style="padding: 8px 0;"><span class="rank-number top-2" style="font-size: 16px;">2</span><div style="flex:1;"><strong style="font-size: 13px;">Оспанова Амина</strong></div><span style="font-weight:bold; color:var(--primary-dark); font-size: 13px;">84 б.</span></div>
+                    <div class="list-item" style="padding: 8px 0; border-bottom: none;"><span class="rank-number top-3" style="font-size: 16px;">3</span><div style="flex:1;"><strong style="font-size: 13px;">Смагулов Али</strong></div><span style="font-weight:bold; color:var(--primary-dark); font-size: 13px;">60 б.</span></div>
                     <button class="btn-link" style="margin-top: 10px; padding: 8px;" onclick="showTab('athlete-ranking')">Весь рейтинг 📊</button>
                 </div>
 
@@ -379,13 +329,10 @@
                 <div class="widget-block" style="background: #fffcf5; border: 1px solid #faebcc;">
                     <h3 style="font-size: 14px; margin: 0 0 10px 0; color: #8a6d3b;">🎂 Дни рождения (Тренеры)</h3>
                     <div class="list-item" style="border-bottom-color: #fcf8e3; padding: 8px 0;"><div style="flex:1; font-size: 13px;"><strong>Семпай Руслан</strong></div><span style="font-size:11px; color:#8a6d3b; font-weight:bold;">Завтра (27 Марта)</span></div>
-                    <div class="list-item" style="border-bottom-color: #fcf8e3; padding: 8px 0;"><div style="flex:1; font-size: 13px;"><strong>Сенсей Дамир</strong></div><span style="font-size:11px; color:#8a6d3b;">2 Апреля</span></div>
                 </div>
-
                 <div class="widget-block" style="background: #f4f8fa; border: 1px solid #bce8f1;">
                     <h3 style="font-size: 14px; margin: 0 0 10px 0; color: #31708f;">🎈 Дни рождения (Ученики)</h3>
                     <div class="list-item" style="border-bottom-color: #d9edf7; padding: 8px 0;"><div style="flex:1; font-size: 13px;"><strong>Иванов Артем</strong></div><span style="font-size:11px; color:#31708f; font-weight:bold;">Сегодня! (8 лет)</span></div>
-                    <div class="list-item" style="border-bottom-color: #d9edf7; padding: 8px 0;"><div style="flex:1; font-size: 13px;"><strong>Смагулов Али</strong></div><span style="font-size:11px; color:#31708f;">28 Марта</span></div>
                 </div>
 
             </div>
@@ -393,13 +340,11 @@
     </div>
 
     <script>
-        // ИНИЦИАЛИЗАЦИЯ БАЗЫ
         const SUPABASE_URL = 'https://kyzitokbvroclkhtonns.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5eml0b2tidnJvY2xraHRvbm5zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MzYxNTksImV4cCI6MjA5MDAxMjE1OX0.xoFmiYEoegyPUti2AVzQ4ex7HXCi_PtqRisXdYbB6yo';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         let currentUserId = null; 
 
-        // ИМИТАЦИЯ ТАЙМЕРА ДЛЯ ТУРНИРА
         setInterval(() => {
             const el = document.getElementById('tournament-timer');
             if(el) {
@@ -411,15 +356,9 @@
             }
         }, 1000);
 
-        // МУДРОСТИ
-        const quotes = [
-            "Победа над собой — величайшая из побед.",
-            "Истинный путь постигается десятью тысячами дней тренировок.",
-            "Осу — это терпение и решимость."
-        ];
+        const quotes = ["Победа над собой — величайшая из побед.", "Истинный путь постигается десятью тысячами дней тренировок.", "Осу — это терпение и решимость."];
         document.getElementById('daily-quote').innerText = "«" + quotes[Math.floor(Math.random() * quotes.length)] + "»";
 
-        // НАВИГАЦИЯ ПО ВКЛАДКАМ
         function showTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.menu-btn').forEach(btn => btn.classList.remove('active'));
@@ -429,17 +368,59 @@
             window.scrollTo({ top: 0, behavior: 'smooth' }); 
         }
 
-        // ЛОГИКА АВТОРИЗАЦИИ
+        // ================= МАГИЯ: ЗАГРУЗКА НОВОСТЕЙ И АНОНСОВ =================
+        async function loadNewsAndEvents() {
+            try {
+                // Загружаем Анонсы
+                const { data: eventsData } = await supabaseClient.from('events').select('*').order('event_date', { ascending: true }).limit(2);
+                if (eventsData && eventsData.length > 0) {
+                    let html = '';
+                    eventsData.forEach(ev => {
+                        html += `
+                        <div class="feed-item" onclick="alert('Тут откроется полное описание турнира')">
+                            <div class="feed-date">${ev.event_date}</div>
+                            <h3 class="feed-title">${ev.title}</h3>
+                            <p style="font-size: 14px; color: var(--text-muted); margin: 5px 0;">${ev.description || ''}</p>
+                            <div class="feed-meta">
+                                <span>📍 ${ev.location || 'Место не указано'}</span>
+                                <span>📎 ${ev.file_name || 'Нет файла'}</span>
+                            </div>
+                        </div>`;
+                    });
+                    document.getElementById('events-feed-container').innerHTML = html;
+                }
+
+                // Загружаем Новости
+                const { data: newsData } = await supabaseClient.from('news').select('*').order('published_at', { ascending: false }).limit(2);
+                if (newsData && newsData.length > 0) {
+                    let html = '';
+                    newsData.forEach(n => {
+                        html += `
+                        <div class="feed-item" style="border-left-color: var(--primary-color);">
+                            <div class="feed-date">${n.published_at}</div>
+                            <h3 class="feed-title">${n.title}</h3>
+                            <p style="font-size: 15px; margin: 10px 0;">${n.content}</p>
+                            <div class="feed-action-bar" style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #e0e0e0; display: flex; justify-content: space-between;">
+                                <button style="background: none; border: none; color: var(--primary-color); font-weight: bold; cursor: pointer; font-size: 14px;" onclick="alert('Вы поддержали новость!')">❤️ Поддерживаю (${n.likes_count || 0})</button>
+                                <span style="font-size: 12px; color: #aaa;">Просмотров: ${n.views_count || 0}</span>
+                            </div>
+                        </div>`;
+                    });
+                    document.getElementById('news-feed-container').innerHTML = html;
+                }
+            } catch (err) {
+                console.error("Ошибка загрузки ленты:", err);
+            }
+        }
+
         async function loadProfile(userId) {
             currentUserId = userId;
             try {
-                const { data, error } = await supabaseClient.from('profiles').select('*').eq('id', userId).single();
+                const { data } = await supabaseClient.from('profiles').select('*').eq('id', userId).single();
                 if (data) {
                     document.getElementById('profile-name').innerText = data.full_name;
-                    // Подставляем данные в форму профиля
                     document.getElementById('prof-name').value = data.full_name;
                     document.getElementById('prof-dan').value = data.dan || '';
-                    
                     let roleStr = data.budopassport_num === 'PRESIDENT' ? ' (Президент)' : '';
                     document.getElementById('profile-rank').innerText = (data.dan || 'Пояс не указан') + roleStr;
                 }
@@ -448,7 +429,10 @@
                     document.getElementById('dash-total-groups').innerText = grpData.length;
                     document.getElementById('dash-total-students').innerText = grpData.reduce((sum, g) => sum + (g.students_count || 0), 0);
                 }
-            } catch (err) { console.error(err); }
+                
+                // Вызываем функцию скачивания новостей
+                loadNewsAndEvents();
+            } catch (err) {}
         }
 
         async function login() {
