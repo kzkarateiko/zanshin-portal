@@ -7,71 +7,60 @@
     <link rel="icon" type="image/jpeg" href="IMG_0670.jpeg">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        /* === ЭЛИТНЫЙ ДИЗАЙН === */
-        :root { --primary-dark: #4a0000; --primary-color: #8B0000; --accent-gold: #D4AF37; --bg-main: #f0f2f5; --bg-white: #ffffff; --text-main: #1c1e21; --text-muted: #606770; --shadow-sm: 0 2px 4px rgba(0,0,0,0.08); --shadow-md: 0 8px 16px rgba(0,0,0,0.1); --border-rad: 12px; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-main); margin: 0; padding: 0; color: var(--text-main); }
-        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom right, #ffffff, #f0f2f5); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; }
-        .login-box { background: var(--bg-white); padding: 40px; border-radius: var(--border-rad); box-shadow: var(--shadow-md); text-align: center; width: 90%; max-width: 400px; border-top: 5px solid var(--primary-color); }
-        .login-box input { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; background: #f8f9fa; }
-        #app-content { display: none; }
-        .navbar { background-color: var(--bg-white); padding: 10px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--accent-gold); flex-wrap: wrap; gap: 15px; }
-        .header-left { display: flex; align-items: center; gap: 20px; }
-        .header-left img { max-height: 70px; }
-        .header-titles h1 { margin: 0; font-size: 18px; color: var(--primary-dark); font-weight: 800; text-transform: uppercase; letter-spacing: 1px;}
-        .header-titles h2 { margin: 2px 0 0 0; font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase;}
-        .header-wisdom { max-width: 450px; text-align: right; border-left: 2px solid #eee; padding-left: 20px; }
-        .header-wisdom h4 { margin: 0; color: var(--accent-gold); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
-        .header-wisdom p { margin: 4px 0 0 0; font-size: 13px; font-style: italic; color: var(--text-main); font-weight: 500; }
-        .layout-wrapper { display: flex; padding: 25px; gap: 25px; max-width: 1600px; margin: 0 auto; align-items: flex-start; }
-        .sidebar-left { width: 260px; flex-shrink: 0; position: sticky; top: 110px; display: flex; flex-direction: column; gap: 15px; }
-        .content-center { flex: 1; min-width: 0; }
-        .sidebar-right { width: 320px; flex-shrink: 0; position: sticky; top: 110px; display: flex; flex-direction: column; gap: 15px; }
-        .widget-block { background: var(--bg-white); padding: 20px; border-radius: var(--border-rad); box-shadow: var(--shadow-sm); }
-        .admin-profile { text-align: center; margin-bottom: 10px; }
-        .admin-avatar { width: 80px; height: 80px; background: #f8f9fa; border-radius: 50%; margin: 0 auto 10px; border: 2px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 35px; overflow: hidden;}
-        .admin-name { font-weight: bold; font-size: 16px; color: var(--primary-dark); }
-        .admin-rank { font-size: 12px; color: var(--primary-color); font-weight: bold; background: #fff0f0; padding: 3px 10px; border-radius: 12px; display: inline-block; margin-top: 5px; }
-        .menu-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: bold; margin: 15px 0 5px 10px; letter-spacing: 1px;}
-        .menu-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px 15px; margin-bottom: 5px; background: transparent; border: none; border-radius: 8px; text-align: left; cursor: pointer; font-weight: 600; color: var(--text-main); font-size: 14px; transition: 0.2s; }
-        .menu-btn:hover { background: #f0f2f5; color: var(--primary-color); }
-        .menu-btn.active { background: var(--primary-color); color: var(--bg-white); box-shadow: 0 4px 8px rgba(139,0,0,0.2); }
-        .stat-widget { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f8f9fa; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--primary-color); }
-        .stat-widget strong { font-size: 20px; color: var(--primary-dark); }
-        .timer-widget { background: linear-gradient(135deg, var(--primary-dark), var(--primary-color)); color: white; padding: 20px; border-radius: var(--border-rad); text-align: center; position: relative; box-shadow: 0 10px 20px rgba(139,0,0,0.2); }
-        .countdown { font-size: 28px; font-weight: 900; font-family: monospace; letter-spacing: 2px; margin: 10px 0; color: var(--accent-gold); text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        .tab-content { display: none; } .tab-content.active { display: block; animation: fadeIn 0.4s; } 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .card { background: var(--bg-white); padding: 25px; border-radius: var(--border-rad); box-shadow: var(--shadow-sm); margin-bottom: 25px; }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f0f2f5; padding-bottom: 10px; flex-wrap: wrap; gap: 10px;}
-        .card-header h2 { margin: 0; color: var(--primary-dark); font-size: 20px; font-weight: bold; }
-        .btn-osu { background: var(--primary-color); color: var(--accent-gold); border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; text-transform: uppercase; transition: 0.2s; }
-        .btn-osu:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-        .btn-link { width: 100%; background: #f8f9fa; border: 1px solid #ddd; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; color: var(--primary-dark); transition: 0.2s; text-transform: uppercase; font-size: 12px; letter-spacing: 1px;}
-        .btn-link:hover { background: #e9ecef; border-color: #ccc; }
-        .feed-item { background: #fcfcfc; border: 1px solid #eee; padding: 20px; border-radius: var(--border-rad); margin-bottom: 15px; border-left: 5px solid var(--accent-gold); cursor: pointer; transition: 0.2s; }
-        .feed-item:hover { transform: translateX(5px); box-shadow: var(--shadow-sm); border-color: #ddd; background: #fff; }
-        .feed-date { font-size: 12px; font-weight: 800; color: var(--primary-color); text-transform: uppercase; letter-spacing: 1px;}
-        .feed-title { margin: 8px 0; font-size: 18px; color: var(--primary-dark); font-weight: bold; }
-        .feed-meta { font-size: 13px; color: var(--text-muted); display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px; background: #f8f9fa; padding: 8px; border-radius: 6px;}
-        .widget-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; }
-        .widget-header h3 { margin: 0; font-size: 15px; color: var(--primary-dark); }
-        .list-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f0f2f5; }
-        .list-item:last-child { border-bottom: none; }
-        .rank-number { font-size: 20px; font-weight: 900; color: #ccc; width: 25px; text-align: center; }
-        .top-1 { color: var(--accent-gold); text-shadow: 0 1px 2px rgba(212,175,55,0.3); }
-        .top-2 { color: #bdc3c7; }
-        .top-3 { color: #cd7f32; }
-        .data-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        .data-table th, .data-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
-        .data-table th { background: #f8f9fa; font-weight: bold; color: var(--text-muted); text-transform: uppercase; font-size: 12px; }
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
-        .form-control { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 14px; font-family: inherit; background: #fcfcfc; }
-        .form-label { display: block; font-size: 12px; font-weight: bold; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; }
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 20px; box-sizing: border-box; }
-        .modal-box { background: #fff; padding: 25px; border-radius: 12px; width: 100%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-top: 5px solid var(--primary-color); position: relative; }
-        .close-modal { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 20px; cursor: pointer; color: #888; }
-        @media (max-width: 1100px) { .layout-wrapper { flex-direction: column; padding: 15px; } .sidebar-left, .sidebar-right { width: 100%; position: static; } .sidebar-right { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; } .navbar { flex-direction: column; text-align: center; } .header-left { flex-direction: column; gap: 10px; } .header-wisdom { border-left: none; padding-left: 0; text-align: center; margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; } }
-        @media (max-width: 650px) { .sidebar-right { grid-template-columns: 1fr; } }
+        :root{--primary-dark:#4a0000;--primary-color:#8B0000;--accent-gold:#D4AF37;--bg-main:#f0f2f5;--bg-white:#ffffff;--text-main:#1c1e21;--text-muted:#606770;--shadow-sm:0 2px 4px rgba(0,0,0,0.08);--shadow-md:0 8px 16px rgba(0,0,0,0.1);--border-rad:12px;}
+        body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg-main);margin:0;padding:0;color:var(--text-main);}
+        #login-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(to bottom right,#ffffff,#f0f2f5);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1000;}
+        .login-box{background:var(--bg-white);padding:40px;border-radius:var(--border-rad);box-shadow:var(--shadow-md);text-align:center;width:90%;max-width:400px;border-top:5px solid var(--primary-color);}
+        .login-box input{width:100%;padding:14px;margin:10px 0;border:1px solid #ddd;border-radius:6px;box-sizing:border-box;font-size:16px;background:#f8f9fa;}
+        #app-content,.tab-content{display:none;} .tab-content.active{display:block;animation:fadeIn 0.4s;}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+        .navbar{background:var(--bg-white);padding:10px 30px;display:flex;justify-content:space-between;align-items:center;box-shadow:var(--shadow-sm);position:sticky;top:0;z-index:100;border-bottom:3px solid var(--accent-gold);flex-wrap:wrap;gap:15px;}
+        .header-left{display:flex;align-items:center;gap:20px;} .header-left img{max-height:70px;}
+        .header-titles h1{margin:0;font-size:18px;color:var(--primary-dark);font-weight:800;text-transform:uppercase;letter-spacing:1px;}
+        .header-titles h2{margin:2px 0 0 0;font-size:12px;color:var(--text-muted);font-weight:600;text-transform:uppercase;}
+        .header-wisdom{max-width:450px;text-align:right;border-left:2px solid #eee;padding-left:20px;}
+        .header-wisdom h4{margin:0;color:var(--accent-gold);font-size:11px;text-transform:uppercase;letter-spacing:1px;}
+        .header-wisdom p{margin:4px 0 0 0;font-size:13px;font-style:italic;color:var(--text-main);font-weight:500;}
+        .layout-wrapper{display:flex;padding:25px;gap:25px;max-width:1600px;margin:0 auto;align-items:flex-start;}
+        .sidebar-left{width:260px;flex-shrink:0;position:sticky;top:110px;display:flex;flex-direction:column;gap:15px;}
+        .content-center{flex:1;min-width:0;}
+        .sidebar-right{width:320px;flex-shrink:0;position:sticky;top:110px;display:flex;flex-direction:column;gap:15px;}
+        .widget-block,.card{background:var(--bg-white);padding:20px;border-radius:var(--border-rad);box-shadow:var(--shadow-sm);margin-bottom:15px;}
+        .admin-profile{text-align:center;margin-bottom:10px;}
+        .admin-avatar{width:80px;height:80px;background:#f8f9fa;border-radius:50%;margin:0 auto 10px;border:2px solid var(--accent-gold);display:flex;align-items:center;justify-content:center;font-size:35px;}
+        .admin-name{font-weight:bold;font-size:16px;color:var(--primary-dark);}
+        .admin-rank{font-size:12px;color:var(--primary-color);font-weight:bold;background:#fff0f0;padding:3px 10px;border-radius:12px;display:inline-block;margin-top:5px;}
+        .menu-title{font-size:11px;color:var(--text-muted);text-transform:uppercase;font-weight:bold;margin:15px 0 5px 10px;letter-spacing:1px;}
+        .menu-btn{display:flex;align-items:center;gap:10px;width:100%;padding:12px 15px;margin-bottom:5px;background:transparent;border:none;border-radius:8px;text-align:left;cursor:pointer;font-weight:600;color:var(--text-main);font-size:14px;transition:0.2s;}
+        .menu-btn:hover{background:#f0f2f5;color:var(--primary-color);} .menu-btn.active{background:var(--primary-color);color:var(--bg-white);box-shadow:0 4px 8px rgba(139,0,0,0.2);}
+        .stat-widget{display:flex;justify-content:space-between;align-items:center;padding:12px;background:#f8f9fa;border-radius:8px;margin-bottom:10px;border-left:4px solid var(--primary-color);}
+        .stat-widget strong{font-size:20px;color:var(--primary-dark);}
+        .timer-widget{background:linear-gradient(135deg,var(--primary-dark),var(--primary-color));color:white;padding:20px;border-radius:var(--border-rad);text-align:center;position:relative;box-shadow:0 10px 20px rgba(139,0,0,0.2);}
+        .countdown{font-size:28px;font-weight:900;font-family:monospace;letter-spacing:2px;margin:10px 0;color:var(--accent-gold);text-shadow:0 2px 4px rgba(0,0,0,0.3);}
+        .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:2px solid #f0f2f5;padding-bottom:10px;flex-wrap:wrap;gap:10px;}
+        .card-header h2{margin:0;color:var(--primary-dark);font-size:20px;font-weight:bold;}
+        .btn-osu{background:var(--primary-color);color:var(--accent-gold);border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:14px;text-transform:uppercase;transition:0.2s;}
+        .btn-osu:hover{background:var(--primary-dark);transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,0.2);}
+        .btn-link{width:100%;background:#f8f9fa;border:1px solid #ddd;padding:12px;border-radius:8px;cursor:pointer;font-weight:bold;color:var(--primary-dark);transition:0.2s;text-transform:uppercase;font-size:12px;}
+        .feed-item{background:#fcfcfc;border:1px solid #eee;padding:20px;border-radius:var(--border-rad);margin-bottom:15px;border-left:5px solid var(--accent-gold);position:relative;}
+        .feed-date{font-size:12px;font-weight:800;color:var(--primary-color);text-transform:uppercase;letter-spacing:1px;}
+        .feed-title{margin:8px 0;font-size:18px;color:var(--primary-dark);font-weight:bold;}
+        .feed-img{max-width:100%;border-radius:8px;margin-top:10px;display:none;}
+        .widget-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;padding-bottom:10px;margin-bottom:10px;}
+        .widget-header h3{margin:0;font-size:15px;color:var(--primary-dark);}
+        .list-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #f0f2f5;}
+        .rank-number{font-size:20px;font-weight:900;color:#ccc;width:25px;text-align:center;}
+        .top-1{color:var(--accent-gold);} .top-2{color:#bdc3c7;} .top-3{color:#cd7f32;}
+        .data-table{width:100%;border-collapse:collapse;margin-top:15px;} .data-table th,.data-table td{padding:12px;text-align:left;border-bottom:1px solid #eee;font-size:14px;}
+        .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-bottom:15px;}
+        .form-control{width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;box-sizing:border-box;font-size:14px;background:#fcfcfc;}
+        .form-label{display:block;font-size:12px;font-weight:bold;color:var(--text-muted);text-transform:uppercase;margin-bottom:5px;}
+        .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;justify-content:center;align-items:center;z-index:2000;padding:20px;}
+        .modal-box{background:#fff;padding:25px;border-radius:12px;width:100%;max-width:500px;box-shadow:0 10px 30px rgba(0,0,0,0.3);border-top:5px solid var(--primary-color);position:relative;max-height:90vh;overflow-y:auto;}
+        .admin-controls{position:absolute;top:10px;right:10px;display:flex;gap:5px;display:none;}
+        .admin-btn{background:#eee;border:none;border-radius:4px;padding:5px 8px;cursor:pointer;font-size:12px;}
+        @media(max-width:1100px){.layout-wrapper{flex-direction:column;padding:15px;} .sidebar-left,.sidebar-right{width:100%;position:static;} .sidebar-right{display:grid;grid-template-columns:1fr 1fr;gap:15px;} .navbar{flex-direction:column;text-align:center;} .header-wisdom{border-left:none;text-align:center;margin-top:10px;padding-top:10px;border-top:1px solid #eee;}}
+        @media(max-width:650px){.sidebar-right{grid-template-columns:1fr;}}
     </style>
 </head>
 <body>
@@ -80,7 +69,6 @@
         <div class="login-box">
             <img src="IMG_0670.jpeg" alt="ZANSHIN Logo" style="max-height: 140px; margin-bottom: 15px;">
             <h2 style="color: var(--primary-dark); margin: 0 0 5px 0;">ВХОД В СИСТЕМУ</h2>
-            <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Закрытая ERP-система Федерации</p>
             <input type="email" id="email" placeholder="Email тренера">
             <input type="password" id="password" placeholder="Пароль">
             <button class="btn-osu" onclick="login()" style="width: 100%; margin-top: 15px;">Войти в Додзё 👊</button>
@@ -88,45 +76,45 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="modal-news"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-news')">✖</button><h2 style="margin-top:0; color: var(--primary-dark);">📰 Новая публикация</h2><label class="form-label">Заголовок</label><input type="text" id="news-title" class="form-control" style="margin-bottom:15px;"><label class="form-label">Текст</label><textarea id="news-content" class="form-control" style="margin-bottom:15px; height: 100px; resize: vertical;"></textarea><button class="btn-osu" style="width: 100%;" onclick="saveNews()">Опубликовать</button></div></div>
+    <div class="modal-overlay" id="modal-news">
+        <div class="modal-box">
+            <button class="admin-btn" style="position:absolute;top:15px;right:15px;" onclick="closeModal('modal-news')">✖</button>
+            <h2 style="margin-top:0; color: var(--primary-dark);">📰 Публикация</h2>
+            <input type="hidden" id="news-id">
+            <label class="form-label">Заголовок</label><input type="text" id="news-title" class="form-control" style="margin-bottom:15px;">
+            <label class="form-label">Текст</label><textarea id="news-content" class="form-control" style="margin-bottom:15px; height: 80px;"></textarea>
+            <label class="form-label">Прикрепить картинку (Афиша)</label><input type="file" id="news-image" accept="image/*" class="form-control" style="margin-bottom:15px;">
+            <button class="btn-osu" style="width: 100%;" onclick="saveNews()">Опубликовать</button>
+            <p id="news-loading" style="display:none; color:green; font-size:12px; text-align:center;">Загрузка файла в облако... Ждите...</p>
+        </div>
+    </div>
     
-    <div class="modal-overlay" id="modal-event"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-event')">✖</button><h2 style="margin-top:0; color: var(--accent-gold);">🔥 Новый анонс</h2><label class="form-label">Название</label><input type="text" id="ev-title" class="form-control" style="margin-bottom:10px;"><div class="form-grid"><div><label class="form-label">Дата</label><input type="date" id="ev-date" class="form-control"></div><div><label class="form-label">Локация</label><input type="text" id="ev-loc" class="form-control"></div></div><label class="form-label">Описание</label><textarea id="ev-desc" class="form-control" style="margin-bottom:10px; height: 60px;"></textarea><label class="form-label">Файл (Название)</label><input type="text" id="ev-file" class="form-control" style="margin-bottom:15px;"><button class="btn-osu" style="width: 100%; background: var(--accent-gold); color: var(--primary-dark);" onclick="saveEvent()">Добавить анонс</button></div></div>
+    <div class="modal-overlay" id="modal-event">
+        <div class="modal-box">
+            <button class="admin-btn" style="position:absolute;top:15px;right:15px;" onclick="closeModal('modal-event')">✖</button>
+            <h2 style="margin-top:0; color: var(--accent-gold);">🔥 Анонс турнира</h2>
+            <input type="hidden" id="ev-id">
+            <label class="form-label">Название</label><input type="text" id="ev-title" class="form-control" style="margin-bottom:10px;">
+            <div class="form-grid"><div><label class="form-label">Дата</label><input type="date" id="ev-date" class="form-control"></div><div><label class="form-label">Локация</label><input type="text" id="ev-loc" class="form-control"></div></div>
+            <label class="form-label">Описание</label><textarea id="ev-desc" class="form-control" style="margin-bottom:10px; height: 50px;"></textarea>
+            <label class="form-label">Афиша (Картинка)</label><input type="file" id="ev-image" accept="image/*" class="form-control" style="margin-bottom:10px;">
+            <label class="form-label">Документ (PDF/Word)</label><input type="file" id="ev-file" class="form-control" style="margin-bottom:15px;">
+            <button class="btn-osu" style="width: 100%; background: var(--accent-gold); color: var(--primary-dark);" onclick="saveEvent()">Добавить анонс</button>
+            <p id="ev-loading" style="display:none; color:green; font-size:12px; text-align:center;">Идет загрузка файлов... Не закрывайте!</p>
+        </div>
+    </div>
 
     <div class="modal-overlay" id="modal-points">
         <div class="modal-box">
-            <button class="close-modal" onclick="closeModal('modal-points')">✖</button>
+            <button class="admin-btn" style="position:absolute;top:15px;right:15px;" onclick="closeModal('modal-points')">✖</button>
             <h2 style="margin-top:0; color: var(--primary-dark);">🏆 Внести результаты</h2>
-            <label class="form-label">Ученик (Спортсмен)</label>
-            <select id="pt-student" class="form-control" style="margin-bottom:10px;">
-                <option value="">Загрузка базы учеников...</option>
-            </select>
-            <label class="form-label">Название турнира</label>
-            <input type="text" id="pt-tournament" class="form-control" style="margin-bottom:10px;" placeholder="Напр: Кубок Алматинской области">
-            
+            <input type="hidden" id="pt-id">
+            <label class="form-label">Ученик (Спортсмен)</label><select id="pt-student" class="form-control" style="margin-bottom:10px;"></select>
+            <label class="form-label">Название турнира</label><input type="text" id="pt-tournament" class="form-control" style="margin-bottom:10px;" placeholder="Кубок Алматинской области">
             <div class="form-grid">
-                <div>
-                    <label class="form-label">Уровень турнира</label>
-                    <select id="pt-level" class="form-control">
-                        <option value="club">Клубный</option>
-                        <option value="district">Районный</option>
-                        <option value="city">Городской</option>
-                        <option value="region">Областной</option>
-                        <option value="republic">Республиканский</option>
-                        <option value="international">Международный</option>
-                        <option value="asia">Азия</option>
-                        <option value="world">Мир</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="form-label">Занятое место</label>
-                    <select id="pt-place" class="form-control">
-                        <option value="1">1 место (Золото)</option>
-                        <option value="2">2 место (Серебро)</option>
-                        <option value="3">3 место (Бронза)</option>
-                    </select>
-                </div>
+                <div><label class="form-label">Уровень турнира</label><select id="pt-level" class="form-control"><option value="club">Клубный</option><option value="district">Районный</option><option value="city">Городской</option><option value="region">Областной</option><option value="republic">Республиканский</option><option value="international">Международный</option><option value="asia">Азия</option><option value="world">Мир</option></select></div>
+                <div><label class="form-label">Занятое место</label><select id="pt-place" class="form-control"><option value="1">1 место (Золото)</option><option value="2">2 место (Серебро)</option><option value="3">3 место (Бронза)</option></select></div>
             </div>
-            
             <button class="btn-osu" style="width: 100%; margin-top: 15px;" onclick="savePoints()">Начислить баллы 🥇</button>
         </div>
     </div>
@@ -151,14 +139,10 @@
             <div class="sidebar-left">
                 <div class="widget-block">
                     <div class="admin-profile">
-                        <div class="admin-avatar" id="sidebar-avatar">🥋</div>
+                        <div class="admin-avatar">🥋</div>
                         <div class="admin-name" id="profile-name">Загрузка...</div>
                         <div class="admin-rank" id="profile-rank">Загрузка...</div>
-                        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
-                            <button onclick="showTab('profile')" style="background:none; border:none; color: var(--primary-color); font-weight:bold; font-size: 12px; cursor: pointer;">⚙️ Настройки</button>
-                            <span style="color: #ccc;">|</span>
-                            <button onclick="logout()" style="background:none; border:none; color: var(--text-muted); font-size: 12px; cursor: pointer;">Выход</button>
-                        </div>
+                        <button onclick="logout()" style="background:none; border:none; color: var(--text-muted); font-size: 12px; cursor: pointer; margin-top:5px;">Выход</button>
                     </div>
                 </div>
 
@@ -167,39 +151,25 @@
                     <button class="menu-btn active" id="btn-dashboard" onclick="showTab('dashboard')">🏠 Главная панель</button>
                     <button class="menu-btn" id="btn-dojos" onclick="showTab('dojos')">🏢 Мои филиалы</button>
                     <button class="menu-btn" id="btn-students" onclick="showTab('students')">🥋 База учеников</button>
-                    <button class="menu-btn" id="btn-exams" onclick="alert('Модуль Аттестации (Кю-тесты) в разработке')">🥋 Аттестация (Кю-тест)</button>
                     
                     <div class="menu-title">ФЕДЕРАЦИЯ</div>
                     <button class="menu-btn" id="btn-team" onclick="showTab('team')">🇰🇿 Сборная Федерации</button>
                     <button class="menu-btn" id="btn-athlete-ranking" onclick="showTab('athlete-ranking')">🏆 Рейтинг спортсменов</button>
-                    <button class="menu-btn" onclick="alert('Модуль судей в разработке')">⚖️ Судейский корпус</button>
-                    <button class="menu-btn" onclick="alert('База знаний в разработке')">📁 Документы и Правила</button>
                 </div>
 
                 <div class="widget-block" style="padding: 15px;">
                     <div class="menu-title" style="margin: 0 0 10px 0;">СВОДКА ФЕДЕРАЦИИ</div>
-                    <div class="stat-widget">
-                        <div><span style="font-size: 12px; color: var(--text-muted);">Всего учеников</span></div>
-                        <strong id="dash-total-students">0</strong>
-                    </div>
-                    <div class="stat-widget" style="border-left-color: var(--accent-gold);">
-                        <div><span style="font-size: 12px; color: var(--text-muted);">Филиалов / Групп</span></div>
-                        <strong id="dash-total-groups">0</strong>
-                    </div>
+                    <div class="stat-widget"><div><span style="font-size: 12px; color: var(--text-muted);">Всего учеников</span></div><strong id="dash-total-students">0</strong></div>
+                    <div class="stat-widget" style="border-left-color: var(--accent-gold);"><div><span style="font-size: 12px; color: var(--text-muted);">Филиалов / Групп</span></div><strong id="dash-total-groups">0</strong></div>
                 </div>
             </div>
 
             <div class="content-center">
-                
                 <div id="tab-dashboard" class="tab-content active">
                     <div class="timer-widget" style="margin-bottom: 20px;">
-                        <button class="edit-btn" onclick="alert('Настройка таймера доступна Президенту')">⚙️ РЕДАКТИРОВАТЬ</button>
                         <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #ffcccc; margin-bottom: 5px;">Ближайший старт</div>
                         <div style="font-size: 18px; font-weight: bold;">Открытый Чемпионат Азии (Токио)</div>
                         <div class="countdown" id="tournament-timer">45:12:08:33</div>
-                        <div style="font-size: 11px; color: #ffcccc; display: flex; justify-content: center; gap: 30px; font-weight: bold;">
-                            <span>ДНЕЙ</span><span>ЧАСОВ</span><span>МИНУТ</span><span>СЕК</span>
-                        </div>
                     </div>
 
                     <div class="card" style="border-top: 4px solid var(--accent-gold);">
@@ -208,7 +178,6 @@
                             <button id="admin-btn-event" class="btn-osu" style="background: var(--accent-gold); color: var(--primary-dark); font-size: 12px; padding: 6px 12px; display: none;" onclick="openModal('modal-event')">+ Добавить анонс</button>
                         </div>
                         <div id="events-feed-container"><p style="text-align: center; color: #888;">Загрузка свежих турниров...</p></div>
-                        <button class="btn-link" onclick="showTab('events-archive')">Все мероприятия и архив ➡️</button>
                     </div>
 
                     <div class="card" style="border-top: 4px solid var(--primary-color);">
@@ -217,19 +186,13 @@
                             <button id="admin-btn-news" class="btn-osu" style="font-size: 12px; padding: 6px 12px; display: none;" onclick="openModal('modal-news')">+ Опубликовать новость</button>
                         </div>
                         <div id="news-feed-container"><p style="text-align: center; color: #888;">Загрузка свежих новостей...</p></div>
-                        <button class="btn-link" onclick="showTab('news-archive')">Архив новостей 🗄️</button>
                     </div>
                 </div>
 
                 <div id="tab-dojos" class="tab-content">
                     <div class="card"><div class="card-header"><h2>Управление филиалами</h2><button class="btn-osu" onclick="toggleForm('dojo-form-container')">+ Добавить зал</button></div>
                     <div id="dojo-form-container" style="display: none; background: #fdfafb; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e0c8c8;">
-                        <h3 style="margin-top: 0; color: var(--primary-dark); font-size: 16px;">Локация филиала</h3>
-                        <div class="form-grid">
-                            <div><label class="form-label">Город/Поселок</label><input type="text" id="dojo-city" class="form-control" placeholder="напр. Каскелен"></div>
-                            <div><label class="form-label">Точный адрес</label><input type="text" id="dojo-address" class="form-control" placeholder="напр. ул. Абая 15, СШ №2"></div>
-                        </div>
-                        <h3 style="margin-top: 15px; color: var(--primary-dark); font-size: 16px;">Группы в зале</h3>
+                        <div class="form-grid"><div><label class="form-label">Город/Поселок</label><input type="text" id="dojo-city" class="form-control"></div><div><label class="form-label">Точный адрес</label><input type="text" id="dojo-address" class="form-control"></div></div>
                         <div id="groups-container"></div>
                         <button onclick="addGroupRow()" class="btn-link" style="margin-bottom: 20px; border-style: dashed; background: transparent;">+ Добавить еще одну группу</button>
                         <div style="display: flex; gap: 15px;"><button class="btn-osu" onclick="saveDojo()" style="flex: 2;">💾 Сохранить зал</button><button class="btn-osu" onclick="toggleForm('dojo-form-container')" style="flex: 1; background: #e0e0e0; color: #333;">Отмена</button></div>
@@ -239,50 +202,27 @@
                 <div id="tab-students" class="tab-content">
                     <div class="card"><div class="card-header"><h2>База учеников</h2><button class="btn-osu" onclick="toggleForm('student-form-container')">+ Внести ученика</button></div>
                     <div id="student-form-container" style="display: none; background: #fdfafb; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e0c8c8;">
-                        <div class="form-grid">
-                            <div><label class="form-label">ФИО Ученика</label><input type="text" id="st-name" class="form-control" placeholder="Иванов Иван"></div>
-                            <div><label class="form-label">Дата рождения</label><input type="date" id="st-dob" class="form-control"></div>
-                            <div><label class="form-label">Пол</label><select id="st-gender" class="form-control"><option>Мужской</option><option>Женский</option></select></div>
-                        </div>
-                        <div class="form-grid">
-                            <div><label class="form-label">Квалификация (Кю)</label><select id="st-kyu" class="form-control"><option value="11 Кю (Белый)">11 Кю (Белый)</option><option value="10 Кю (Оранжевый)">10 Кю (Оранжевый)</option><option value="9 Кю (Оранж-полоса)">9 Кю (Оранж-полоса)</option><option value="8 Кю (Синий)">8 Кю (Синий)</option></select></div>
-                            <div><label class="form-label">Вес (кг)</label><input type="number" id="st-weight" class="form-control" placeholder="45.5"></div>
-                            <div><label class="form-label">Группа (Зал)</label><select id="st-group" class="form-control"><option value="">Загрузка залов...</option></select></div>
-                        </div>
-                        <div class="form-grid" style="grid-template-columns: 1fr;"><div><label class="form-label">Достижения</label><input type="text" id="st-achievements" class="form-control" placeholder="Чемпион РК, призер города..."></div></div>
-                        <div style="display: flex; gap: 15px;"><button class="btn-osu" onclick="saveStudent()" style="flex: 2;">💾 Сохранить ученика</button><button class="btn-osu" onclick="toggleForm('student-form-container')" style="flex: 1; background: #e0e0e0; color: #333;">Отмена</button></div>
+                        <div class="form-grid"><div><label class="form-label">ФИО Ученика</label><input type="text" id="st-name" class="form-control"></div><div><label class="form-label">Дата рождения</label><input type="date" id="st-dob" class="form-control"></div><div><label class="form-label">Пол</label><select id="st-gender" class="form-control"><option>Мужской</option><option>Женский</option></select></div></div>
+                        <div class="form-grid"><div><label class="form-label">Квалификация (Кю)</label><select id="st-kyu" class="form-control"><option value="11 Кю (Белый)">11 Кю (Белый)</option><option value="10 Кю (Оранжевый)">10 Кю (Оранжевый)</option></select></div><div><label class="form-label">Вес (кг)</label><input type="number" id="st-weight" class="form-control"></div><div><label class="form-label">Группа (Зал)</label><select id="st-group" class="form-control"></select></div></div>
+                        <div style="display: flex; gap: 15px;"><button class="btn-osu" onclick="saveStudent()" style="flex: 2;">💾 Сохранить ученика</button></div>
                     </div>
-                    <div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>ФИО</th><th>Возраст</th><th>Квалификация</th><th>Вес</th><th>Группа</th></tr></thead><tbody id="students-table-body"><tr><td colspan="5" style="text-align: center;">Загрузка...</td></tr></tbody></table></div></div>
+                    <div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>ФИО</th><th>Возраст</th><th>Пояс</th><th>Группа</th></tr></thead><tbody id="students-table-body"></tbody></table></div></div>
                 </div>
 
-                <div id="tab-team" class="tab-content"><div class="card accent-gold"><div class="card-header"><h2 style="color: var(--accent-gold);">🇰🇿 Национальная Сборная</h2></div><p>Раздел элитных бойцов.</p></div></div>
-                
-                <div id="tab-athlete-ranking" class="tab-content">
-                    <div class="card">
-                        <div class="card-header"><h2>🏆 Годовой Рейтинг</h2><input type="text" placeholder="🔍 Поиск..." style="padding: 8px; border-radius: 6px; border: 1px solid #ddd; width: 200px;"></div>
-                        <p style="font-size: 14px; color: var(--text-muted);">Баллы начисляются автоматически при добавлении результатов турнира.</p>
-                        <div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Место</th><th>Спортсмен</th><th>Баллы</th></tr></thead><tbody id="full-ranking-body"><tr><td colspan="3">Загрузка рейтинга...</td></tr></tbody></table></div>
-                    </div>
-                </div>
-                
-                <div id="tab-profile" class="tab-content"><div class="card"><h2>⚙️ Настройки Профиля</h2><div class="form-group"><label>ФИО</label><input type="text" class="form-control" id="prof-name"></div><div class="form-group"><label>Квалификация</label><input type="text" class="form-control" id="prof-dan"></div><button class="btn-osu" style="width: 100%; margin-top: 10px;" onclick="alert('Сохранение профиля в разработке.')">💾 Сохранить</button></div></div>
-                <div id="tab-events-archive" class="tab-content"><div class="card"><div class="card-header"><h2>Все Анонсы</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад</button></div></div></div>
-                <div id="tab-news-archive" class="tab-content"><div class="card"><div class="card-header"><h2>Архив Новостей</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад</button></div></div></div>
-
+                <div id="tab-team" class="tab-content"><div class="card accent-gold"><div class="card-header"><h2 style="color: var(--accent-gold);">🇰🇿 Национальная Сборная</h2></div><p>В разработке.</p></div></div>
+                <div id="tab-athlete-ranking" class="tab-content"><div class="card"><div class="card-header"><h2>🏆 Годовой Рейтинг</h2></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Место</th><th>Спортсмен</th><th>Баллы</th><th>Действия</th></tr></thead><tbody id="full-ranking-body"></tbody></table></div></div></div>
             </div>
 
             <div class="sidebar-right">
-                
                 <div class="widget-block" style="background: linear-gradient(to bottom, #fff, #fef9e7); border: 1px solid #f9e29c; text-align: center;">
                     <h3 style="margin: 0 0 15px 0; color: var(--accent-gold); font-size: 16px; text-transform: uppercase;">🌟 Лучший боец месяца</h3>
                     <div style="width: 100px; height: 100px; background: #eee; border-radius: 50%; margin: 0 auto 10px; border: 3px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 40px;">👦🏻</div>
                     <strong style="font-size: 18px; color: var(--primary-dark);" id="best-fighter-name">Загрузка...</strong>
-                    <p style="margin: 5px 0 0 0; font-size: 13px; color: var(--text-muted);">Рейтинг #1</p>
                 </div>
 
                 <div class="widget-block" style="background: linear-gradient(to bottom, #fff, #fef9e7); border: 1px solid #f9e29c;">
                     <div class="widget-header" style="border-bottom-color: #faebcc;"><h3 style="color: var(--accent-gold);">🌟 Рейтинг бойцов</h3></div>
-                    <div id="short-ranking-container"><p style="font-size:12px; text-align:center;">Загрузка...</p></div>
+                    <div id="short-ranking-container"></div>
                     <button class="btn-link" style="margin-top: 10px; padding: 8px;" onclick="showTab('athlete-ranking')">Весь рейтинг 📊</button>
                 </div>
 
@@ -295,27 +235,16 @@
                 </div>
 
                 <div class="widget-block">
-                    <div class="widget-header"><h3>👥 Тренеры (Кол-во)</h3></div>
-                    <div class="list-item"><span class="rank-number top-1">1</span><div style="flex:1; font-size: 13px;"><strong>Эрик Дәулетқалиев</strong></div><span style="font-weight:bold; color:var(--text-muted); font-size: 13px;">150 ч.</span></div>
+                    <div class="widget-header"><h3>👥 Тренеры (Кол-во учеников)</h3></div>
+                    <div class="list-item"><span class="rank-number top-1">1</span><div style="flex:1; font-size: 13px;"><strong>Эрик Дәулетқалиев</strong></div></div>
                 </div>
 
                 <div class="widget-block" style="background: #fdfafb; border: 1px solid #e0c8c8;">
                     <div class="widget-header" style="border-bottom-color: #e0c8c8;"><h3 style="color: var(--primary-dark);">📊 Опрос Федерации</h3></div>
                     <p style="font-size: 13px; margin: 0 0 10px 0; font-weight: bold;">Где проведем Зимнюю Школу?</p>
-                    <button class="poll-option" onclick="alert('Голос учтен!')">Алматы (База ЦСКА)</button>
-                    <button class="poll-option" onclick="alert('Голос учтен!')">Боровое (Щучинск)</button>
-                    <button class="poll-option" onclick="alert('Голос учтен!')">Талдыкорган</button>
+                    <button class="btn-link" style="margin-bottom:5px;">Алматы</button>
+                    <button class="btn-link">Талдыкорган</button>
                 </div>
-
-                <div class="widget-block" style="background: #fffcf5; border: 1px solid #faebcc;">
-                    <h3 style="font-size: 14px; margin: 0 0 10px 0; color: #8a6d3b;">🎂 Дни рождения (Тренеры)</h3>
-                    <div class="list-item" style="border-bottom-color: #fcf8e3; padding: 8px 0;"><div style="flex:1; font-size: 13px;"><strong>Семпай Руслан</strong></div><span style="font-size:11px; color:#8a6d3b; font-weight:bold;">Завтра (27 Марта)</span></div>
-                </div>
-                <div class="widget-block" style="background: #f4f8fa; border: 1px solid #bce8f1;">
-                    <h3 style="font-size: 14px; margin: 0 0 10px 0; color: #31708f;">🎈 Именинники (Ученики)</h3>
-                    <div id="birthdays-container"><p style="font-size:12px; color:#888;">Поиск именинников...</p></div>
-                </div>
-
             </div>
         </div>
     </div>
@@ -325,20 +254,7 @@
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5eml0b2tidnJvY2xraHRvbm5zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MzYxNTksImV4cCI6MjA5MDAxMjE1OX0.xoFmiYEoegyPUti2AVzQ4ex7HXCi_PtqRisXdYbB6yo';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         let currentUserId = null; 
-
-        setInterval(() => {
-            const el = document.getElementById('tournament-timer');
-            if(el) {
-                let parts = el.innerText.split(':');
-                let s = parseInt(parts[3]) - 1;
-                if(s < 0) { s = 59; parts[2] = parseInt(parts[2])-1; }
-                parts[3] = s.toString().padStart(2, '0');
-                el.innerText = parts.join(':');
-            }
-        }, 1000);
-
-        const quotes = ["Победа над собой — величайшая из побед.", "Истинный путь постигается десятью тысячами дней тренировок.", "Осу — это терпение и решимость."];
-        document.getElementById('daily-quote').innerText = "«" + quotes[Math.floor(Math.random() * quotes.length)] + "»";
+        let isPresident = false; // Глобальный флаг админа
 
         function showTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
@@ -351,186 +267,235 @@
         function toggleForm(id) { const el = document.getElementById(id); el.style.display = el.style.display === 'none' ? 'block' : 'none'; }
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-        function calculateAge(birthday) { const ageDifMs = Date.now() - new Date(birthday).getTime(); return Math.abs(new Date(ageDifMs).getUTCFullYear() - 1970); }
+        function calculateAge(b) { const ms = Date.now() - new Date(b).getTime(); return Math.abs(new Date(ms).getUTCFullYear() - 1970); }
 
-        // === ЭТАП 3: НАЧИСЛЕНИЕ БАЛЛОВ И РЕЙТИНГИ ===
-        
-        // Матрица баллов из вашего скриншота
-        const pointsMatrix = {
-            'club': { 1: 1, 2: 0.5, 3: 0.25 },
-            'district': { 1: 2, 2: 1, 3: 0.5 },
-            'city': { 1: 3, 2: 2, 3: 1 },
-            'region': { 1: 5, 2: 3, 3: 2 },
-            'republic': { 1: 8, 2: 5, 3: 3 },
-            'international': { 1: 12, 2: 8, 3: 5 },
-            'asia': { 1: 18, 2: 12, 3: 8 },
-            'world': { 1: 25, 2: 18, 3: 12 }
-        };
+        // --- ЛОГИКА ЗАГРУЗКИ ФАЙЛОВ В ОБЛАКО ---
+        async function uploadFileToCloud(fileInputId) {
+            const fileInput = document.getElementById(fileInputId);
+            if (!fileInput || !fileInput.files || fileInput.files.length === 0) return null;
+            const file = fileInput.files[0];
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${Math.random()}.${fileExt}`;
+            
+            const { data, error } = await supabaseClient.storage.from('zanshin-media').upload(fileName, file);
+            if (error) throw error;
+            
+            const { data: publicUrlData } = supabaseClient.storage.from('zanshin-media').getPublicUrl(fileName);
+            return publicUrlData.publicUrl;
+        }
 
-        // Открытие модалки с загрузкой учеников
+        // === НОВОСТИ И АНОНСЫ (С ФАЙЛАМИ, РЕДАКТИРОВАНИЕМ И УДАЛЕНИЕМ) ===
+        async function saveNews() {
+            document.getElementById('news-loading').style.display = 'block';
+            const id = document.getElementById('news-id').value;
+            const title = document.getElementById('news-title').value.trim();
+            const content = document.getElementById('news-content').value.trim();
+            if (!title) return alert("Введите заголовок!");
+
+            try {
+                let imgUrl = null;
+                if (document.getElementById('news-image').files.length > 0) {
+                    imgUrl = await uploadFileToCloud('news-image');
+                }
+
+                let payload = { title, content };
+                if (imgUrl) payload.image_url = imgUrl;
+
+                if (id) { await supabaseClient.from('news').update(payload).eq('id', id); } 
+                else { await supabaseClient.from('news').insert([payload]); }
+                
+                alert("Сохранено!");
+                closeModal('modal-news');
+                document.getElementById('news-id').value = ''; document.getElementById('news-title').value = ''; document.getElementById('news-content').value = '';
+                document.getElementById('news-image').value = ''; document.getElementById('news-loading').style.display = 'none';
+                loadNewsAndEvents();
+            } catch(e) { alert("Ошибка: " + e.message); document.getElementById('news-loading').style.display = 'none'; }
+        }
+
+        async function deleteNews(id) {
+            if(confirm("Точно удалить новость?")) {
+                await supabaseClient.from('news').delete().eq('id', id);
+                loadNewsAndEvents();
+            }
+        }
+        function editNews(id, title, content) {
+            document.getElementById('news-id').value = id; document.getElementById('news-title').value = title; document.getElementById('news-content').value = content;
+            openModal('modal-news');
+        }
+
+        async function saveEvent() {
+            document.getElementById('ev-loading').style.display = 'block';
+            const id = document.getElementById('ev-id').value;
+            const title = document.getElementById('ev-title').value.trim();
+            const dt = document.getElementById('ev-date').value;
+            const loc = document.getElementById('ev-loc').value.trim();
+            const desc = document.getElementById('ev-desc').value.trim();
+
+            if (!title) return alert("Введите название!");
+            try {
+                let imgUrl = null, fileUrl = null;
+                if (document.getElementById('ev-image').files.length > 0) imgUrl = await uploadFileToCloud('ev-image');
+                if (document.getElementById('ev-file').files.length > 0) fileUrl = await uploadFileToCloud('ev-file');
+
+                let payload = { title, event_date: dt, location: loc, description: desc };
+                if (imgUrl) payload.image_url = imgUrl;
+                if (fileUrl) payload.file_url = fileUrl;
+
+                if (id) { await supabaseClient.from('events').update(payload).eq('id', id); } 
+                else { await supabaseClient.from('events').insert([payload]); }
+                
+                alert("Анонс сохранен!");
+                closeModal('modal-event');
+                document.getElementById('ev-loading').style.display = 'none';
+                loadNewsAndEvents();
+            } catch(e) { alert("Ошибка: " + e.message); document.getElementById('ev-loading').style.display = 'none';}
+        }
+
+        async function deleteEvent(id) {
+            if(confirm("Удалить анонс?")) { await supabaseClient.from('events').delete().eq('id', id); loadNewsAndEvents(); }
+        }
+        function editEvent(id, title, desc) {
+            document.getElementById('ev-id').value = id; document.getElementById('ev-title').value = title; document.getElementById('ev-desc').value = desc;
+            openModal('modal-event');
+        }
+
+        async function loadNewsAndEvents() {
+            // Анонсы
+            const { data: evData } = await supabaseClient.from('events').select('*').order('event_date', { ascending: true }).limit(3);
+            let evHtml = '';
+            if(evData) {
+                evData.forEach(ev => {
+                    let adminHtml = isPresident ? `<div class="admin-controls" style="display:flex;"><button class="admin-btn" onclick="editEvent('${ev.id}','${ev.title}','${ev.description}')">✏️ Ред.</button><button class="admin-btn" style="color:red;" onclick="deleteEvent('${ev.id}')">🗑</button></div>` : '';
+                    let imgHtml = ev.image_url ? `<img src="${ev.image_url}" class="feed-img" style="display:block; max-height:200px;">` : '';
+                    let fileHtml = ev.file_url ? `<a href="${ev.file_url}" target="_blank" style="color:blue; font-weight:bold;">📥 Скачать файл</a>` : 'Нет файла';
+                    
+                    evHtml += `<div class="feed-item">${adminHtml}
+                        <div class="feed-date">${ev.event_date || 'Дата не указана'}</div><h3 class="feed-title">${ev.title}</h3>
+                        ${imgHtml}<p style="font-size: 14px;">${ev.description || ''}</p>
+                        <div class="feed-meta"><span>📍 ${ev.location || '-'}</span><span>${fileHtml}</span></div></div>`;
+                });
+            }
+            document.getElementById('events-feed-container').innerHTML = evHtml || '<p>Нет анонсов</p>';
+
+            // Новости
+            const { data: nsData } = await supabaseClient.from('news').select('*').order('published_at', { ascending: false }).limit(3);
+            let nsHtml = '';
+            if(nsData) {
+                nsData.forEach(n => {
+                    let adminHtml = isPresident ? `<div class="admin-controls" style="display:flex;"><button class="admin-btn" onclick="editNews('${n.id}','${n.title}','${n.content}')">✏️ Ред.</button><button class="admin-btn" style="color:red;" onclick="deleteNews('${n.id}')">🗑</button></div>` : '';
+                    let imgHtml = n.image_url ? `<img src="${n.image_url}" class="feed-img" style="display:block; max-height:200px;">` : '';
+                    
+                    nsHtml += `<div class="feed-item" style="border-left-color: var(--primary-color);">${adminHtml}
+                        <div class="feed-date">${n.published_at}</div><h3 class="feed-title">${n.title}</h3>
+                        ${imgHtml}<p style="font-size: 14px;">${n.content}</p></div>`;
+                });
+            }
+            document.getElementById('news-feed-container').innerHTML = nsHtml || '<p>Нет новостей</p>';
+        }
+
+        // === БАЛЛЫ И РЕЙТИНГ БОЙЦОВ ===
+        const pointsMatrix = { 'club':{1:1,2:0.5,3:0.25}, 'district':{1:2,2:1,3:0.5}, 'city':{1:3,2:2,3:1}, 'region':{1:5,2:3,3:2}, 'republic':{1:8,2:5,3:3}, 'international':{1:12,2:8,3:5}, 'asia':{1:18,2:12,3:8}, 'world':{1:25,2:18,3:12} };
+
         async function openPointsModal() {
             openModal('modal-points');
             const select = document.getElementById('pt-student');
-            select.innerHTML = '<option value="">Загрузка...</option>';
-            try {
-                // Подтягиваем всех учеников
-                const { data } = await supabaseClient.from('students').select('id, full_name').order('full_name');
-                if (data) {
-                    select.innerHTML = '<option value="">-- Выберите ученика --</option>';
-                    data.forEach(st => {
-                        select.innerHTML += `<option value="${st.id}">${st.full_name}</option>`;
-                    });
-                }
-            } catch(e) { console.error(e); }
+            const { data } = await supabaseClient.from('students').select('id, full_name').order('full_name');
+            if (data) {
+                select.innerHTML = '<option value="">-- Выберите ученика --</option>';
+                data.forEach(st => { select.innerHTML += `<option value="${st.id}">${st.full_name}</option>`; });
+            }
         }
 
-        // Сохранение баллов
         async function savePoints() {
             const studentId = document.getElementById('pt-student').value;
             const tourName = document.getElementById('pt-tournament').value.trim();
             const level = document.getElementById('pt-level').value;
             const place = parseInt(document.getElementById('pt-place').value);
-            
-            if (!studentId || !tourName) return alert("Выберите ученика и введите название турнира!");
-
-            // Вычисляем баллы по матрице
+            if (!studentId || !tourName) return alert("Заполните данные!");
             const earnedPoints = pointsMatrix[level][place] || 0;
-
             try {
-                const { error } = await supabaseClient.from('athlete_results').insert([{
-                    student_id: studentId,
-                    tournament_name: tourName,
-                    place: place,
-                    points: earnedPoints
-                }]);
-                if (error) throw error;
-                
-                alert(`Успешно! Ученику начислено ${earnedPoints} баллов.`);
-                closeModal('modal-points');
-                
-                // Перезагрузить рейтинг
-                loadRankings();
-            } catch(e) { alert("Ошибка: " + e.message); }
+                await supabaseClient.from('athlete_results').insert([{ student_id: studentId, tournament_name: tourName, place: place, points: earnedPoints }]);
+                alert(`Начислено ${earnedPoints} баллов!`); closeModal('modal-points'); loadRankings();
+            } catch(e) { alert("Ошибка!"); }
         }
 
-        // Загрузка рейтингов
+        async function deleteResult(id) {
+            if(confirm("Удалить результат?")) { await supabaseClient.from('athlete_results').delete().eq('id', id); loadRankings(); }
+        }
+
         async function loadRankings() {
             try {
-                // Грузим результаты с присоединенным именем ученика
-                const { data } = await supabaseClient.from('athlete_results').select('points, student_id, students(full_name)');
-                
-                if (!data || data.length === 0) {
-                    document.getElementById('short-ranking-container').innerHTML = '<p style="font-size:12px; text-align:center;">Пока нет результатов</p>';
-                    return;
-                }
+                const { data } = await supabaseClient.from('athlete_results').select('id, points, tournament_name, students(full_name)');
+                if (!data) return;
 
-                // Считаем сумму баллов для каждого ученика
                 const scores = {};
                 data.forEach(row => {
-                    if (row.students && row.students.full_name) {
+                    if (row.students) {
                         const name = row.students.full_name;
-                        if (!scores[name]) scores[name] = 0;
-                        scores[name] += row.points;
+                        if (!scores[name]) scores[name] = { total: 0, results: [] };
+                        scores[name].total += row.points;
+                        scores[name].results.push(row);
                     }
                 });
 
-                // Превращаем в массив и сортируем
-                const sortedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+                const sorted = Object.entries(scores).sort((a, b) => b[1].total - a[1].total);
                 
-                // --- 1. Обновляем ТОП-3 справа ---
+                // ТОП-3 справа
                 let shortHtml = '';
-                for (let i=0; i < Math.min(3, sortedScores.length); i++) {
-                    const topClass = i===0 ? 'top-1' : (i===1 ? 'top-2' : 'top-3');
-                    shortHtml += `
-                    <div class="list-item" style="padding: 8px 0; ${i===2 ? 'border-bottom:none;' : ''}">
-                        <span class="rank-number ${topClass}" style="font-size: 16px;">${i+1}</span>
-                        <div style="flex:1;"><strong style="font-size: 13px;">${sortedScores[i][0]}</strong></div>
-                        <span style="font-weight:bold; color:var(--primary-dark); font-size: 13px;">${sortedScores[i][1]} б.</span>
-                    </div>`;
+                for (let i=0; i < Math.min(3, sorted.length); i++) {
+                    shortHtml += `<div class="list-item"><span class="rank-number ${i===0?'top-1':(i===1?'top-2':'top-3')}">${i+1}</span><div style="flex:1;"><strong>${sorted[i][0]}</strong></div><span style="font-weight:bold; color:var(--primary-dark);">${sorted[i][1].total} б.</span></div>`;
                 }
                 document.getElementById('short-ranking-container').innerHTML = shortHtml;
-                
-                // Обновляем фото лучшего бойца (Самый первый)
-                if (sortedScores.length > 0) {
-                    document.getElementById('best-fighter-name').innerText = sortedScores[0][0];
-                }
+                if(sorted.length > 0) document.getElementById('best-fighter-name').innerText = sorted[0][0];
 
-                // --- 2. Обновляем БОЛЬШУЮ ТАБЛИЦУ рейтинга во вкладке ---
+                // Большая таблица с кнопками удаления результатов
                 let fullHtml = '';
-                sortedScores.forEach((item, index) => {
-                    const color = index===0 ? 'var(--accent-gold)' : (index===1 ? '#bdc3c7' : (index===2 ? '#cd7f32' : '#ccc'));
-                    fullHtml += `
-                    <tr>
-                        <td><strong style="color: ${color}; font-size: 18px;">${index+1}</strong></td>
-                        <td><strong>${item[0]}</strong></td>
-                        <td><strong style="color: var(--primary-dark); font-size: 16px;">${item[1]} б.</strong></td>
-                    </tr>`;
+                sorted.forEach((item, index) => {
+                    // Генерируем кнопки удаления для каждого турнира этого бойца
+                    let delBtns = '';
+                    if (isPresident) {
+                        item[1].results.forEach(res => {
+                            delBtns += `<button onclick="deleteResult('${res.id}')" style="background:red; color:white; border:none; padding:2px 5px; border-radius:3px; font-size:10px; cursor:pointer; margin:2px;" title="Удалить баллы за ${res.tournament_name}">✖ ${res.points}б.</button>`;
+                        });
+                    }
+
+                    fullHtml += `<tr><td><strong>${index+1}</strong></td><td><strong>${item[0]}</strong></td><td><strong style="color: var(--primary-dark);">${item[1].total} б.</strong></td><td>${delBtns}</td></tr>`;
                 });
                 document.getElementById('full-ranking-body').innerHTML = fullHtml;
-
-            } catch(e) { console.error("Ошибка загрузки рейтингов", e); }
+            } catch(e) { console.error(e); }
         }
 
-        // === ИНИЦИАЛИЗАЦИЯ И РЕГУЛЯРНЫЕ ФУНКЦИИ ===
-        function addGroupRow() {
-            const container = document.getElementById('groups-container');
-            const row = document.createElement('div');
-            row.className = 'form-grid'; row.style.background = '#fff'; row.style.padding = '10px'; row.style.border = '1px dashed #ccc'; row.style.borderRadius = '6px';
-            row.innerHTML = `<div><label class="form-label">Название</label><input type="text" class="form-control group-name"></div><div><label class="form-label">Дни</label><input type="text" class="form-control group-schedule"></div><div><label class="form-label">Кол-во</label><input type="number" class="form-control group-count"></div>`;
-            container.appendChild(row);
-        }
-
+        // === ИНИЦИАЛИЗАЦИЯ И ВХОД ===
+        function addGroupRow() { document.getElementById('groups-container').innerHTML += `<div class="form-grid" style="background:#fff; padding:10px; border:1px dashed #ccc; border-radius:6px;"><div><label class="form-label">Название</label><input type="text" class="form-control group-name"></div><div><label class="form-label">Дни</label><input type="text" class="form-control group-schedule"></div></div>`; }
         async function loadProfile(userId) {
             currentUserId = userId;
             try {
                 const { data } = await supabaseClient.from('profiles').select('*').eq('id', userId).single();
                 if (data) {
                     document.getElementById('profile-name').innerText = data.full_name;
-                    document.getElementById('prof-name').value = data.full_name;
-                    let isPres = data.budopassport_num === 'PRESIDENT';
-                    document.getElementById('profile-rank').innerText = (data.dan || 'Пояс') + (isPres ? ' (Президент)' : '');
+                    isPresident = data.budopassport_num === 'PRESIDENT';
+                    document.getElementById('profile-rank').innerText = (data.dan || 'Пояс') + (isPresident ? ' (Президент)' : '');
                     
-                    // ЕСЛИ ПРЕЗИДЕНТ - ПОКАЗАТЬ КНОПКИ УПРАВЛЕНИЯ
-                    if (isPres) {
+                    if (isPresident) {
                         document.getElementById('admin-btn-news').style.display = 'block';
                         document.getElementById('admin-btn-event').style.display = 'block';
                         document.getElementById('admin-btn-points').style.display = 'block';
                     }
                 }
-                
-                // Грузим всё остальное
-                loadRankings(); // Загрузит новый рейтинг баллов
-                
-                // Демо-загрузка форм
-                addGroupRow();
-            } catch (err) { console.error(err); }
+                loadNewsAndEvents(); loadRankings(); addGroupRow();
+            } catch (err) {}
         }
 
         async function login() {
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value.trim();
-            const errorMsg = document.getElementById('error-msg');
-            errorMsg.style.display = 'none';
-            if (!email || !password) return;
-            try {
-                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-                if (error) { errorMsg.style.display = 'block'; } else {
-                    document.getElementById('login-screen').style.display = 'none';
-                    document.getElementById('app-content').style.display = 'block';
-                    loadProfile(data.user.id);
-                }
-            } catch (err) {}
+            const email = document.getElementById('email').value.trim(); const pwd = document.getElementById('password').value.trim();
+            if (!email || !pwd) return;
+            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password: pwd });
+            if (!error) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('app-content').style.display = 'block'; loadProfile(data.user.id); }
         }
         async function logout() { await supabaseClient.auth.signOut(); location.reload(); }
         async function checkSession() {
-            try {
-                const { data: { session } } = await supabaseClient.auth.getSession();
-                if (session) {
-                    document.getElementById('login-screen').style.display = 'none';
-                    document.getElementById('app-content').style.display = 'block';
-                    loadProfile(session.user.id);
-                }
-            } catch(e) {}
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('app-content').style.display = 'block'; loadProfile(session.user.id); }
         }
         checkSession();
     </script>
