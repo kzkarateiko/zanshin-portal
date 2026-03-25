@@ -43,15 +43,17 @@
         .btn-osu { background-color: var(--primary-color); color: var(--accent-color); border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; text-transform: uppercase; transition: 0.3s; }
         .btn-osu:hover { background-color: var(--accent-color); color: var(--primary-color); }
         
-        .form-input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
+        .form-input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; font-family: inherit; }
         
-        /* ОБНОВЛЕНО ДЛЯ МОБИЛЬНЫХ: Поля теперь стоят друг под другом */
-        .group-row { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; background: #fff; padding: 15px; border: 1px dashed #ccc; border-radius: 6px; }
-        .group-row input { margin-bottom: 0; }
+        /* СТИЛИ НОВОЙ ГРУППЫ */
+        .group-row { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; background: #fff; padding: 15px; border: 1px dashed var(--primary-color); border-radius: 6px; }
+        .group-row input, .group-row select { margin-bottom: 0; }
+        .flex-row { display: flex; gap: 10px; }
         
         .dojo-card { background: #fff; border: 1px solid #eee; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 5px solid var(--accent-color); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
         .dojo-card h3 { margin: 0 0 15px 0; color: var(--primary-color); border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .group-item { background: #fafafa; padding: 10px; border-radius: 4px; margin-bottom: 5px; border-left: 3px solid var(--primary-color); }
+        .group-item { background: #fafafa; padding: 10px; border-radius: 4px; margin-bottom: 5px; border-left: 3px solid var(--primary-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;}
+        .student-badge { background-color: var(--primary-color); color: white; padding: 5px 10px; border-radius: 20px; font-size: 14px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -104,14 +106,6 @@
                 <div id="tab-dojos" class="tab-content">
                     <h2 style="margin-top: 0; border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; color: var(--primary-color);">Управление филиалами</h2>
                     <button class="btn-osu" style="margin-bottom: 20px;" onclick="toggleDojoForm()">+ Добавить новый зал</button>
-                    
-                    <datalist id="popular-schedules">
-                        <option value="Пн-Ср-Пт 18:00"></option>
-                        <option value="Пн-Ср-Пт 19:00"></option>
-                        <option value="Вт-Чт-Сб 18:00"></option>
-                        <option value="Вт-Чт-Сб 19:00"></option>
-                        <option value="Сб-Вс 10:00"></option>
-                    </datalist>
 
                     <div id="dojo-form-container" style="display: none; background: #fafafa; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 2px solid var(--accent-color);">
                         <h3 style="margin-top: 0; color: var(--primary-color);">Адрес филиала</h3>
@@ -120,16 +114,12 @@
                         
                         <h3 style="margin-top: 15px; margin-bottom: 10px; color: var(--primary-color);">Группы в этом зале</h3>
                         <div id="groups-container">
-                            <div class="group-row">
-                                <input type="text" class="form-input group-name" placeholder="🥋 Название (напр. Младшая)">
-                                <input type="text" class="form-input group-schedule" list="popular-schedules" placeholder="🕒 Дни и время (нажмите для выбора)">
                             </div>
-                        </div>
                         
                         <button onclick="addGroupRow()" style="background: transparent; border: 2px dashed var(--primary-color); color: var(--primary-color); padding: 10px; border-radius: 4px; width: 100%; cursor: pointer; font-weight: bold; margin-bottom: 20px;">+ ДОБАВИТЬ ЕЩЕ ОДНУ ГРУППУ</button>
                         
                         <div style="display: flex; gap: 10px;">
-                            <button class="btn-osu" onclick="saveDojo()" style="flex: 1;">Сохранить филиал 💾</button>
+                            <button class="btn-osu" onclick="saveDojo()" style="flex: 1;">Сохранить зал 💾</button>
                             <button class="btn-osu" onclick="toggleDojoForm()" style="flex: 1; background-color: #ccc; color: #333;">Отмена</button>
                         </div>
                     </div>
@@ -159,41 +149,86 @@
             form.style.display = form.style.display === 'none' ? 'block' : 'none';
         }
 
-        // При добавлении новой строки также подключаем умный список
+        // Логика показа скрытого поля "Свои дни"
+        function handleDaysChange(selectElement) {
+            const customInput = selectElement.parentElement.parentElement.querySelector('.group-custom-days');
+            if (selectElement.value === 'custom') {
+                customInput.style.display = 'block';
+                customInput.focus();
+            } else {
+                customInput.style.display = 'none';
+                customInput.value = '';
+            }
+        }
+
+        // HTML-шаблон для одной группы
+        const groupRowTemplate = `
+            <div class="flex-row">
+                <input type="text" class="form-input group-name" style="flex: 1;" placeholder="🥋 Название (напр. Младшая)">
+                <input type="text" class="form-input group-age" style="flex: 1;" placeholder="👦 Возраст (напр. 6-8 лет)">
+            </div>
+            <div class="flex-row">
+                <select class="form-input group-days" style="flex: 1.5;" onchange="handleDaysChange(this)">
+                    <option value="" disabled selected>📅 Выберите дни</option>
+                    <option value="Пн-Ср-Пт">Пн-Ср-Пт</option>
+                    <option value="Вт-Чт-Сб">Вт-Чт-Сб</option>
+                    <option value="Сб-Вс">Сб-Вс (Выходные)</option>
+                    <option value="custom">Свои дни (Ввести вручную)...</option>
+                </select>
+                <input type="time" class="form-input group-time" style="flex: 1;">
+            </div>
+            <input type="text" class="form-input group-custom-days" placeholder="Введите ваши дни (напр. Пн-Ср-Чт)" style="display: none;">
+            <input type="number" class="form-input group-count" placeholder="👥 Количество учеников сейчас (напр. 15)" min="0">
+        `;
+
         function addGroupRow() {
             const container = document.getElementById('groups-container');
             const row = document.createElement('div');
             row.className = 'group-row';
-            row.innerHTML = `
-                <input type="text" class="form-input group-name" placeholder="🥋 Название (напр. Старшая)">
-                <input type="text" class="form-input group-schedule" list="popular-schedules" placeholder="🕒 Дни и время (нажмите для выбора)">
-            `;
+            row.innerHTML = groupRowTemplate;
             container.appendChild(row);
         }
+
+        // Заполняем первую пустую группу при загрузке страницы
+        document.addEventListener("DOMContentLoaded", () => {
+            addGroupRow();
+        });
 
         async function saveDojo() {
             const city = document.getElementById('dojo-city').value.trim();
             const address = document.getElementById('dojo-address').value.trim();
-            
             const groupRows = document.querySelectorAll('.group-row');
             let groupsToInsert = [];
             
             for (let row of groupRows) {
                 const name = row.querySelector('.group-name').value.trim();
-                const schedule = row.querySelector('.group-schedule').value.trim();
-                if (name && schedule) {
+                const age = row.querySelector('.group-age').value.trim();
+                const daysSelect = row.querySelector('.group-days').value;
+                const customDays = row.querySelector('.group-custom-days').value.trim();
+                const time = row.querySelector('.group-time').value;
+                const count = parseInt(row.querySelector('.group-count').value) || 0;
+
+                if (name) { // Если ввели название, сохраняем группу
+                    let finalDays = daysSelect;
+                    if (daysSelect === 'custom') finalDays = customDays;
+                    if (!finalDays) finalDays = "Дни не указаны";
+                    
+                    const finalSchedule = `${finalDays} ${time}`.trim();
+                    const finalName = age ? `${name} (${age})` : name;
+
                     groupsToInsert.push({
                         profile_id: currentUserId,
                         address_city: city,
                         address_raw: address,
-                        group_name: name,
-                        schedule: schedule
+                        group_name: finalName,
+                        schedule: finalSchedule,
+                        students_count: count
                     });
                 }
             }
 
             if (!city || !address || groupsToInsert.length === 0) {
-                alert("Осу! Заполните Город, Адрес и хотя бы одну группу полностью.");
+                alert("Осу! Заполните Город, Адрес и хотя бы Название одной группы.");
                 return;
             }
 
@@ -204,14 +239,11 @@
                 alert("Филиал и группы успешно сохранены!");
                 toggleDojoForm();
                 
+                // Очистка формы
                 document.getElementById('dojo-city').value = '';
                 document.getElementById('dojo-address').value = '';
-                document.getElementById('groups-container').innerHTML = `
-                    <div class="group-row">
-                        <input type="text" class="form-input group-name" placeholder="🥋 Название (напр. Младшая)">
-                        <input type="text" class="form-input group-schedule" list="popular-schedules" placeholder="🕒 Дни и время (нажмите для выбора)">
-                    </div>
-                `;
+                document.getElementById('groups-container').innerHTML = '';
+                addGroupRow(); // Добавляем одну пустую
                 
                 loadDojos();
             } catch (err) { alert("Ошибка: " + err.message); }
@@ -235,14 +267,28 @@
                     return;
                 }
 
+                // АНАЛИТИКА: Подсчет всех учеников
+                let totalStudents = 0;
+                let totalGroupsCount = data.length;
                 const grouped = {};
+                
                 data.forEach(g => {
+                    totalStudents += (g.students_count || 0);
+                    
                     const key = g.address_city + ' | ' + g.address_raw;
                     if(!grouped[key]) grouped[key] = [];
                     grouped[key].push(g);
                 });
 
-                let html = '';
+                // Рисуем панель статистики (САМОЕ ВАЖНОЕ!)
+                let html = `
+                    <div style="background: var(--primary-color); color: var(--accent-color); padding: 20px; border-radius: 8px; margin-bottom: 25px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                        <h2 style="margin: 0; font-size: 26px;">🏆 Всего учеников: ${totalStudents}</h2>
+                        <p style="margin: 5px 0 0 0; font-size: 15px; color: #fff;">Ваши филиалы (групп: ${totalGroupsCount})</p>
+                    </div>
+                `;
+
+                // Рисуем карточки залов
                 for (const [addressKey, groups] of Object.entries(grouped)) {
                     const city = groups[0].address_city;
                     const address = groups[0].address_raw;
@@ -254,8 +300,11 @@
                     groups.forEach(g => {
                         html += `
                             <div class="group-item">
-                                <strong>🥋 ${g.group_name}</strong> <br>
-                                <span style="font-size: 14px; color: #555;">🕒 ${g.schedule} | 👥 Учеников: ${g.students_count}</span>
+                                <div>
+                                    <strong style="font-size: 16px;">🥋 ${g.group_name}</strong> <br>
+                                    <span style="font-size: 14px; color: #666;">🕒 ${g.schedule}</span>
+                                </div>
+                                <div class="student-badge">👥 ${g.students_count} чел.</div>
                             </div>
                         `;
                     });
