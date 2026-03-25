@@ -7,98 +7,45 @@
     <link rel="icon" type="image/jpeg" href="IMG_0670.jpeg">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        /* Основные цвета Федерации */
         :root {
-            --primary-color: #8B0000; 
-            --accent-color: #D4AF37; 
-            --bg-body: #ffffff; 
-            --bg-navbar: #fdf7ed; 
-            --text-color: #333333;
-            --text-gray: #666666;
-            --text-on-dark: #ffffff;
+            --primary-color: #8B0000; --accent-color: #D4AF37; --bg-body: #ffffff; 
+            --bg-navbar: #fdf7ed; --text-color: #333333; --text-gray: #666666; --text-on-dark: #ffffff;
         }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-body); margin: 0; padding: 0; color: var(--text-color); }
 
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: var(--bg-body); 
-            margin: 0; 
-            padding: 0; 
-            color: var(--text-color);
-        }
-
-        /* --- ЭКРАН ВХОДА --- */
+        /* ЭКРАН ВХОДА */
         #login-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--bg-navbar);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 1000; /* Поверх всего сайта */
+            background-color: var(--bg-navbar); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000;
         }
-
         .login-box {
-            background: white; padding: 40px; border-radius: 8px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            text-align: center; width: 90%; max-width: 350px;
-            border-top: 5px solid var(--primary-color);
+            background: white; padding: 40px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center; width: 90%; max-width: 350px; border-top: 5px solid var(--primary-color);
         }
-
         .login-box input {
-            width: 100%; padding: 12px; margin: 10px 0; 
-            border: 1px solid #ddd; border-radius: 4px; 
-            box-sizing: border-box; font-size: 16px;
+            width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-size: 16px;
         }
-
-        /* Основной контент сайта (скрыт до ввода пароля) */
         #app-content { display: none; }
 
-        /* --- ДИЗАЙН ПОРТАЛА --- */
-        .navbar { 
-            background-color: var(--bg-navbar); padding: 15px 30px; display: flex; 
-            justify-content: center; align-items: center; 
-            border-bottom: 3px solid var(--accent-color); box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-        }
+        /* ДИЗАЙН ПОРТАЛА */
+        .navbar { background-color: var(--bg-navbar); padding: 15px 30px; display: flex; justify-content: center; align-items: center; border-bottom: 3px solid var(--accent-color); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
         .logo-container { display: flex; align-items: center; gap: 20px; }
         .logo-container img { max-height: 120px; width: auto; object-fit: contain; }
-        .logo-container h1 { margin: 0; font-size: 26px; letter-spacing: 1px; font-weight: bold; color: var(--primary-color); }
-        .logo-container span { font-size: 16px; color: var(--text-gray); font-weight: normal; }
-        
-        .quote-widget {
-            background-color: var(--primary-color); color: var(--accent-color); text-align: center;
-            padding: 15px; font-style: italic; font-weight: bold; font-size: 18px;
-            border-bottom: 2px solid var(--accent-color); box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
+        .logo-container h1 { margin: 0; font-size: 26px; font-weight: bold; color: var(--primary-color); }
+        .logo-container span { font-size: 16px; color: var(--text-gray); }
+        .quote-widget { background-color: var(--primary-color); color: var(--accent-color); text-align: center; padding: 15px; font-style: italic; font-weight: bold; font-size: 18px; border-bottom: 2px solid var(--accent-color); }
         .container { display: flex; padding: 20px; gap: 20px; max-width: 1200px; margin: 0 auto; }
-        
-        .sidebar { 
-            width: 250px; background: #ffffff; padding: 20px; border-radius: 8px; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05); position: sticky; top: 20px; height: fit-content;
-        }
+        .sidebar { width: 250px; background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); position: sticky; top: 20px; height: fit-content; }
         .admin-profile { text-align: center; margin-bottom: 25px; border-bottom: 1px solid #ddd; padding-bottom: 20px; }
-        .admin-avatar {
-            width: 100px; height: 100px; background-color: #eee; border-radius: 50%; margin: 0 auto 10px;
-            border: 3px solid var(--accent-color); display: flex; align-items: center; justify-content: center; color: #666;
-        }
+        .admin-avatar { width: 100px; height: 100px; background-color: #eee; border-radius: 50%; margin: 0 auto 10px; border: 3px solid var(--accent-color); display: flex; align-items: center; justify-content: center; color: #666; font-size: 40px; }
         .admin-name { font-weight: bold; font-size: 18px; color: var(--text-color); margin-bottom: 5px; }
         .admin-rank { font-size: 14px; color: var(--primary-color); font-weight: bold; }
-        
-        .menu-btn { 
-            display: flex; align-items: center; gap: 10px; width: 100%; padding: 14px; margin-bottom: 12px; 
-            background: transparent; border: 2px solid var(--primary-color); border-radius: 6px; 
-            text-align: left; cursor: pointer; font-weight: bold; transition: 0.3s; color: var(--primary-color); font-size: 16px;
-        }
+        .menu-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 14px; margin-bottom: 12px; background: transparent; border: 2px solid var(--primary-color); border-radius: 6px; text-align: left; cursor: pointer; font-weight: bold; transition: 0.3s; color: var(--primary-color); font-size: 16px; }
         .menu-btn:hover { background: var(--primary-color); color: var(--text-on-dark); border-color: var(--primary-color); }
-        
         .main-content { flex: 1; background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
-        .news-card {
-            border-left: 5px solid var(--primary-color); padding: 20px; background: #fafafa;
-            margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-radius: 4px;
-        }
+        .news-card { border-left: 5px solid var(--primary-color); padding: 20px; background: #fafafa; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-radius: 4px; }
         .news-card h3 { margin-top: 0; color: var(--primary-color); font-size: 20px; }
-        
-        .btn-osu {
-            background-color: var(--primary-color); color: var(--accent-color); border: none; padding: 10px 25px;
-            border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; text-transform: uppercase;
-            letter-spacing: 1px; transition: 0.3s;
-        }
+        .btn-osu { background-color: var(--primary-color); color: var(--accent-color); border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; text-transform: uppercase; transition: 0.3s; }
         .btn-osu:hover { background-color: var(--accent-color); color: var(--primary-color); }
     </style>
 </head>
@@ -126,11 +73,7 @@
             </div>
             <button class="btn-osu" onclick="logout()" style="padding: 5px 15px; font-size: 12px; margin-left: auto;">Выход</button>
         </div>
-
-        <div class="quote-widget">
-            "Истинный путь боевого искусства начинается с тысячи дней... / Жауынгерлік өнер жолы мың күннен басталады..."
-        </div>
-
+        <div class="quote-widget">"Истинный путь боевого искусства начинается с тысячи дней..."</div>
         <div class="container">
             <div class="sidebar">
                 <div class="admin-profile">
@@ -140,37 +83,26 @@
                 </div>
                 <button class="menu-btn">📊 Главная (Dashboard)</button>
                 <button class="menu-btn">🥋 Мои ученики (Залы)</button>
-                <button class="menu-btn">📅 Календарь и Заявки</button>
-                <button class="menu-btn">📁 База знаний</button>
             </div>
-
             <div class="main-content">
                 <h2 style="margin-top: 0; border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; color: var(--primary-color);">Добро пожаловать в Додзё!</h2>
-                
                 <div class="news-card">
                     <h3>Вход выполнен успешно!</h3>
-                    <p>База данных портала Zanshin активирована. Вы успешно прошли систему безопасности. Скоро здесь появится база учеников области.</p>
+                    <p>Связь с базой данных установлена. Вы успешно прошли систему безопасности.</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Ваши ключи от базы (уже встроены и исправлены!)
         const SUPABASE_URL = 'https://kyzitokbvroclkhtonns.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5eml0b2tidnJvY2xraHRvbm5zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MzYxNTksImV4cCI6MjA5MDAxMjE1OX0.xoFmiYEoegyPUti2AVzQ4ex7HXCi_PtqRisXdYbB6yo';
         
-        let supabase;
-        try {
-            supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        } catch (e) {
-            alert("Ошибка инициализации базы данных. Проверьте подключение к интернету.");
-        }
+        // Исправлена критическая ошибка здесь
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Функция авторизации
         async function login() {
             try {
-                // .trim() автоматически удаляет случайные пробелы, которые ставит iPhone!
                 const email = document.getElementById('email').value.trim();
                 const password = document.getElementById('password').value.trim();
                 const errorMsg = document.getElementById('error-msg');
@@ -178,42 +110,38 @@
                 errorMsg.style.display = 'none';
 
                 if (!email || !password) {
-                    alert("Пожалуйста, введите Email и Пароль.");
+                    alert("Пожалуйста, введите Email и Пароль!");
                     return;
                 }
 
-                const { data, error } = await supabase.auth.signInWithPassword({
+                // Исправлено здесь
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
                     email: email,
                     password: password,
                 });
 
                 if (error) {
-                    // Показываем точную ошибку телефона
                     alert("Ошибка входа: " + error.message);
                     errorMsg.style.display = 'block';
                 } else {
-                    alert("Осу! Вход разрешен.");
                     document.getElementById('login-screen').style.display = 'none';
                     document.getElementById('app-content').style.display = 'block';
                 }
             } catch (err) {
-                alert("Критическая ошибка кода: " + err.message);
+                alert("Ошибка: " + err.message);
             }
         }
 
-        // Функция выхода
         async function logout() {
-            await supabase.auth.signOut();
+            await supabaseClient.auth.signOut();
             document.getElementById('app-content').style.display = 'none';
             document.getElementById('login-screen').style.display = 'flex';
-            // Очищаем поля
             document.getElementById('password').value = '';
         }
 
-        // Проверка при обновлении страницы
         async function checkSession() {
             try {
-                const { data: { session } } = await supabase.auth.getSession();
+                const { data: { session } } = await supabaseClient.auth.getSession();
                 if (session) {
                     document.getElementById('login-screen').style.display = 'none';
                     document.getElementById('app-content').style.display = 'block';
@@ -223,6 +151,5 @@
         
         checkSession();
     </script>
-
 </body>
 </html>
