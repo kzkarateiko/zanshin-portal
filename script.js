@@ -42,6 +42,7 @@ function showTab(t) { document.querySelectorAll('.tab-content').forEach(c => c.c
 function toggleForm(id) { const e = document.getElementById(id); e.style.display = e.style.display === 'none' ? 'block' : 'none'; }
 function openModal(id) { document.getElementById(id).style.display = 'flex'; }
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+function toggleDesc(btn) { const p = btn.previousElementSibling; p.classList.toggle('expanded'); btn.innerText = btn.innerText === 'Подробнее' ? 'Скрыть' : 'Подробнее'; }
 function calculateAge(d) { return Math.abs(new Date(Date.now() - new Date(d).getTime()).getUTCFullYear() - 1970); }
 async function uploadFile(inputId, path) { const file = document.getElementById(inputId).files[0]; if (!file) return null; const name = `${Math.random().toString(36).substring(2)}.${file.name.split('.').pop()}`; const { error } = await supabaseClient.storage.from('zanshin-media').upload(`${path}/${name}`, file); if (error) return null; return { url: supabaseClient.storage.from('zanshin-media').getPublicUrl(`${path}/${name}`).data.publicUrl, name: file.name }; }
 
@@ -90,7 +91,7 @@ async function loadPoll() {
 async function castVote(optIdx) { if(!currentUserId) return; await supabaseClient.from('poll_votes').insert([{ profile_id: currentUserId, option_id: optIdx }]); loadPoll(); }
 function openPollModal() { document.getElementById('poll-edit-q').value = currentPollQuestion; renderPollEditOptions(); openModal('modal-poll-edit'); }
 function renderPollEditOptions() {
-    let h = ''; currentPollOptions.forEach((opt, i) => { h += `<div style="display:flex; gap:10px; margin-bottom:10px;"><input type="text" class="form-control" value="${opt}" onchange="currentPollOptions[${i}]=this.value"><button class="btn-del" style="flex-shrink:0;" onclick="currentPollOptions.splice(${i},1); renderPollEditOptions()">✖</button></div>`; });
+    let h = ''; currentPollOptions.forEach((opt, i) => { h += `<div style="display:flex; gap:10px; margin-bottom:10px;"><input type="text" class="form-control group-input" value="${opt}" onchange="currentPollOptions[${i}]=this.value"><button class="btn-del" style="flex-shrink:0;" onclick="currentPollOptions.splice(${i},1); renderPollEditOptions()">✖</button></div>`; });
     document.getElementById('poll-edit-opts').innerHTML = h;
 }
 function addPollOption() { currentPollOptions.push('Новый вариант'); renderPollEditOptions(); }
@@ -131,7 +132,10 @@ async function loadNewsAndEvents() {
 
     evData?.forEach((e) => {
         let imgHtml = e.image_url ? `<div class="feed-image-wrapper" onclick="window.open('${e.image_url}', '_blank')"><img src="${e.image_url}" class="feed-poster"></div>` : '';
-        let h = `<div class="feed-item">${imgHtml}<div class="feed-content"><div class="feed-date">${e.event_date}</div><h3 class="feed-title">${e.title}</h3><p class="feed-desc">${e.description || ''}</p><div class="feed-meta"><span>📍 ${e.location||'-'}</span></div>${e.file_url?`<a href="${e.file_url}" target="_blank" class="file-btn">💾 Скачать</a>`:''}${isPresGlobal?`<div class="admin-actions" style="margin-top:10px;"><button class="btn-del" onclick="deleteEvent('${e.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
+        let descText = e.description || '';
+        let descHtml = descText ? `<p class="feed-desc">${descText}</p>` : '';
+        let btnHtml = descText.length > 50 ? `<button class="read-more-btn" onclick="toggleDesc(this)">Подробнее</button>` : '';
+        let h = `<div class="feed-item">${imgHtml}<div class="feed-content"><div class="feed-date">${e.event_date}</div><h3 class="feed-title">${e.title}</h3>${descHtml}${btnHtml}<div class="feed-meta"><span>📍 ${e.location||'-'}</span></div>${e.file_url?`<a href="${e.file_url}" target="_blank" class="file-btn">💾 Скачать</a>`:''}${isPresGlobal?`<div class="admin-actions" style="margin-top:10px;"><button class="btn-del" onclick="deleteEvent('${e.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
         const eventDate = new Date(e.event_date);
         if (eventDate >= today) { if (activeCount < 3) { evM += h; activeCount++; } }
         evA += h;
@@ -143,7 +147,10 @@ async function loadNewsAndEvents() {
     let nM='', nA='';
     nData?.forEach((n, i) => {
         let imgHtml = n.image_url ? `<div class="feed-image-wrapper" onclick="window.open('${n.image_url}', '_blank')"><img src="${n.image_url}" class="feed-poster"></div>` : '';
-        let h = `<div class="feed-item news-item">${imgHtml}<div class="feed-content"><div class="feed-date">${n.published_at}</div><h3 class="feed-title">${n.title}</h3><p class="feed-desc">${n.content || ''}</p>${n.file_url?`<a href="${n.file_url}" target="_blank" class="file-btn">💾 Скачать</a>`:''}${isPresGlobal?`<div class="admin-actions" style="margin-top:10px;"><button class="btn-del" onclick="deleteNews('${n.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
+        let descText = n.content || '';
+        let descHtml = descText ? `<p class="feed-desc">${descText}</p>` : '';
+        let btnHtml = descText.length > 50 ? `<button class="read-more-btn" onclick="toggleDesc(this)">Подробнее</button>` : '';
+        let h = `<div class="feed-item news-item">${imgHtml}<div class="feed-content"><div class="feed-date">${n.published_at}</div><h3 class="feed-title">${n.title}</h3>${descHtml}${btnHtml}${n.file_url?`<a href="${n.file_url}" target="_blank" class="file-btn">💾 Скачать</a>`:''}${isPresGlobal?`<div class="admin-actions" style="margin-top:10px;"><button class="btn-del" onclick="deleteNews('${n.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
         if(i<2) nM+=h; nA+=h;
     });
     document.getElementById('news-feed-container').innerHTML = nM || '<p class="empty-card">Новостей пока нет</p>'; document.getElementById('news-archive-container').innerHTML = nA || '<p class="empty-card">Архив пуст</p>';
@@ -156,14 +163,12 @@ async function loadCoachesDirectory() {
     const { data: allStudents } = await supabaseClient.from('students').select('id, profile_id');
     if(!profiles) return;
     let html = '';
-    
     profiles.forEach(coach => {
         let myDojos = groups ? groups.filter(g => g.profile_id === coach.id) : [];
         let myStudents = allStudents ? allStudents.filter(s => s.profile_id === coach.id) : [];
         let dojosDetails = '';
         myDojos.forEach(d => { dojosDetails += `<div style="font-size:12px; background:#f4f6f9; padding:8px; border-radius:6px; margin-bottom:8px; border:1px solid #eee;"><strong>📍 ${d.address_city}</strong>, ${d.address_raw}<br>👥 Группа: ${d.group_name} (${d.students_count || 0} чел.)</div>`; });
         if(!dojosDetails) dojosDetails = '<span style="color:#aaa; font-size:12px;">Нет данных о залах</span>';
-
         let gold = 0, silver = 0, bronze = 0; let championsSet = new Set();
         if (results) {
             results.forEach(r => {
@@ -174,7 +179,6 @@ async function loadCoachesDirectory() {
                 }
             });
         }
-        
         let avatar = coach.avatar_url ? `<img src="${coach.avatar_url}">` : `🥋`;
         html += `
         <div class="coach-card">
@@ -187,6 +191,8 @@ async function loadCoachesDirectory() {
                 <div class="coach-stat-row"><strong>👥 Учеников в базе:</strong> <span>${myStudents.length}</span></div>
                 <div class="coach-stat-row"><strong>🏆 Чемпионов:</strong> <span>${championsSet.size} чел.</span></div>
                 <div class="medals-box"><div class="medal-item"><span>🥇</span>${gold}</div><div class="medal-item"><span>🥈</span>${silver}</div><div class="medal-item"><span>🥉</span>${bronze}</div></div>
+                <button class="btn-link" style="margin-top:15px; width:100%; border: 1px dashed var(--accent-gold); background: #fff;" onclick="toggleCoachDetails(this)">Подробнее ⬇️</button>
+                <div style="display:none; margin-top:10px;">${dojosDetails}</div>
             </div>
         </div>`;
     });
@@ -327,6 +333,7 @@ async function openStudentProfile(studentId) {
 
 function openExamModal(id, name, kyu) { document.getElementById('exam-student-id').value = id; document.getElementById('exam-student-name-header').innerText = `${name} (${kyu})`; document.getElementById('exam-date').value = new Date().toISOString().split('T')[0]; openModal('modal-exam'); }
 async function saveExamResult() { const id = document.getElementById('exam-student-id').value; const newKyu = document.getElementById('exam-new-kyu').value; const date = document.getElementById('exam-date').value; if(!id || !newKyu || !date) return; await supabaseClient.from('students').update({ current_kyu: newKyu, last_exam_date: date }).eq('id', id); alert("✅ Пояс присвоен!"); closeModal('modal-exam'); loadExams(); loadStudents(); loadGlobalAdminData(); }
+
 async function loadExams() {
     const { data } = await supabaseClient.from('students').select('*').eq('profile_id', currentUserId); let html = '';
     if(!data || data.length === 0) { document.getElementById('exams-table-body').innerHTML = '<tr><td colspan="5" style="text-align:center;">У вас пока нет учеников</td></tr>'; return; }
