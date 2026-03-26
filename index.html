@@ -40,8 +40,6 @@
         .menu-btn.active { background: var(--primary-color); color: var(--bg-white); box-shadow: 0 4px 8px rgba(139,0,0,0.2); }
         .stat-widget { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f8f9fa; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--primary-color); }
         .stat-widget strong { font-size: 20px; color: var(--primary-dark); }
-        
-        /* НОВЫЙ БОЕВОЙ ДИЗАЙН ТАЙМЕРА (КРАСНЫЙ И ЗОЛОТОЙ) */
         .timer-widget { background: linear-gradient(135deg, #b30000, #800000); color: white; padding: 25px; border-radius: var(--border-rad); text-align: center; position: relative; box-shadow: 0 10px 25px rgba(139,0,0,0.3); border: 2px solid var(--accent-gold); }
         .timer-widget .edit-btn { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.4); border: 1px solid var(--accent-gold); color: white; border-radius: 4px; cursor: pointer; font-size: 11px; padding: 5px 10px; font-weight: bold; transition: 0.2s;}
         .timer-widget .edit-btn:hover { background: var(--accent-gold); color: var(--primary-dark); }
@@ -113,6 +111,36 @@
     <div class="modal-overlay" id="modal-event"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-event')">✖</button><h2 style="margin-top:0; color: var(--accent-gold);">🔥 Новый анонс</h2><label class="form-label">Название</label><input type="text" id="ev-title" class="form-control" style="margin-bottom:10px;"><div class="form-grid"><div><label class="form-label">Дата</label><input type="date" id="ev-date" class="form-control"></div><div><label class="form-label">Локация</label><input type="text" id="ev-loc" class="form-control"></div></div><label class="form-label">Описание</label><textarea id="ev-desc" class="form-control" style="margin-bottom:10px; height: 60px;"></textarea><label class="form-label">Прикрепить Афишу</label><input type="file" id="ev-image" accept="image/*" class="form-control" style="margin-bottom:15px;"><label class="form-label">Прикрепить Регламент</label><input type="file" id="ev-file" class="form-control" style="margin-bottom:15px;"><div id="ev-loading" class="loading-text">Загрузка файлов...</div><button class="btn-osu" style="width: 100%; background: var(--accent-gold); color: var(--primary-dark);" onclick="saveEvent()">Добавить анонс</button></div></div>
     <div class="modal-overlay" id="modal-points"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-points')">✖</button><h2 style="margin-top:0; color: var(--primary-dark);">🏆 Внести результаты</h2><label class="form-label">Ученик (Спортсмен)</label><select id="pt-student" class="form-control" style="margin-bottom:10px;"><option value="">Загрузка базы...</option></select><label class="form-label">Турнир</label><input type="text" id="pt-tournament" class="form-control" style="margin-bottom:10px;" placeholder="Напр: Кубок РК"><div class="form-grid"><div><label class="form-label">Уровень</label><select id="pt-level" class="form-control"><option value="club">Клубный</option><option value="city">Городской</option><option value="region">Областной</option><option value="republic">Республиканский</option><option value="international">Международный</option><option value="asia">Азия</option><option value="world">Мир</option></select></div><div><label class="form-label">Место</label><select id="pt-place" class="form-control"><option value="1">1 (Золото)</option><option value="2">2 (Серебро)</option><option value="3">3 (Бронза)</option></select></div></div><button class="btn-osu" style="width: 100%; margin-top: 15px;" onclick="savePoints()">Начислить баллы 🥇</button></div></div>
     <div class="modal-overlay" id="modal-timer"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-timer')">✖</button><h2 style="margin-top:0; color: var(--primary-dark);">⏱ Настройка таймера</h2><label class="form-label">Название турнира</label><input type="text" id="timer-edit-title" class="form-control" style="margin-bottom:15px;" placeholder="Чемпионат Мира"><label class="form-label">Дата и точное время старта</label><input type="datetime-local" id="timer-edit-date" class="form-control" style="margin-bottom:15px;"><button class="btn-osu" style="width: 100%;" onclick="saveTimer()">Запустить таймер</button></div></div>
+
+    <div class="modal-overlay" id="modal-exam">
+        <div class="modal-box">
+            <button class="close-modal" onclick="closeModal('modal-exam')">✖</button>
+            <h2 style="margin-top:0; color: var(--primary-dark);">🥋 Аттестация ученика</h2>
+            <p id="exam-student-name" style="font-weight: bold; font-size: 16px; margin-bottom: 20px; color: var(--primary-color); border-bottom: 1px solid #eee; padding-bottom: 10px;"></p>
+            <input type="hidden" id="exam-student-id">
+            
+            <label class="form-label">Какой пояс присвоить?</label>
+            <select id="exam-new-kyu" class="form-control" style="margin-bottom:15px;">
+                <option value="11 Кю (Белый)">11 Кю (Белый)</option>
+                <option value="10 Кю (Оранж)">10 Кю (Оранж)</option>
+                <option value="9 Кю (Оранж-полоса)">9 Кю (Оранж-полоса)</option>
+                <option value="8 Кю (Синий)">8 Кю (Синий)</option>
+                <option value="7 Кю (Синяя-полоса)">7 Кю (Синяя-полоса)</option>
+                <option value="6 Кю (Желтый)">6 Кю (Желтый)</option>
+                <option value="5 Кю (Желтая-полоса)">5 Кю (Желтая-полоса)</option>
+                <option value="4 Кю (Зеленый)">4 Кю (Зеленый)</option>
+                <option value="3 Кю (Зеленая-полоса)">3 Кю (Зеленая-полоса)</option>
+                <option value="2 Кю (Коричневый)">2 Кю (Коричневый)</option>
+                <option value="1 Кю (Коричн-полоса)">1 Кю (Коричн-полоса)</option>
+                <option value="1 Дан (Черный)">1 Дан (Черный)</option>
+            </select>
+            
+            <label class="form-label">Дата проведения экзамена</label>
+            <input type="date" id="exam-date" class="form-control" style="margin-bottom:20px;">
+            
+            <button class="btn-osu" style="width: 100%;" onclick="saveExamResult()">Присвоить новый пояс ✅</button>
+        </div>
+    </div>
 
     <div id="app-content">
         <div class="navbar">
@@ -194,16 +222,16 @@
                     <div class="card">
                         <div class="card-header">
                             <h2>🥋 Допуск к Кю-тесту (Аттестация)</h2>
-                            <button class="btn-osu" onclick="alert('Генерация PDF экзаменационной ведомости в разработке. Потребуется обновление БД.')">📄 Скачать ведомость</button>
+                            <button class="btn-osu" style="background: #eef2f5; color: var(--primary-dark); border: 1px solid #ccc;">📄 Экспорт списка</button>
                         </div>
                         <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Система автоматически рассчитывает срок с последней аттестации (норматив: 90 дней). Зеленым отмечены бойцы, допущенные к экзамену.</p>
                         <div style="overflow-x: auto;">
                             <table class="data-table">
                                 <thead>
-                                    <tr><th>Спортсмен</th><th>Текущий пояс</th><th>Дней с прошлого экзамена</th><th>Статус допуска</th></tr>
+                                    <tr><th>Спортсмен</th><th>Текущий пояс</th><th>Дней с экзамена</th><th>Статус</th><th>Действие</th></tr>
                                 </thead>
                                 <tbody id="exams-table-body">
-                                    <tr><td colspan="4" style="text-align: center;">Загрузка данных для анализа...</td></tr>
+                                    <tr><td colspan="5" style="text-align: center;">Загрузка данных для анализа...</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -211,7 +239,7 @@
                 </div>
 
                 <div id="tab-dojos" class="tab-content"><div class="card"><div class="card-header"><h2>Управление филиалами</h2><button class="btn-osu" onclick="toggleForm('dojo-form-container')">+ Добавить зал</button></div><div id="dojo-form-container" style="display: none; background: #fdfafb; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e0c8c8;"><h3 style="margin-top: 0; color: var(--primary-dark); font-size: 16px;">Локация филиала</h3><div class="form-grid"><div><label class="form-label">Город</label><input type="text" id="dojo-city" class="form-control"></div><div><label class="form-label">Адрес</label><input type="text" id="dojo-address" class="form-control"></div></div><h3 style="margin-top: 15px; color: var(--primary-dark); font-size: 16px;">Группы в зале</h3><div id="groups-container"></div><button onclick="addGroupRow()" class="btn-link" style="margin-bottom: 20px; border-style: dashed; background: transparent;">+ Добавить еще группу</button><div style="display: flex; gap: 15px;"><button class="btn-osu" onclick="saveDojo()" style="flex: 2;">💾 Сохранить зал</button><button class="btn-osu" onclick="toggleForm('dojo-form-container')" style="flex: 1; background: #e0e0e0; color: #333;">Отмена</button></div></div><div id="dojos-list"></div></div></div>
-                <div id="tab-students" class="tab-content"><div class="card"><div class="card-header"><h2>База учеников</h2><button class="btn-osu" onclick="toggleForm('student-form-container')">+ Внести ученика</button></div><div id="student-form-container" style="display: none; background: #fdfafb; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e0c8c8;"><div class="form-grid"><div><label class="form-label">ФИО Ученика</label><input type="text" id="st-name" class="form-control"></div><div><label class="form-label">Дата рождения</label><input type="date" id="st-dob" class="form-control"></div><div><label class="form-label">Пол</label><select id="st-gender" class="form-control"><option>Мужской</option><option>Женский</option></select></div></div><div class="form-grid"><div><label class="form-label">Кю/Дан</label><select id="st-kyu" class="form-control"><option>11 Кю (Белый)</option><option>10 Кю (Оранж)</option><option>9 Кю</option><option>8 Кю</option></select></div><div><label class="form-label">Вес (кг)</label><input type="number" id="st-weight" class="form-control"></div><div><label class="form-label">Зал</label><select id="st-group" class="form-control"></select></div></div><div style="background: #fffcf5; padding: 15px; border-radius: 8px; border: 1px dashed var(--accent-gold); margin-bottom: 15px;"><label style="display: flex; align-items: center; gap: 10px; font-weight: bold; cursor: pointer;"><input type="checkbox" id="st-national" style="width: 20px; height: 20px; accent-color: var(--primary-color);"> 🇰🇿 Включить в состав Сборной</label></div><div style="display: flex; gap: 15px;"><button class="btn-osu" onclick="saveStudent()" style="flex: 2;">💾 Сохранить</button><button class="btn-osu" onclick="toggleForm('student-form-container')" style="flex: 1; background: #e0e0e0; color: #333;">Отмена</button></div></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>ФИО</th><th>Возраст</th><th>Квалификация</th><th>Группа</th></tr></thead><tbody id="students-table-body"></tbody></table></div></div></div>
+                <div id="tab-students" class="tab-content"><div class="card"><div class="card-header"><h2>База учеников</h2><button class="btn-osu" onclick="toggleForm('student-form-container')">+ Внести ученика</button></div><div id="student-form-container" style="display: none; background: #fdfafb; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e0c8c8;"><div class="form-grid"><div><label class="form-label">ФИО Ученика</label><input type="text" id="st-name" class="form-control"></div><div><label class="form-label">Дата рождения</label><input type="date" id="st-dob" class="form-control"></div><div><label class="form-label">Пол</label><select id="st-gender" class="form-control"><option>Мужской</option><option>Женский</option></select></div></div><div class="form-grid"><div><label class="form-label">Кю/Дан</label><select id="st-kyu" class="form-control"><option>11 Кю (Белый)</option><option>10 Кю (Оранж)</option><option>9 Кю (Оранж-полоса)</option><option>8 Кю (Синий)</option></select></div><div><label class="form-label">Вес (кг)</label><input type="number" id="st-weight" class="form-control"></div><div><label class="form-label">Зал</label><select id="st-group" class="form-control"></select></div></div><div style="background: #fffcf5; padding: 15px; border-radius: 8px; border: 1px dashed var(--accent-gold); margin-bottom: 15px;"><label style="display: flex; align-items: center; gap: 10px; font-weight: bold; cursor: pointer;"><input type="checkbox" id="st-national" style="width: 20px; height: 20px; accent-color: var(--primary-color);"> 🇰🇿 Включить в состав Сборной</label></div><div style="display: flex; gap: 15px;"><button class="btn-osu" onclick="saveStudent()" style="flex: 2;">💾 Сохранить</button><button class="btn-osu" onclick="toggleForm('student-form-container')" style="flex: 1; background: #e0e0e0; color: #333;">Отмена</button></div></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>ФИО</th><th>Возраст</th><th>Квалификация</th><th>Группа</th></tr></thead><tbody id="students-table-body"></tbody></table></div></div></div>
                 <div id="tab-team" class="tab-content"><div class="card accent-gold" style="border-top: 4px solid var(--accent-gold);"><div class="card-header"><h2 style="color: var(--accent-gold);">🇰🇿 Национальная Сборная</h2></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Спортсмен</th><th>Возраст</th><th>Вес</th><th>Квалификация</th><th>Тренер</th></tr></thead><tbody id="national-team-body"></tbody></table></div></div></div>
                 <div id="tab-athlete-ranking" class="tab-content"><div class="card"><div class="card-header"><h2>🏆 Годовой Рейтинг</h2></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Место</th><th>Спортсмен</th><th>Баллы</th><th id="th-admin-rank" style="display:none;">Управление</th></tr></thead><tbody id="full-ranking-body"></tbody></table></div></div></div>
                 <div id="tab-events-archive" class="tab-content"><div class="card"><div class="card-header"><h2>Все Анонсы и Архив</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад</button></div><div id="events-archive-container"></div></div></div>
@@ -271,7 +299,6 @@
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         let currentUserId = null; let isPresGlobal = false; let targetTimerDate = null;
 
-        // === ТАЙМЕР ===
         setInterval(() => {
             const el = document.getElementById('tournament-timer');
             if(el && targetTimerDate) {
@@ -393,11 +420,32 @@
             document.getElementById('coaches-students-container').innerHTML = tcHtml || '<p style="text-align:center;font-size:12px;">Нет данных</p>';
         }
 
-        // === МОДУЛЬ АТТЕСТАЦИИ (УМНЫЙ КЮ-ТЕСТ) ===
+        // === МОДУЛЬ АТТЕСТАЦИИ ===
+        function openExamModal(id, name, kyu) {
+            document.getElementById('exam-student-id').value = id;
+            document.getElementById('exam-student-name').innerText = `${name} (Текущий: ${kyu})`;
+            document.getElementById('exam-date').value = new Date().toISOString().split('T')[0];
+            openModal('modal-exam');
+        }
+
+        async function saveExamResult() {
+            const id = document.getElementById('exam-student-id').value;
+            const newKyu = document.getElementById('exam-new-kyu').value;
+            const date = document.getElementById('exam-date').value;
+            if(!id || !newKyu || !date) return;
+
+            const { error } = await supabaseClient.from('students').update({ current_kyu: newKyu, last_exam_date: date }).eq('id', id);
+            if (error) return alert("Ошибка при сохранении!");
+            
+            alert("✅ Пояс успешно присвоен! Таймер аттестации обнулен.");
+            closeModal('modal-exam');
+            loadExams(); loadStudents();
+        }
+
         async function loadExams() {
             const { data } = await supabaseClient.from('students').select('*').eq('profile_id', currentUserId);
             let html = '';
-            if(!data || data.length === 0) { document.getElementById('exams-table-body').innerHTML = '<tr><td colspan="4" style="text-align:center;">У вас пока нет учеников</td></tr>'; return; }
+            if(!data || data.length === 0) { document.getElementById('exams-table-body').innerHTML = '<tr><td colspan="5" style="text-align:center;">У вас пока нет учеников</td></tr>'; return; }
             
             const today = new Date();
             data.forEach(s => {
@@ -409,23 +457,26 @@
                     lastExamText = `${daysPassed} дней назад`;
                 }
                 
-                const requiredDays = 90; // Норматив - 90 дней
+                const requiredDays = 90;
                 const isReady = daysPassed >= requiredDays;
                 const statusHtml = isReady 
                     ? `<span style="color: #27ae60; font-weight: bold;">✅ Допущен</span>` 
-                    : `<span style="color: #e74c3c; font-weight: bold;">⏳ Ждать еще ${requiredDays - daysPassed} дн.</span>`;
+                    : `<span style="color: #e74c3c; font-weight: bold;">⏳ Ждать ${requiredDays - daysPassed} дн.</span>`;
                 
+                const actionBtn = `<button class="btn-osu" style="padding: 6px 12px; font-size: 11px;" onclick="openExamModal('${s.id}', '${s.full_name}', '${s.current_kyu}')">Аттестовать</button>`;
+
                 html += `<tr>
                     <td><strong>${s.full_name}</strong></td>
                     <td><span style="background:#333;color:#fff;padding:3px 8px;border-radius:10px;font-size:11px;">${s.current_kyu}</span></td>
                     <td>${lastExamText}</td>
                     <td>${statusHtml}</td>
+                    <td>${actionBtn}</td>
                 </tr>`;
             });
             document.getElementById('exams-table-body').innerHTML = html;
         }
 
-        // ЗАЛЫ, УЧЕНИКИ И ИМЕНИННИКИ
+        // ЗАЛЫ, УЧЕНИКИ, ИМЕНИННИКИ
         function addGroupRow() { const c=document.getElementById('groups-container'), r=document.createElement('div'); r.className='form-grid'; r.innerHTML=`<div><label class="form-label">Название</label><input type="text" class="form-control group-name"></div><div><label class="form-label">Дни</label><input type="text" class="form-control group-schedule"></div><div><label class="form-label">Кол-во</label><input type="number" class="form-control group-count"></div>`; c.appendChild(r); }
         async function saveDojo() { const city=document.getElementById('dojo-city').value, addr=document.getElementById('dojo-address').value; let gr=[]; for(let r of document.getElementById('groups-container').children){ let n=r.querySelector('.group-name').value; if(n) gr.push({profile_id:currentUserId, address_city:city, address_raw:addr, group_name:n, schedule:r.querySelector('.group-schedule').value, students_count:r.querySelector('.group-count').value||0}); } await supabaseClient.from('groups').insert(gr); toggleForm('dojo-form-container'); loadDojos(); }
         async function loadDojos() { const { data } = await supabaseClient.from('groups').select('*').eq('profile_id', currentUserId); const sel=document.getElementById('st-group'); sel.innerHTML=''; data?.forEach(g => sel.innerHTML+=`<option value="${g.id}">${g.address_city}, ${g.group_name}</option>`); }
