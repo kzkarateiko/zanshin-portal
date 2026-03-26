@@ -10,6 +10,14 @@
 </head>
 <body>
 
+    <div class="modal-overlay red-order-overlay" id="modal-red-order" style="display: none;">
+        <div class="red-order-box">
+            <h1>🔴 ВНИМАНИЕ. ПРИКАЗ 🔴</h1>
+            <p class="red-order-text" id="red-order-text">Загрузка приказа...</p>
+            <button class="btn-osu" style="width: 100%; font-size: 16px; padding: 15px; background: #c00;" onclick="acknowledgeOrder()">ОЗНАКОМЛЕН. ОСУ!</button>
+        </div>
+    </div>
+
     <div id="login-screen">
         <div class="login-box">
             <img src="IMG_0670.jpeg" alt="ZANSHIN Logo" style="max-height: 120px; margin-bottom: 15px;">
@@ -47,6 +55,9 @@
                     <div class="bp-medal-item"><span class="bp-medal-icon">🥉</span><span class="bp-medal-count" id="bp-bronze">0</span></div>
                     <div class="bp-medal-item"><span class="bp-medal-icon">⭐</span><span class="bp-medal-count" id="bp-points">0 б.</span></div>
                 </div>
+                <h3 style="text-align: left; font-size: 15px; color: var(--primary-dark); border-bottom: 2px solid #eee; padding-bottom: 5px;">📜 Летопись Поясов</h3>
+                <div id="bp-history-container" style="max-height: 150px; overflow-y: auto; padding-right: 10px;">
+                    </div>
             </div>
         </div>
     </div>
@@ -113,7 +124,7 @@
         <select id="exam-new-kyu" class="form-control" style="margin-bottom:15px;">
             <option>0 Кю</option><option>10 Кю</option><option>9 Кю</option><option>8 Кю</option><option>7 Кю</option><option>6 Кю</option><option>5 Кю</option><option>4 Кю</option><option>3 Кю</option><option>2 Кю</option><option>1 Кю</option><option>1 Дан</option><option>2 Дан</option><option>3 Дан</option><option>4 Дан</option><option>5 Дан</option>
         </select>
-        <label class="form-label">Дата экзамена</label><input type="date" id="exam-date" class="form-control" style="margin-bottom:20px;"><button class="btn-osu" style="width: 100%;" onclick="saveExamResult()">Присвоить пояс ✅</button></div>
+        <label class="form-label">Дата экзамена</label><input type="date" id="exam-date" class="form-control" style="margin-bottom:20px;"><button class="btn-osu" style="width: 100%;" onclick="saveExamResult()">Присвоить пояс и записать в Летопись ✅</button></div>
     </div>
     <div class="modal-overlay" id="modal-document"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-document')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">📁 Документ</h2><label class="form-label">Название</label><input type="text" id="doc-title" class="form-control" style="margin-bottom:10px;"><label class="form-label">Прикрепить файл (PDF)</label><input type="file" id="doc-file" class="form-control" style="margin-bottom:10px;"><button class="btn-osu" style="width: 100%; background: #2c3e50; color: #fff;" onclick="saveDocument()">Сохранить</button></div></div>
     <div class="modal-overlay" id="modal-poll-edit"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-poll-edit')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">📊 Опрос</h2><label class="form-label">Вопрос</label><input type="text" id="poll-edit-q" class="form-control" style="margin-bottom:15px; font-weight:bold;"><label class="form-label">Варианты</label><div id="poll-edit-opts" style="margin-bottom:15px;"></div><button class="btn-link" style="margin-bottom:15px; border:1px dashed var(--accent-gold);" onclick="addPollOption()">+ Вариант</button><button class="btn-osu" style="width: 100%; background: #c0392b;" onclick="savePollAdmin()">Сохранить (Голоса обнулятся)</button></div></div>
@@ -207,6 +218,17 @@
                             <button class="btn-excel" onclick="exportToExcel()">📊 Скачать базу (Excel)</button>
                         </div>
                         <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Здесь отображаются все филиалы и ученики со всей Алматинской области.</p>
+                        
+                        <div style="background: #fffcfc; border: 2px dashed red; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                            <h3 style="margin: 0 0 10px 0; color: red;">🔴 Выпустить Красный Приказ</h3>
+                            <textarea id="admin-order-text" class="form-control" style="height: 60px; margin-bottom: 10px;" placeholder="Текст приказа для всех тренеров..."></textarea>
+                            <div style="display: flex; gap: 10px;">
+                                <button class="btn-osu" style="background: red;" onclick="publishRedOrder()">Издать приказ!</button>
+                                <button class="btn-del" onclick="disableRedOrder()">Отменить приказ</button>
+                            </div>
+                            <p id="order-status-text" style="font-size: 12px; margin-top: 10px; font-weight: bold;"></p>
+                        </div>
+
                         <h3 style="color: var(--primary-dark); font-size: 16px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Все филиалы (Залы) области</h3>
                         <div style="overflow-x: auto; margin-bottom: 30px;"><table class="data-table"><thead><tr><th>Город</th><th>Зал/Адрес</th><th>Расписание</th><th>Тренер</th></tr></thead><tbody id="global-dojos-body"></tbody></table></div>
                         <h3 style="color: var(--primary-dark); font-size: 16px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Все ученики области</h3>
