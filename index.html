@@ -31,7 +31,7 @@
         
         .widget-block { background: var(--bg-white); padding: 20px; border-radius: var(--border-rad); box-shadow: var(--shadow-sm); }
         .admin-profile { text-align: center; margin-bottom: 10px; }
-        .admin-avatar { width: 90px; height: 90px; background: #f8f9fa; border-radius: 50%; margin: 0 auto 10px; border: 2px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 40px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .admin-avatar { width: 80px; height: 80px; background: #f8f9fa; border-radius: 50%; margin: 0 auto 10px; border: 2px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 35px; overflow: hidden;}
         .admin-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .admin-name { font-weight: bold; font-size: 16px; color: var(--primary-dark); }
         .admin-rank { font-size: 12px; color: var(--primary-color); font-weight: bold; background: #fff0f0; padding: 3px 10px; border-radius: 12px; display: inline-block; margin-top: 5px; }
@@ -66,8 +66,7 @@
         .file-btn:hover { background: #e4e6eb; }
         .admin-actions { margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ddd; display: flex; justify-content: flex-end; gap: 10px; }
         .btn-del { background: #fee; color: #c00; border: 1px solid #fcc; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
-        .btn-del:hover { background: #fcc; }
-
+        
         .widget-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; }
         .widget-header h3 { margin: 0; font-size: 15px; color: var(--primary-dark); }
         .list-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f0f2f5; }
@@ -76,6 +75,12 @@
         .top-1 { color: var(--accent-gold); text-shadow: 0 1px 2px rgba(212,175,55,0.3); }
         .top-2 { color: #bdc3c7; }
         .top-3 { color: #cd7f32; }
+
+        /* ОПРОСНИК */
+        .poll-option { display: block; width: 100%; text-align: left; padding: 12px; margin-bottom: 8px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; color: var(--text-main); transition: 0.2s; position: relative; overflow: hidden; }
+        .poll-option:hover { background: #fdfafb; border-color: var(--primary-color); color: var(--primary-color); }
+        .poll-progress { position: absolute; top: 0; left: 0; height: 100%; background: rgba(212,175,55,0.2); z-index: 1; transition: width 0.5s ease; }
+        .poll-text { position: relative; z-index: 2; display: flex; justify-content: space-between; }
         
         .data-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         .data-table th, .data-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
@@ -88,17 +93,7 @@
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 20px; box-sizing: border-box; }
         .modal-box { background: #fff; padding: 25px; border-radius: 12px; width: 100%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-top: 5px solid var(--primary-color); position: relative; max-height: 90vh; overflow-y: auto;}
         .close-modal { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 20px; cursor: pointer; color: #888; }
-        
-        /* ПРОФИЛЬ АВАТАР */
-        .profile-avatar-edit { width: 120px; height: 120px; background: #f8f9fa; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 40px; border: 2px dashed var(--accent-gold); cursor: pointer; overflow: hidden; position: relative;}
-        .profile-avatar-edit img { width: 100%; height: 100%; object-fit: cover; }
-        .profile-avatar-edit:hover::after { content: "📷 Изменить"; position: absolute; bottom: 0; background: rgba(0,0,0,0.6); color: white; width: 100%; font-size: 12px; text-align: center; padding: 5px 0; font-weight: bold;}
-        
-        /* ОПРОСЫ БАРЫ */
-        .poll-option { display: block; width: 100%; text-align: left; padding: 12px; margin-bottom: 8px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; color: var(--text-main); transition: 0.2s; }
-        .poll-option:hover { background: #fdfafb; border-color: var(--primary-color); color: var(--primary-color); }
-        .poll-bar-container { background: #eef2f5; border-radius: 6px; height: 10px; overflow: hidden; margin-top: 5px; }
-        .poll-bar { background: linear-gradient(90deg, var(--primary-color), #ff4d4d); height: 100%; border-radius: 6px; transition: width 0.5s ease-out; }
+        .loading-text { text-align: center; color: var(--primary-color); font-weight: bold; display: none; margin-bottom: 10px; }
 
         @media (max-width: 1100px) { .layout-wrapper { flex-direction: column; padding: 15px; } .sidebar-left, .sidebar-right { width: 100%; position: static; } .sidebar-right { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; } .navbar { flex-direction: column; text-align: center; } .header-left { flex-direction: column; gap: 10px; } .header-wisdom { border-left: none; padding-left: 0; text-align: center; margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; } }
         @media (max-width: 650px) { .sidebar-right { grid-template-columns: 1fr; } }
@@ -118,26 +113,11 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="modal-news"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-news')">✖</button><h2 style="margin-top:0; color: var(--primary-dark);">📰 Новая публикация</h2><label class="form-label">Заголовок</label><input type="text" id="news-title" class="form-control" style="margin-bottom:15px;"><label class="form-label">Текст</label><textarea id="news-content" class="form-control" style="margin-bottom:15px; height: 100px; resize: vertical;"></textarea><label class="form-label">Прикрепить Афишу (JPG, PNG)</label><input type="file" id="news-image" accept="image/*" class="form-control" style="margin-bottom:15px;"><label class="form-label">Прикрепить Файл (PDF)</label><input type="file" id="news-file" class="form-control" style="margin-bottom:15px;"><button class="btn-osu" style="width: 100%;" onclick="saveNews()">Опубликовать</button></div></div>
-    <div class="modal-overlay" id="modal-event"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-event')">✖</button><h2 style="margin-top:0; color: var(--accent-gold);">🔥 Новый анонс</h2><label class="form-label">Название</label><input type="text" id="ev-title" class="form-control" style="margin-bottom:10px;"><div class="form-grid"><div><label class="form-label">Дата</label><input type="date" id="ev-date" class="form-control"></div><div><label class="form-label">Локация</label><input type="text" id="ev-loc" class="form-control"></div></div><label class="form-label">Описание</label><textarea id="ev-desc" class="form-control" style="margin-bottom:10px; height: 60px;"></textarea><label class="form-label">Прикрепить Афишу</label><input type="file" id="ev-image" accept="image/*" class="form-control" style="margin-bottom:15px;"><label class="form-label">Прикрепить Регламент</label><input type="file" id="ev-file" class="form-control" style="margin-bottom:15px;"><button class="btn-osu" style="width: 100%; background: var(--accent-gold); color: var(--primary-dark);" onclick="saveEvent()">Добавить анонс</button></div></div>
+    <div class="modal-overlay" id="modal-news"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-news')">✖</button><h2 style="margin-top:0; color: var(--primary-dark);">📰 Новая публикация</h2><label class="form-label">Заголовок</label><input type="text" id="news-title" class="form-control" style="margin-bottom:15px;"><label class="form-label">Текст</label><textarea id="news-content" class="form-control" style="margin-bottom:15px; height: 100px; resize: vertical;"></textarea><label class="form-label">Афиша (JPG, PNG)</label><input type="file" id="news-image" accept="image/*" class="form-control" style="margin-bottom:15px;"><label class="form-label">Файл (PDF)</label><input type="file" id="news-file" class="form-control" style="margin-bottom:15px;"><div id="news-loading" class="loading-text">Загрузка файлов...</div><button class="btn-osu" style="width: 100%;" onclick="saveNews()">Опубликовать</button></div></div>
+    <div class="modal-overlay" id="modal-event"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-event')">✖</button><h2 style="margin-top:0; color: var(--accent-gold);">🔥 Новый анонс</h2><label class="form-label">Название</label><input type="text" id="ev-title" class="form-control" style="margin-bottom:10px;"><div class="form-grid"><div><label class="form-label">Дата</label><input type="date" id="ev-date" class="form-control"></div><div><label class="form-label">Локация</label><input type="text" id="ev-loc" class="form-control"></div></div><label class="form-label">Описание</label><textarea id="ev-desc" class="form-control" style="margin-bottom:10px; height: 60px;"></textarea><label class="form-label">Афиша</label><input type="file" id="ev-image" accept="image/*" class="form-control" style="margin-bottom:15px;"><label class="form-label">Регламент</label><input type="file" id="ev-file" class="form-control" style="margin-bottom:15px;"><div id="ev-loading" class="loading-text">Загрузка файлов...</div><button class="btn-osu" style="width: 100%; background: var(--accent-gold); color: var(--primary-dark);" onclick="saveEvent()">Добавить анонс</button></div></div>
     <div class="modal-overlay" id="modal-points"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-points')">✖</button><h2 style="margin-top:0; color: var(--primary-dark);">🏆 Внести результаты</h2><label class="form-label">Ученик (Спортсмен)</label><select id="pt-student" class="form-control" style="margin-bottom:10px;"><option value="">Загрузка базы...</option></select><label class="form-label">Турнир</label><input type="text" id="pt-tournament" class="form-control" style="margin-bottom:10px;" placeholder="Напр: Кубок РК"><div class="form-grid"><div><label class="form-label">Уровень</label><select id="pt-level" class="form-control"><option value="club">Клубный</option><option value="city">Городской</option><option value="region">Областной</option><option value="republic">Республиканский</option><option value="international">Международный</option><option value="asia">Азия</option><option value="world">Мир</option></select></div><div><label class="form-label">Место</label><select id="pt-place" class="form-control"><option value="1">1 (Золото)</option><option value="2">2 (Серебро)</option><option value="3">3 (Бронза)</option></select></div></div><button class="btn-osu" style="width: 100%; margin-top: 15px;" onclick="savePoints()">Начислить баллы 🥇</button></div></div>
-    <div class="modal-overlay" id="modal-timer"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-timer')">✖</button><h2 style="margin-top:0; color: var(--primary-dark);">⏱ Настройка таймера</h2><label class="form-label">Название турнира</label><input type="text" id="timer-edit-title" class="form-control" style="margin-bottom:15px;" placeholder="Чемпионат Мира"><label class="form-label">Дата и точное время старта</label><input type="datetime-local" id="timer-edit-date" class="form-control" style="margin-bottom:15px;"><button class="btn-osu" style="width: 100%;" onclick="saveTimer()">Запустить таймер</button></div></div>
-    
-    <div class="modal-overlay" id="modal-exam">
-        <div class="modal-box">
-            <button class="close-modal" onclick="closeModal('modal-exam')">✖</button>
-            <h2 style="margin-top:0; color: var(--primary-dark);">🥋 Аттестация ученика</h2>
-            <p id="exam-student-name" style="font-weight: bold; font-size: 16px; margin-bottom: 20px; color: var(--primary-color); border-bottom: 1px solid #eee; padding-bottom: 10px;"></p>
-            <input type="hidden" id="exam-student-id">
-            <label class="form-label">Какой пояс присвоить?</label>
-            <select id="exam-new-kyu" class="form-control" style="margin-bottom:15px;">
-                <option value="11 Кю (Белый)">11 Кю (Белый)</option><option value="10 Кю (Оранж)">10 Кю (Оранж)</option><option value="9 Кю (Оранж-полоса)">9 Кю (Оранж-полоса)</option><option value="8 Кю (Синий)">8 Кю (Синий)</option><option value="7 Кю (Синяя-полоса)">7 Кю (Синяя-полоса)</option><option value="6 Кю (Желтый)">6 Кю (Желтый)</option><option value="5 Кю (Желтая-полоса)">5 Кю (Желтая-полоса)</option><option value="4 Кю (Зеленый)">4 Кю (Зеленый)</option><option value="3 Кю (Зеленая-полоса)">3 Кю (Зеленая-полоса)</option><option value="2 Кю (Коричневый)">2 Кю (Коричневый)</option><option value="1 Кю (Коричн-полоса)">1 Кю (Коричн-полоса)</option><option value="1 Дан (Черный)">1 Дан (Черный)</option>
-            </select>
-            <label class="form-label">Дата проведения экзамена</label>
-            <input type="date" id="exam-date" class="form-control" style="margin-bottom:20px;">
-            <button class="btn-osu" style="width: 100%;" onclick="saveExamResult()">Присвоить новый пояс ✅</button>
-        </div>
-    </div>
+    <div class="modal-overlay" id="modal-timer"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-timer')">✖</button><h2 style="margin-top:0; color: var(--primary-dark);">⏱ Настройка таймера</h2><label class="form-label">Название турнира</label><input type="text" id="timer-edit-title" class="form-control" style="margin-bottom:15px;"><label class="form-label">Дата и точное время старта</label><input type="datetime-local" id="timer-edit-date" class="form-control" style="margin-bottom:15px;"><button class="btn-osu" style="width: 100%;" onclick="saveTimer()">Запустить таймер</button></div></div>
+    <div class="modal-overlay" id="modal-exam"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-exam')">✖</button><h2 style="margin-top:0; color: var(--primary-dark);">🥋 Аттестация ученика</h2><p id="exam-student-name" style="font-weight: bold; font-size: 16px; margin-bottom: 20px; color: var(--primary-color); border-bottom: 1px solid #eee; padding-bottom: 10px;"></p><input type="hidden" id="exam-student-id"><label class="form-label">Новый пояс</label><select id="exam-new-kyu" class="form-control" style="margin-bottom:15px;"><option value="11 Кю (Белый)">11 Кю (Белый)</option><option value="10 Кю (Оранж)">10 Кю (Оранж)</option><option value="9 Кю (Оранж-полоса)">9 Кю (Оранж-полоса)</option><option value="8 Кю (Синий)">8 Кю (Синий)</option><option value="7 Кю (Синяя-полоса)">7 Кю (Синяя-полоса)</option><option value="6 Кю (Желтый)">6 Кю (Желтый)</option><option value="5 Кю (Желтая-полоса)">5 Кю (Желтая-полоса)</option><option value="4 Кю (Зеленый)">4 Кю (Зеленый)</option><option value="3 Кю (Зеленая-полоса)">3 Кю (Зеленая-полоса)</option><option value="2 Кю (Коричневый)">2 Кю (Коричневый)</option><option value="1 Кю (Коричн-полоса)">1 Кю (Коричн-полоса)</option><option value="1 Дан (Черный)">1 Дан (Черный)</option></select><label class="form-label">Дата экзамена</label><input type="date" id="exam-date" class="form-control" style="margin-bottom:20px;"><button class="btn-osu" style="width: 100%;" onclick="saveExamResult()">Присвоить новый пояс ✅</button></div></div>
 
     <div id="app-content">
         <div class="navbar">
@@ -185,6 +165,7 @@
 
             <div class="content-center">
                 <div id="tab-dashboard" class="tab-content active">
+                    
                     <div class="card timer-widget" style="margin-bottom: 20px;">
                         <button id="admin-btn-timer" class="edit-btn" onclick="openModal('modal-timer')" style="display: none;">⚙️ ИЗМЕНИТЬ ДАТУ</button>
                         <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-gold); margin-bottom: 5px; font-weight: bold;">Ближайший старт</div>
@@ -194,9 +175,358 @@
                             <span>ДНЕЙ</span><span>ЧАСОВ</span><span>МИНУТ</span><span>СЕК</span>
                         </div>
                     </div>
+
                     <div class="card" style="border-top: 4px solid var(--accent-gold);">
-                        <div class="card-header"><h2>🔥 Анонсы и Мероприятия</h2><button id="admin-btn-event" class="btn-osu" style="background: var(--accent-gold); color: var(--primary-dark); font-size: 12px; padding: 6px 12px; display: none;" onclick="openModal('modal-event')">+ Добавить анонс</button></div>
-                        <div id="events-feed-container"></div><button class="btn-link" onclick="showTab('events-archive')">Все мероприятия и архив ➡️</button>
+                        <div class="card-header">
+                            <h2>🔥 Анонсы и Мероприятия</h2>
+                            <button id="admin-btn-event" class="btn-osu" style="background: var(--accent-gold); color: var(--primary-dark); font-size: 12px; padding: 6px 12px; display: none;" onclick="openModal('modal-event')">+ Добавить анонс</button>
+                        </div>
+                        <div id="events-feed-container"><p style="text-align: center; color: #888;">Загрузка свежих турниров...</p></div>
+                        <button class="btn-link" onclick="showTab('events-archive')">Все мероприятия и архив ➡️</button>
                     </div>
+
                     <div class="card" style="border-top: 4px solid var(--primary-color);">
-                        <div class="card-header"><h2>📰 Новости Федерации</h2><button id="admin-btn-news" class="btn-osu" style="font-size: 12px; padding: 6px 1
+                        <div class="card-header">
+                            <h2>📰 Новости Федерации</h2>
+                            <button id="admin-btn-news" class="btn-osu" style="font-size: 12px; padding: 6px 12px; display: none;" onclick="openModal('modal-news')">+ Опубликовать новость</button>
+                        </div>
+                        <div id="news-feed-container"><p style="text-align: center; color: #888;">Загрузка свежих новостей...</p></div>
+                        <button class="btn-link" onclick="showTab('news-archive')">Архив новостей 🗄️</button>
+                    </div>
+                </div>
+
+                <div id="tab-profile" class="tab-content">
+                    <div class="card" style="max-width: 600px; margin: 0 auto;">
+                        <h2 style="color: var(--primary-dark); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0;">⚙️ Настройки Профиля</h2>
+                        
+                        <div style="text-align: center; margin-bottom: 25px;">
+                            <div id="profile-avatar-preview" style="width: 120px; height: 120px; background: #f0f2f5; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 50px; border: 3px solid var(--accent-gold); overflow: hidden;">
+                                🥋
+                            </div>
+                            <label style="font-size: 13px; color: var(--primary-color); cursor: pointer; font-weight: bold; display: inline-block; padding: 5px 10px; border: 1px dashed var(--primary-color); border-radius: 6px;">
+                                📷 Загрузить новое фото
+                                <input type="file" id="prof-avatar-file" accept="image/*" style="display: none;" onchange="previewAvatar(this)">
+                            </label>
+                            <p style="font-size: 11px; color: var(--text-muted); margin-top: 5px;">Фото будет видно другим тренерам</p>
+                        </div>
+
+                        <div class="form-group"><label>Ваше ФИО</label><input type="text" class="form-control" id="prof-name"></div>
+                        <div class="form-group"><label>Ваша Квалификация (Дан/Кю)</label><input type="text" class="form-control" id="prof-dan" placeholder="Напр. 3 Дан"></div>
+                        <div class="form-group"><label>Номер телефона</label><input type="tel" class="form-control" id="prof-phone" placeholder="+7 (700) 000-00-00"></div>
+                        <div class="form-group"><label>Сменить пароль (Оставьте пустым, если не нужно)</label><input type="password" class="form-control" id="prof-pwd" placeholder="Новый пароль"></div>
+                        
+                        <div id="prof-loading" class="loading-text">Сохранение данных в базу...</div>
+                        <button class="btn-osu" style="width: 100%; margin-top: 10px;" onclick="saveProfile()">💾 Сохранить изменения</button>
+                    </div>
+                </div>
+
+                <div id="tab-exams" class="tab-content"><div class="card"><div class="card-header"><h2>🥋 Допуск к Кю-тесту</h2></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Спортсмен</th><th>Текущий пояс</th><th>Дней с экзамена</th><th>Статус</th><th>Действие</th></tr></thead><tbody id="exams-table-body"></tbody></table></div></div></div>
+                <div id="tab-dojos" class="tab-content"><div class="card"><div class="card-header"><h2>Управление филиалами</h2><button class="btn-osu" onclick="toggleForm('dojo-form-container')">+ Добавить зал</button></div><div id="dojo-form-container" style="display: none; background: #fdfafb; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e0c8c8;"><div class="form-grid"><div><label class="form-label">Город</label><input type="text" id="dojo-city" class="form-control"></div><div><label class="form-label">Адрес</label><input type="text" id="dojo-address" class="form-control"></div></div><div id="groups-container"></div><button onclick="addGroupRow()" class="btn-link" style="margin-bottom: 20px; border-style: dashed; background: transparent;">+ Добавить еще группу</button><div style="display: flex; gap: 15px;"><button class="btn-osu" onclick="saveDojo()" style="flex: 2;">💾 Сохранить зал</button><button class="btn-osu" onclick="toggleForm('dojo-form-container')" style="flex: 1; background: #e0e0e0; color: #333;">Отмена</button></div></div><div id="dojos-list"></div></div></div>
+                <div id="tab-students" class="tab-content"><div class="card"><div class="card-header"><h2>База учеников</h2><button class="btn-osu" onclick="toggleForm('student-form-container')">+ Внести ученика</button></div><div id="student-form-container" style="display: none; background: #fdfafb; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e0c8c8;"><div class="form-grid"><div><label class="form-label">ФИО Ученика</label><input type="text" id="st-name" class="form-control"></div><div><label class="form-label">Дата рождения</label><input type="date" id="st-dob" class="form-control"></div><div><label class="form-label">Пол</label><select id="st-gender" class="form-control"><option>Мужской</option><option>Женский</option></select></div></div><div class="form-grid"><div><label class="form-label">Кю/Дан</label><select id="st-kyu" class="form-control"><option>11 Кю (Белый)</option><option>10 Кю (Оранж)</option><option>9 Кю (Оранж-полоса)</option><option>8 Кю (Синий)</option></select></div><div><label class="form-label">Вес (кг)</label><input type="number" id="st-weight" class="form-control"></div><div><label class="form-label">Зал</label><select id="st-group" class="form-control"></select></div></div><div style="background: #fffcf5; padding: 15px; border-radius: 8px; border: 1px dashed var(--accent-gold); margin-bottom: 15px;"><label style="display: flex; align-items: center; gap: 10px; font-weight: bold; cursor: pointer;"><input type="checkbox" id="st-national" style="width: 20px; height: 20px; accent-color: var(--primary-color);"> 🇰🇿 Включить в состав Сборной</label></div><div style="display: flex; gap: 15px;"><button class="btn-osu" onclick="saveStudent()" style="flex: 2;">💾 Сохранить</button><button class="btn-osu" onclick="toggleForm('student-form-container')" style="flex: 1; background: #e0e0e0; color: #333;">Отмена</button></div></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>ФИО</th><th>Возраст</th><th>Квалификация</th><th>Группа</th></tr></thead><tbody id="students-table-body"></tbody></table></div></div></div>
+                <div id="tab-team" class="tab-content"><div class="card accent-gold" style="border-top: 4px solid var(--accent-gold);"><div class="card-header"><h2 style="color: var(--accent-gold);">🇰🇿 Национальная Сборная</h2></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Спортсмен</th><th>Возраст</th><th>Вес</th><th>Квалификация</th><th>Тренер</th></tr></thead><tbody id="national-team-body"></tbody></table></div></div></div>
+                <div id="tab-athlete-ranking" class="tab-content"><div class="card"><div class="card-header"><h2>🏆 Годовой Рейтинг</h2></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Место</th><th>Спортсмен</th><th>Баллы</th><th id="th-admin-rank" style="display:none;">Управление</th></tr></thead><tbody id="full-ranking-body"></tbody></table></div></div></div>
+                <div id="tab-events-archive" class="tab-content"><div class="card"><div class="card-header"><h2>Все Анонсы и Архив</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад</button></div><div id="events-archive-container"></div></div></div>
+                <div id="tab-news-archive" class="tab-content"><div class="card"><div class="card-header"><h2>Архив Новостей</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад</button></div><div id="news-archive-container"></div></div></div>
+            </div>
+
+            <div class="sidebar-right">
+                
+                <div class="widget-block" style="background: linear-gradient(to bottom, #fff, #fef9e7); border: 1px solid #f9e29c; text-align: center;">
+                    <h3 style="margin: 0 0 15px 0; color: var(--accent-gold); font-size: 16px; text-transform: uppercase;">🌟 Лучший боец месяца</h3>
+                    <div style="width: 100px; height: 100px; background: #eee; border-radius: 50%; margin: 0 auto 10px; border: 3px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 40px;">👦🏻</div>
+                    <strong style="font-size: 18px; color: var(--primary-dark);" id="best-fighter-name">Загрузка...</strong>
+                    <p style="margin: 5px 0 0 0; font-size: 13px; color: var(--text-muted);">Рейтинг #1</p>
+                </div>
+
+                <div class="widget-block" style="background: linear-gradient(to bottom, #fff, #fef9e7); border: 1px solid #f9e29c;">
+                    <div class="widget-header" style="border-bottom-color: #faebcc;"><h3 style="color: var(--accent-gold);">🌟 Рейтинг бойцов</h3></div>
+                    <div id="short-ranking-container"></div>
+                    <button class="btn-link" style="margin-top: 10px; padding: 8px;" onclick="showTab('athlete-ranking')">Весь рейтинг 📊</button>
+                </div>
+
+                <div class="widget-block">
+                    <div class="widget-header">
+                        <h3>🏆 Тренеры (Медали)</h3>
+                        <button id="admin-btn-points" style="background:none; border:none; color:var(--primary-color); cursor:pointer; font-size:11px; font-weight:bold; text-decoration: underline; display:none;" onclick="openPointsModal()">Начислить</button>
+                    </div>
+                    <div id="coaches-medals-container"></div>
+                </div>
+
+                <div class="widget-block">
+                    <div class="widget-header"><h3>👥 Тренеры (Ученики)</h3></div>
+                    <div id="coaches-students-container"></div>
+                </div>
+
+                <div class="widget-block" style="background: #fdfafb; border: 1px solid #e0c8c8;">
+                    <div class="widget-header" style="border-bottom-color: #e0c8c8;"><h3 style="color: var(--primary-dark);">📊 Опрос Федерации</h3></div>
+                    <p style="font-size: 13px; margin: 0 0 10px 0; font-weight: bold;">Где проведем Зимнюю Школу?</p>
+                    <div id="poll-container">
+                        <p style="font-size:12px; color:#888; text-align:center;">Загрузка опроса...</p>
+                    </div>
+                </div>
+
+                <div class="widget-block" style="background: #fffcf5; border: 1px solid #faebcc;">
+                    <h3 style="font-size: 14px; margin: 0 0 10px 0; color: #8a6d3b;">🎂 Дни рождения (Тренеры)</h3>
+                    <div id="coach-birthdays-container"></div>
+                </div>
+                <div class="widget-block" style="background: #f4f8fa; border: 1px solid #bce8f1;">
+                    <h3 style="font-size: 14px; margin: 0 0 10px 0; color: #31708f;">🎈 Именинники (Ученики)</h3>
+                    <div id="student-birthdays-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://kyzitokbvroclkhtonns.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5eml0b2tidnJvY2xraHRvbm5zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MzYxNTksImV4cCI6MjA5MDAxMjE1OX0.xoFmiYEoegyPUti2AVzQ4ex7HXCi_PtqRisXdYbB6yo';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        let currentUserId = null; let isPresGlobal = false; let targetTimerDate = null;
+
+        setInterval(() => {
+            const el = document.getElementById('tournament-timer');
+            if(el && targetTimerDate) {
+                const distance = targetTimerDate - new Date().getTime();
+                if (distance < 0) { el.innerText = "00:00:00:00"; return; }
+                const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((distance % (1000 * 60)) / 1000);
+                el.innerText = `${d.toString().padStart(2,'0')}:${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+            }
+        }, 1000);
+
+        async function loadGlobalSettings() {
+            const { data } = await supabaseClient.from('app_settings').select('*').eq('id', 1).single();
+            if (data) {
+                document.getElementById('timer-display-title').innerText = data.timer_title;
+                targetTimerDate = new Date(data.timer_date).getTime();
+                document.getElementById('timer-edit-title').value = data.timer_title;
+                const dateObj = new Date(data.timer_date); dateObj.setMinutes(dateObj.getMinutes() - dateObj.getTimezoneOffset());
+                document.getElementById('timer-edit-date').value = dateObj.toISOString().slice(0,16);
+            }
+        }
+        async function saveTimer() {
+            const title = document.getElementById('timer-edit-title').value.trim(); const d = document.getElementById('timer-edit-date').value;
+            if(!title || !d) return alert("Введите название и дату!");
+            await supabaseClient.from('app_settings').upsert({ id: 1, timer_title: title, timer_date: d });
+            closeModal('modal-timer'); loadGlobalSettings();
+        }
+
+        const quotes = ["Победа над собой — величайшая из побед.", "Истинный путь постигается десятью тысячами дней тренировок."];
+        document.getElementById('daily-quote').innerText = "«" + quotes[Math.floor(Math.random() * quotes.length)] + "»";
+
+        function showTab(t) { document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active')); document.getElementById('tab-'+t).classList.add('active'); let b = document.getElementById('btn-'+t); if(b) b.classList.add('active'); window.scrollTo({top:0, behavior:'smooth'}); }
+        function toggleForm(id) { const e = document.getElementById(id); e.style.display = e.style.display === 'none' ? 'block' : 'none'; }
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function calculateAge(d) { return Math.abs(new Date(Date.now() - new Date(d).getTime()).getUTCFullYear() - 1970); }
+
+        async function uploadFile(inputId, path) {
+            const file = document.getElementById(inputId).files[0]; if (!file) return null;
+            const name = `${Math.random().toString(36).substring(2)}.${file.name.split('.').pop()}`;
+            const { error } = await supabaseClient.storage.from('zanshin-media').upload(`${path}/${name}`, file);
+            if (error) return null; return { url: supabaseClient.storage.from('zanshin-media').getPublicUrl(`${path}/${name}`).data.publicUrl, name: file.name };
+        }
+
+        // === НАСТРОЙКИ ПРОФИЛЯ И АВАТАРКА ===
+        function previewAvatar(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) { document.getElementById('profile-avatar-preview').innerHTML = `<img src="${e.target.result}">`; }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        async function saveProfile() {
+            document.getElementById('prof-loading').style.display='block';
+            const name = document.getElementById('prof-name').value;
+            const dan = document.getElementById('prof-dan').value;
+            const phone = document.getElementById('prof-phone').value;
+            const pwd = document.getElementById('prof-pwd').value;
+            
+            let avatarUrl = null;
+            if(document.getElementById('prof-avatar-file').files.length > 0) {
+                const imgData = await uploadFile('prof-avatar-file', 'avatars');
+                if(imgData) avatarUrl = imgData.url;
+            }
+
+            const updates = { full_name: name, dan: dan, phone: phone };
+            if(avatarUrl) updates.avatar_url = avatarUrl;
+            
+            await supabaseClient.from('profiles').update(updates).eq('id', currentUserId);
+            
+            if(pwd) {
+                const { error } = await supabaseClient.auth.updateUser({ password: pwd });
+                if(error) alert("Ошибка при смене пароля: " + error.message);
+            }
+            
+            document.getElementById('prof-loading').style.display='none';
+            alert("✅ Профиль успешно обновлен!");
+            loadProfile(currentUserId); // Перезагружаем интерфейс
+        }
+
+        // === ЖИВОЙ ОПРОСНИК ===
+        async function loadPoll() {
+            const { data } = await supabaseClient.from('poll_votes').select('option_id');
+            let votes = {1:0, 2:0, 3:0};
+            let total = 0;
+            let iVoted = false;
+            
+            // Если таблица poll_votes не существует, Supabase вернет error. 
+            // Обрабатываем мягко, чтобы сайт не сломался.
+            if(data) {
+                data.forEach(v => { votes[v.option_id]++; total++; });
+                
+                // Проверяем, голосовал ли текущий юзер
+                const { data: myVote } = await supabaseClient.from('poll_votes').select('*').eq('profile_id', currentUserId).single();
+                if(myVote) iVoted = true;
+            }
+
+            const c = document.getElementById('poll-container');
+            if(iVoted) {
+                // ПОКАЗЫВАЕМ ПРОЦЕНТЫ
+                const p1 = total>0 ? Math.round((votes[1]/total)*100) : 0;
+                const p2 = total>0 ? Math.round((votes[2]/total)*100) : 0;
+                const p3 = total>0 ? Math.round((votes[3]/total)*100) : 0;
+                
+                c.innerHTML = `
+                    <div class="poll-option" style="cursor:default;"><div class="poll-progress" style="width:${p1}%;"></div><div class="poll-text"><span>Алматы (База ЦСКА)</span><span>${p1}%</span></div></div>
+                    <div class="poll-option" style="cursor:default;"><div class="poll-progress" style="width:${p2}%;"></div><div class="poll-text"><span>Боровое (Щучинск)</span><span>${p2}%</span></div></div>
+                    <div class="poll-option" style="cursor:default;"><div class="poll-progress" style="width:${p3}%;"></div><div class="poll-text"><span>Талдыкорган</span><span>${p3}%</span></div></div>
+                    <p style="font-size: 11px; color: #888; text-align: center; margin: 5px 0 0 0;">Всего голосов: ${total}. Ваш голос учтен!</p>
+                `;
+            } else {
+                // ПОКАЗЫВАЕМ КНОПКИ
+                c.innerHTML = `
+                    <button class="poll-option" onclick="castVote(1)">Алматы (База ЦСКА)</button>
+                    <button class="poll-option" onclick="castVote(2)">Боровое (Щучинск)</button>
+                    <button class="poll-option" onclick="castVote(3)">Талдыкорган</button>
+                `;
+            }
+        }
+
+        async function castVote(optionId) {
+            await supabaseClient.from('poll_votes').insert([{ profile_id: currentUserId, option_id: optionId }]);
+            loadPoll();
+        }
+
+        // === ОСТАЛЬНЫЕ ФУНКЦИИ БЕЗ ИЗМЕНЕНИЙ ===
+        async function saveNews() { const t = document.getElementById('news-title').value, c = document.getElementById('news-content').value; if (!t || !c) return alert("Заполните текст!"); document.getElementById('news-loading').style.display='block'; const img = await uploadFile('news-image', 'news_images'); const file = await uploadFile('news-file', 'news_files'); await supabaseClient.from('news').insert([{ title: t, content: c, image_url: img?.url, file_url: file?.url, file_name: file?.name }]); closeModal('modal-news'); document.getElementById('news-loading').style.display='none'; loadNewsAndEvents(); }
+        async function saveEvent() { const t = document.getElementById('ev-title').value, d = document.getElementById('ev-date').value; if (!t || !d) return alert("Обязательно!"); document.getElementById('ev-loading').style.display='block'; const img = await uploadFile('ev-image', 'events_images'); const file = await uploadFile('ev-file', 'events_files'); await supabaseClient.from('events').insert([{ title: t, event_date: d, location: document.getElementById('ev-loc').value, description: document.getElementById('ev-desc').value, image_url: img?.url, file_url: file?.url, file_name: file?.name }]); closeModal('modal-event'); document.getElementById('ev-loading').style.display='none'; loadNewsAndEvents(); }
+        async function deleteNews(id) { if(confirm("Удалить?")) { await supabaseClient.from('news').delete().eq('id', id); loadNewsAndEvents(); } }
+        async function deleteEvent(id) { if(confirm("Удалить?")) { await supabaseClient.from('events').delete().eq('id', id); loadNewsAndEvents(); } }
+
+        async function loadNewsAndEvents() {
+            const { data: evData } = await supabaseClient.from('events').select('*').order('event_date', { ascending: true });
+            let evM='', evA='';
+            evData?.forEach((e, i) => {
+                let h=`<div class="feed-item">${e.image_url?`<img src="${e.image_url}" class="feed-poster">`:''}<div class="feed-date">${e.event_date}</div><h3 class="feed-title">${e.title}</h3><p style="font-size:14px;">${e.description||''}</p><div class="feed-meta"><span>📍 ${e.location||'-'}</span></div>${e.file_url?`<a href="${e.file_url}" target="_blank" class="file-btn">💾 Скачать: ${e.file_name}</a>`:''}${isPresGlobal?`<div class="admin-actions"><button class="btn-del" onclick="deleteEvent('${e.id}')">🗑 Удалить</button></div>`:''}</div>`;
+                if(i<2) evM+=h; evA+=h;
+            });
+            document.getElementById('events-feed-container').innerHTML = evM || '<p>Анонсов нет</p>'; document.getElementById('events-archive-container').innerHTML = evA;
+
+            const { data: nData } = await supabaseClient.from('news').select('*').order('published_at', { ascending: false });
+            let nM='', nA='';
+            nData?.forEach((n, i) => {
+                let h=`<div class="feed-item" style="border-left-color:var(--primary-color);">${n.image_url?`<img src="${n.image_url}" class="feed-poster">`:''}<div class="feed-date">${n.published_at}</div><h3 class="feed-title">${n.title}</h3><p style="font-size:15px;">${n.content}</p>${n.file_url?`<a href="${n.file_url}" target="_blank" class="file-btn">💾 Скачать: ${n.file_name}</a>`:''}${isPresGlobal?`<div class="admin-actions"><button class="btn-del" onclick="deleteNews('${n.id}')">🗑 Удалить</button></div>`:''}</div>`;
+                if(i<2) nM+=h; nA+=h;
+            });
+            document.getElementById('news-feed-container').innerHTML = nM || '<p>Новостей нет</p>'; document.getElementById('news-archive-container').innerHTML = nA;
+        }
+
+        const ptsMatrix = { 'club':{1:1,2:0.5,3:0.2}, 'city':{1:3,2:2,3:1}, 'region':{1:5,2:3,3:2}, 'republic':{1:8,2:5,3:3}, 'international':{1:12,2:8,3:5}, 'asia':{1:18,2:12,3:8}, 'world':{1:25,2:18,3:12} };
+        async function openPointsModal() { openModal('modal-points'); const s = document.getElementById('pt-student'); const { data } = await supabaseClient.from('students').select('id, full_name').order('full_name'); s.innerHTML='<option value="">-- Выберите --</option>'; data?.forEach(x => s.innerHTML+=`<option value="${x.id}">${x.full_name}</option>`); }
+        async function savePoints() { const sid = document.getElementById('pt-student').value, t = document.getElementById('pt-tournament').value; if(!sid || !t) return alert("Заполните поля!"); const pts = ptsMatrix[document.getElementById('pt-level').value][document.getElementById('pt-place').value]; await supabaseClient.from('athlete_results').insert([{student_id: sid, tournament_name: t, place: document.getElementById('pt-place').value, points: pts}]); closeModal('modal-points'); loadRankings(); }
+        async function deleteResult(id) { if(confirm("Сбросить баллы?")) { await supabaseClient.from('athlete_results').delete().eq('student_id', id); loadRankings(); } }
+        async function loadRankings() {
+            const { data: profData } = await supabaseClient.from('profiles').select('id, full_name'); const trainersMap = {}; profData?.forEach(p => trainersMap[p.id] = p.full_name);
+            const { data } = await supabaseClient.from('athlete_results').select('points, student_id, students(full_name, profile_id)');
+            const stScores = {}; const stIds = {}; const trScores = {};
+            data?.forEach(r => { if(r.students) { stScores[r.students.full_name] = (stScores[r.students.full_name]||0)+r.points; stIds[r.students.full_name] = r.student_id; if(r.students.profile_id) trScores[r.students.profile_id] = (trScores[r.students.profile_id]||0)+r.points; } });
+
+            const sortedSt = Object.entries(stScores).sort((a,b)=>b[1]-a[1]);
+            let sHtml=''; for(let i=0; i<Math.min(3, sortedSt.length); i++) sHtml+=`<div class="list-item"><span class="rank-number ${i===0?'top-1':(i===1?'top-2':'top-3')}">${i+1}</span><div style="flex:1;font-size:13px;"><strong>${sortedSt[i][0]}</strong></div><span style="font-weight:bold;color:var(--primary-dark);font-size:13px;">${sortedSt[i][1]} б.</span></div>`;
+            document.getElementById('short-ranking-container').innerHTML = sHtml || '<p style="text-align:center;font-size:12px;">Нет данных</p>';
+            if(sortedSt.length>0) document.getElementById('best-fighter-name').innerText = sortedSt[0][0];
+
+            let fHtml=''; if(isPresGlobal) document.getElementById('th-admin-rank').style.display='table-cell';
+            sortedSt.forEach((x,i) => fHtml+=`<tr><td><strong>${i+1}</strong></td><td><strong>${x[0]}</strong></td><td><strong>${x[1]} б.</strong></td>${isPresGlobal?`<td><button class="btn-del" onclick="deleteResult('${stIds[x[0]]}')">🗑 Сброс</button></td>`:''}</tr>`);
+            document.getElementById('full-ranking-body').innerHTML = fHtml;
+
+            const sortedTr = Object.entries(trScores).sort((a,b)=>b[1]-a[1]);
+            let tHtml=''; for(let i=0; i<Math.min(3, sortedTr.length); i++) tHtml+=`<div class="list-item"><span class="rank-number ${i===0?'top-1':(i===1?'top-2':'top-3')}">${i+1}</span><div style="flex:1;font-size:13px;"><strong>${trainersMap[sortedTr[i][0]]||'Тренер'}</strong></div><span style="font-weight:bold;color:var(--primary-dark);font-size:13px;">${sortedTr[i][1]} б.</span></div>`;
+            document.getElementById('coaches-medals-container').innerHTML = tHtml || '<p style="text-align:center;font-size:12px;">Нет данных</p>';
+
+            const { data: stAll } = await supabaseClient.from('students').select('profile_id'); const trStudCount = {}; stAll?.forEach(s => { if(s.profile_id) trStudCount[s.profile_id] = (trStudCount[s.profile_id]||0)+1; });
+            const sortedTrCount = Object.entries(trStudCount).sort((a,b)=>b[1]-a[1]);
+            let tcHtml=''; for(let i=0; i<Math.min(3, sortedTrCount.length); i++) tcHtml+=`<div class="list-item"><span class="rank-number ${i===0?'top-1':(i===1?'top-2':'top-3')}">${i+1}</span><div style="flex:1;font-size:13px;"><strong>${trainersMap[sortedTrCount[i][0]]||'Тренер'}</strong></div><span style="font-weight:bold;color:var(--text-muted);font-size:13px;">${sortedTrCount[i][1]} ч.</span></div>`;
+            document.getElementById('coaches-students-container').innerHTML = tcHtml || '<p style="text-align:center;font-size:12px;">Нет данных</p>';
+        }
+
+        function openExamModal(id, name, kyu) { document.getElementById('exam-student-id').value = id; document.getElementById('exam-student-name').innerText = `${name} (Текущий: ${kyu})`; document.getElementById('exam-date').value = new Date().toISOString().split('T')[0]; openModal('modal-exam'); }
+        async function saveExamResult() { const id = document.getElementById('exam-student-id').value; const newKyu = document.getElementById('exam-new-kyu').value; const date = document.getElementById('exam-date').value; if(!id || !newKyu || !date) return; await supabaseClient.from('students').update({ current_kyu: newKyu, last_exam_date: date }).eq('id', id); alert("✅ Пояс успешно присвоен! Таймер обнулен."); closeModal('modal-exam'); loadExams(); loadStudents(); }
+        async function loadExams() {
+            const { data } = await supabaseClient.from('students').select('*').eq('profile_id', currentUserId); let html = '';
+            if(!data || data.length === 0) { document.getElementById('exams-table-body').innerHTML = '<tr><td colspan="5" style="text-align:center;">У вас пока нет учеников</td></tr>'; return; }
+            const today = new Date();
+            data.forEach(s => {
+                let daysPassed = 999; let lastExamText = 'Первый экзамен';
+                if(s.last_exam_date) { const examDate = new Date(s.last_exam_date); daysPassed = Math.floor((today - examDate) / (1000 * 60 * 60 * 24)); lastExamText = `${daysPassed} дней назад`; }
+                const reqDays = 90; const isReady = daysPassed >= reqDays;
+                const statusHtml = isReady ? `<span style="color: #27ae60; font-weight: bold;">✅ Допущен</span>` : `<span style="color: #e74c3c; font-weight: bold;">⏳ Ждать ${reqDays - daysPassed} дн.</span>`;
+                const actionBtn = `<button class="btn-osu" style="padding: 6px 12px; font-size: 11px;" onclick="openExamModal('${s.id}', '${s.full_name}', '${s.current_kyu}')">Аттестовать</button>`;
+                html += `<tr><td><strong>${s.full_name}</strong></td><td><span style="background:#333;color:#fff;padding:3px 8px;border-radius:10px;font-size:11px;">${s.current_kyu}</span></td><td>${lastExamText}</td><td>${statusHtml}</td><td>${actionBtn}</td></tr>`;
+            });
+            document.getElementById('exams-table-body').innerHTML = html;
+        }
+
+        function addGroupRow() { const c=document.getElementById('groups-container'), r=document.createElement('div'); r.className='form-grid'; r.innerHTML=`<div><label class="form-label">Название</label><input type="text" class="form-control group-name"></div><div><label class="form-label">Дни</label><input type="text" class="form-control group-schedule"></div><div><label class="form-label">Кол-во</label><input type="number" class="form-control group-count"></div>`; c.appendChild(r); }
+        async function saveDojo() { const city=document.getElementById('dojo-city').value, addr=document.getElementById('dojo-address').value; let gr=[]; for(let r of document.getElementById('groups-container').children){ let n=r.querySelector('.group-name').value; if(n) gr.push({profile_id:currentUserId, address_city:city, address_raw:addr, group_name:n, schedule:r.querySelector('.group-schedule').value, students_count:r.querySelector('.group-count').value||0}); } await supabaseClient.from('groups').insert(gr); toggleForm('dojo-form-container'); loadDojos(); }
+        async function loadDojos() { const { data } = await supabaseClient.from('groups').select('*').eq('profile_id', currentUserId); const sel=document.getElementById('st-group'); sel.innerHTML=''; data?.forEach(g => sel.innerHTML+=`<option value="${g.id}">${g.address_city}, ${g.group_name}</option>`); }
+        async function saveStudent() { await supabaseClient.from('students').insert([{ profile_id: currentUserId, group_id: document.getElementById('st-group').value, full_name: document.getElementById('st-name').value, birth_date: document.getElementById('st-dob').value, current_kyu: document.getElementById('st-kyu').value, current_weight: document.getElementById('st-weight').value || null, is_national_team: document.getElementById('st-national').checked }]); toggleForm('student-form-container'); loadStudents(); loadBirthdays(); loadExams(); }
+        async function loadStudents() {
+            const { data } = await supabaseClient.from('students').select('*, groups(group_name)').eq('profile_id', currentUserId);
+            let h=''; data?.forEach(s => h+=`<tr><td>${s.full_name}</td><td>${calculateAge(s.birth_date)} лет</td><td><span style="background:#333;color:#fff;padding:3px 8px;border-radius:10px;font-size:11px;">${s.current_kyu}</span></td><td>${s.groups?s.groups.group_name:'-'}</td></tr>`); document.getElementById('students-table-body').innerHTML = h;
+            const { data: tData } = await supabaseClient.from('students').select('*, profiles(full_name)').eq('is_national_team', true);
+            let tH=''; tData?.forEach(t => tH+=`<tr><td><strong>${t.full_name}</strong></td><td>${calculateAge(t.birth_date)} лет</td><td>${t.current_weight?t.current_weight+' кг':'-'}</td><td><span style="background:var(--accent-gold);color:#000;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:bold;">${t.current_kyu}</span></td><td>${t.profiles?t.profiles.full_name:''}</td></tr>`); document.getElementById('national-team-body').innerHTML = tH || '<tr><td colspan="5">В сборной пока нет спортсменов.</td></tr>';
+        }
+        async function loadBirthdays() {
+            const today = new Date(); const curM = today.getMonth() + 1; const curD = today.getDate();
+            const { data: st } = await supabaseClient.from('students').select('full_name, birth_date'); let stH = '';
+            st?.forEach(s => { if(s.birth_date) { const d = new Date(s.birth_date); if(d.getMonth()+1 === curM) { const isT = (d.getDate() === curD); stH += `<div class="list-item" style="padding: 8px 0;"><div style="flex:1; font-size:13px;"><strong>${s.full_name}</strong></div><span style="font-size:11px; ${isT?'color:red;font-weight:bold;':'color:var(--text-muted);'}">${isT?'СЕГОДНЯ!':d.getDate()+' числа'} (${today.getFullYear() - d.getFullYear()} лет)</span></div>`; } } });
+            document.getElementById('student-birthdays-container').innerHTML = stH || '<p style="font-size:12px; color:#888;">В этом месяце именинников нет.</p>';
+            const { data: pr } = await supabaseClient.from('profiles').select('full_name, birth_date'); let prH = '';
+            pr?.forEach(p => { if(p.birth_date) { const d = new Date(p.birth_date); if(d.getMonth()+1 === curM) { const isT = (d.getDate() === curD); prH += `<div class="list-item" style="padding: 8px 0;"><div style="flex:1; font-size:13px;"><strong>${p.full_name}</strong></div><span style="font-size:11px; ${isT?'color:red;font-weight:bold;':'color:var(--text-muted);'}">${isT?'СЕГОДНЯ!':d.getDate()+' числа'}</span></div>`; } } });
+            document.getElementById('coach-birthdays-container').innerHTML = prH || '<p style="font-size:12px; color:#888;">В этом месяце именинников нет.</p>';
+        }
+
+        async function loadProfile(userId) {
+            currentUserId = userId;
+            const { data } = await supabaseClient.from('profiles').select('*').eq('id', userId).single();
+            if (data) {
+                document.getElementById('profile-name').innerText = data.full_name; 
+                document.getElementById('prof-name').value = data.full_name;
+                document.getElementById('prof-dan').value = data.dan || '';
+                document.getElementById('prof-phone').value = data.phone || '';
+                
+                // ЗАГРУЗКА АВАТАРКИ!
+                if(data.avatar_url) {
+                    document.getElementById('sidebar-avatar').innerHTML = `<img src="${data.avatar_url}">`;
+                    document.getElementById('profile-avatar-preview').innerHTML = `<img src="${data.avatar_url}" style="width:100%; height:100%; object-fit:cover;">`;
+                }
+
+                isPresGlobal = (data.budopassport_num === 'PRESIDENT');
+                document.getElementById('profile-rank').innerText = (data.dan || 'Пояс') + (isPresGlobal ? ' (Президент)' : '');
+                if (isPresGlobal) { document.getElementById('admin-btn-news').style.display='block'; document.getElementById('admin-btn-event').style.display='block'; document.getElementById('admin-btn-points').style.display='block'; document.getElementById('admin-btn-timer').style.display='block'; }
+            }
+            addGroupRow(); loadGlobalSettings(); loadDojos(); loadStudents(); loadNewsAndEvents(); loadRankings(); loadBirthdays(); loadExams(); loadPoll();
+        }
+        
+        async function login() { const { data, error } = await supabaseClient.auth.signInWithPassword({ email: document.getElementById('email').value.trim(), password: document.getElementById('password').value.trim() }); if (!error) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('app-content').style.display = 'block'; loadProfile(data.user.id); } else { document.getElementById('error-msg').style.display='block'; } }
+        async function logout() { await supabaseClient.auth.signOut(); location.reload(); }
+        async function checkSession() { const { data: { session } } = await supabaseClient.auth.getSession(); if (session) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('app-content').style.display = 'block'; loadProfile(session.user.id); } }
+        checkSession();
+    </script>
+</body>
+</html>
