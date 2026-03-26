@@ -22,7 +22,7 @@
         /* === ШАПКА === */
         .navbar { background-color: var(--bg-white); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--accent-gold); width: 100%; }
         .header-left { display: flex; align-items: center; gap: 20px; }
-        .header-left img { max-height: 95px; object-fit: contain; } 
+        .header-left img { max-height: 95px; object-fit: contain; }
         .header-titles h1 { margin: 0 0 5px 0; font-size: 22px; color: var(--primary-dark); font-weight: 900; text-transform: uppercase; letter-spacing: 1px;}
         .header-titles h2 { margin: 0; font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; line-height: 1.4; max-width: 500px;}
         .header-wisdom { text-align: right; border-left: 2px solid #eee; padding-left: 20px; }
@@ -36,7 +36,7 @@
         
         .widget-block { background: var(--bg-white); padding: 20px; border-radius: var(--border-rad); box-shadow: var(--shadow-sm); width: 100%; }
         
-        /* === МЕНЮ === */
+        /* === МЕНЮ В 2 РЯДА НА МОБИЛЬНЫХ === */
         .menu-grid { display: flex; flex-direction: column; gap: 15px; }
         .menu-column { display: flex; flex-direction: column; }
         .menu-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 900; margin: 10px 0 10px 10px; letter-spacing: 1px;}
@@ -134,29 +134,24 @@
         .form-control:focus { border-color: var(--primary-color); outline: none; background: #fff; box-shadow: 0 0 0 3px rgba(139,0,0,0.1); }
         .form-label { display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 15px; }
-        .modal-box { background: #fff; padding: 20px; border-radius: 12px; width: 100%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-top: 5px solid var(--primary-color); position: relative; max-height: 90vh; overflow-y: auto;}
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 15px; overflow-y: auto;}
+        .modal-box { background: #fff; padding: 20px; border-radius: 12px; width: 100%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-top: 5px solid var(--primary-color); position: relative; max-height: 90vh; overflow-y: auto; margin: auto;}
         .close-modal { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 20px; cursor: pointer; color: #888; }
         .loading-text { text-align: center; color: var(--primary-color); font-weight: bold; display: none; margin-bottom: 10px; font-size: 13px;}
 
         /* === ИДЕАЛЬНЫЙ АДАПТИВ === */
         @media (max-width: 1100px) { 
             .layout-wrapper { flex-direction: column; padding: 15px 10px; gap: 15px; } 
-            
             .sidebar-left, .content-center, .sidebar-right { width: 100%; position: static; display: flex; flex-direction: column; gap: 15px; } 
-            
             .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-            
             .navbar { flex-direction: row; justify-content: space-between; padding: 10px 15px; align-items: center; } 
             .header-left { gap: 10px; } 
-            .header-left img { max-height: 60px; }
+            .header-left img { max-height: 75px; }
             .header-titles h1 { font-size: 16px; margin:0 0 2px 0;}
             .header-titles h2 { display: none; } 
-            
             .header-wisdom { border-left: none; padding-left: 0; text-align: right; } 
             .header-wisdom h4 { font-size: 9px; }
             .header-wisdom p { font-size: 10px; max-width: 150px; margin-top:4px; }
-            
             .card, .timer-widget, .widget-block { width: 100%; margin-left: 0; margin-right: 0; }
         }
         
@@ -164,26 +159,20 @@
             .top-dashboard-row { flex-direction: row; gap: 10px; }
             .timer-widget { width: 62%; padding: 15px 10px; }
             .profile-widget { width: 38%; padding: 15px 10px; }
-            
             .header-left img { max-height: 75px; }
-            
             .countdown { font-size: 20px; margin: 8px 0; letter-spacing: 1px;}
             .timer-title { font-size: 14px; line-height: 1.2; }
             .timer-label { font-size: 8px; gap: 8px !important; letter-spacing: 1px;}
             .timer-widget .edit-btn { padding: 3px 6px; font-size: 9px; }
-            
             .admin-avatar { width: 50px; height: 50px; font-size: 20px; border-width: 2px; margin-bottom: 5px;}
             .admin-name { font-size: 12px; margin-bottom: 5px; }
             .admin-rank { font-size: 9px; padding: 2px 6px; margin-bottom: 5px; }
             .profile-actions { flex-direction: column; gap: 5px; margin-top: 5px; }
             .profile-actions span { display: none; }
             .profile-actions button { font-size: 9px !important; }
-            
             .menu-title { margin: 5px 0 5px 5px; font-size: 10px;}
             .menu-btn { font-size: 11px; padding: 10px; }
-            
             .card { padding: 15px; margin-bottom: 15px; }
-            
             .feed-item { padding: 10px; gap: 12px; flex-direction: row !important; align-items: flex-start; }
             .feed-image-wrapper { width: 80px; height: 80px; flex-shrink: 0; }
             .feed-title { font-size: 14px; }
@@ -469,7 +458,7 @@
         function calculateAge(d) { return Math.abs(new Date(Date.now() - new Date(d).getTime()).getUTCFullYear() - 1970); }
         async function uploadFile(inputId, path) { const file = document.getElementById(inputId).files[0]; if (!file) return null; const name = `${Math.random().toString(36).substring(2)}.${file.name.split('.').pop()}`; const { error } = await supabaseClient.storage.from('zanshin-media').upload(`${path}/${name}`, file); if (error) return null; return { url: supabaseClient.storage.from('zanshin-media').getPublicUrl(`${path}/${name}`).data.publicUrl, name: file.name }; }
 
-        // === ПРОФИЛЬ И АВАТАРКА ===
+        // === ПРОФИЛЬ ===
         function previewAvatar(input) { if (input.files && input.files[0]) { var r = new FileReader(); r.onload = function(e) { document.getElementById('profile-avatar-preview').innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover;">`; }; r.readAsDataURL(input.files[0]); } }
         async function saveProfile() {
             document.getElementById('prof-loading').style.display='block';
@@ -549,9 +538,9 @@
             document.getElementById('documents-list-container').innerHTML = h || '<p class="empty-card">Документов пока нет</p>';
         }
 
-        // === АВТО-ОЧЕРЕДЬ АНОНСОВ И НОВОСТЕЙ ===
+        // === АВТО-ОЧЕРЕДЬ АНОНСОВ ===
         async function saveNews() { const t = document.getElementById('news-title').value, c = document.getElementById('news-content').value; if (!t || !c) return alert("Заполните текст!"); document.getElementById('news-loading').style.display='block'; const img = await uploadFile('news-image', 'news_images'); const file = await uploadFile('news-file', 'news_files'); await supabaseClient.from('news').insert([{ title: t, content: c, image_url: img?.url, file_url: file?.url, file_name: file?.name }]); closeModal('modal-news'); document.getElementById('news-loading').style.display='none'; loadNewsAndEvents(); }
-        async function saveEvent() { const t = document.getElementById('ev-title').value, d = document.getElementById('ev-date').value; if (!t || !d) return alert("Обязательно!"); document.getElementById('ev-loading').style.display='block'; const img = await uploadFile('ev-image', 'events_images'); const file = await uploadFile('ev-file', 'events_files'); await supabaseClient.from('events').insert([{ title: t, event_date: d, location: document.getElementById('ev-loc').value, description: document.getElementById('ev-desc').value, image_url: img?.url, file_url: file?.url, file_name: file?.name }]); closeModal('modal-event'); document.getElementById('ev-loading').style.display='none'; loadNewsAndEvents(); }
+        async function saveEvent() { const t = document.getElementById('ev-title').value, d = document.getElementById('ev-date').value; if (!t || !d) return alert("Обязательно укажите дату!"); document.getElementById('ev-loading').style.display='block'; const img = await uploadFile('ev-image', 'events_images'); const file = await uploadFile('ev-file', 'events_files'); await supabaseClient.from('events').insert([{ title: t, event_date: d, location: document.getElementById('ev-loc').value, description: document.getElementById('ev-desc').value, image_url: img?.url, file_url: file?.url, file_name: file?.name }]); closeModal('modal-event'); document.getElementById('ev-loading').style.display='none'; loadNewsAndEvents(); }
         async function deleteNews(id) { if(confirm("Удалить?")) { await supabaseClient.from('news').delete().eq('id', id); loadNewsAndEvents(); } }
         async function deleteEvent(id) { if(confirm("Удалить?")) { await supabaseClient.from('events').delete().eq('id', id); loadNewsAndEvents(); } }
 
@@ -559,6 +548,7 @@
             const { data: evData } = await supabaseClient.from('events').select('*').order('event_date', { ascending: true });
             let evM='', evA='';
             
+            // Математика авто-очереди
             const today = new Date();
             today.setHours(0,0,0,0);
             let activeCount = 0;
@@ -573,12 +563,11 @@
                 
                 const eventDate = new Date(e.event_date);
                 
-                // Авто-очередь: если событие еще не прошло
+                // Если событие еще не прошло (дата больше или равна сегодняшней)
                 if (eventDate >= today) {
-                    if (activeCount < 3) { evM += h; activeCount++; } // На главной до 3 событий
+                    if (activeCount < 3) { evM += h; activeCount++; } // Показываем на Главной максимум 3 штуки
                 }
-                
-                // В архив идут абсолютно все (и прошлые, и будущие)
+                // Абсолютно все события падают в Архив
                 evA += h;
             });
             document.getElementById('events-feed-container').innerHTML = evM || '<p class="empty-card">Предстоящих турниров пока нет</p>'; 
@@ -712,7 +701,6 @@
 
             const sortedTr = Object.entries(trScores).sort((a,b)=>b[1]-a[1]);
             
-            // ЛУЧШИЙ ТРЕНЕР
             if(sortedTr.length > 0) {
                 let topCoachId = sortedTr[0][0];
                 document.getElementById('best-coach-name').innerText = trainersMap[topCoachId]?.name || 'Инструктор';
@@ -725,7 +713,7 @@
             document.getElementById('coaches-students-container').innerHTML = tcHtml || '<p style="text-align:center;font-size:12px;">Нет данных</p>';
         }
 
-        // === АТТЕСТАЦИЯ, ЗАЛЫ И УЧЕНИКИ ===
+        // === АТТЕСТАЦИЯ ===
         function openExamModal(id, name, kyu) { document.getElementById('exam-student-id').value = id; document.getElementById('exam-student-name').innerText = `${name} (${kyu})`; document.getElementById('exam-date').value = new Date().toISOString().split('T')[0]; openModal('modal-exam'); }
         async function saveExamResult() { const id = document.getElementById('exam-student-id').value; const newKyu = document.getElementById('exam-new-kyu').value; const date = document.getElementById('exam-date').value; if(!id || !newKyu || !date) return; await supabaseClient.from('students').update({ current_kyu: newKyu, last_exam_date: date }).eq('id', id); alert("✅ Пояс присвоен!"); closeModal('modal-exam'); loadExams(); loadStudents(); }
         async function loadExams() {
@@ -743,6 +731,7 @@
             document.getElementById('exams-table-body').innerHTML = html;
         }
 
+        // === ЗАЛЫ И УЧЕНИКИ ===
         function addGroupRow() { const c=document.getElementById('groups-container'), r=document.createElement('div'); r.className='form-grid'; r.innerHTML=`<div><label class="form-label">Группа</label><input type="text" class="form-control group-name"></div><div><label class="form-label">Расписание</label><input type="text" class="form-control group-schedule"></div><div><label class="form-label">Учеников</label><input type="number" class="form-control group-count"></div>`; c.appendChild(r); }
         async function saveDojo() { const city=document.getElementById('dojo-city').value, addr=document.getElementById('dojo-address').value; let gr=[]; for(let r of document.getElementById('groups-container').children){ let n=r.querySelector('.group-name').value; if(n) gr.push({profile_id:currentUserId, address_city:city, address_raw:addr, group_name:n, schedule:r.querySelector('.group-schedule').value, students_count:r.querySelector('.group-count').value||0}); } await supabaseClient.from('groups').insert(gr); toggleForm('dojo-form-container'); loadDojos(); }
         async function loadDojos() { const { data } = await supabaseClient.from('groups').select('*').eq('profile_id', currentUserId); const sel=document.getElementById('st-group'); sel.innerHTML=''; data?.forEach(g => sel.innerHTML+=`<option value="${g.id}">${g.address_city}, ${g.group_name}</option>`); }
