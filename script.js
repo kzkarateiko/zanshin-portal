@@ -42,7 +42,6 @@ function showTab(t) { document.querySelectorAll('.tab-content').forEach(c => c.c
 function toggleForm(id) { const e = document.getElementById(id); e.style.display = e.style.display === 'none' ? 'block' : 'none'; }
 function openModal(id) { document.getElementById(id).style.display = 'flex'; }
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-function toggleDesc(btn) { const p = btn.previousElementSibling; p.classList.toggle('expanded'); btn.innerText = btn.innerText === 'Подробнее' ? 'Скрыть' : 'Подробнее'; }
 function calculateAge(d) { return Math.abs(new Date(Date.now() - new Date(d).getTime()).getUTCFullYear() - 1970); }
 async function uploadFile(inputId, path) { const file = document.getElementById(inputId).files[0]; if (!file) return null; const name = `${Math.random().toString(36).substring(2)}.${file.name.split('.').pop()}`; const { error } = await supabaseClient.storage.from('zanshin-media').upload(`${path}/${name}`, file); if (error) return null; return { url: supabaseClient.storage.from('zanshin-media').getPublicUrl(`${path}/${name}`).data.publicUrl, name: file.name }; }
 
@@ -132,11 +131,7 @@ async function loadNewsAndEvents() {
 
     evData?.forEach((e) => {
         let imgHtml = e.image_url ? `<div class="feed-image-wrapper" onclick="window.open('${e.image_url}', '_blank')"><img src="${e.image_url}" class="feed-poster"></div>` : '';
-        let descText = e.description || '';
-        let descHtml = descText ? `<p class="feed-desc">${descText}</p>` : '';
-        
-        let h = `<div class="feed-item">${imgHtml}<div class="feed-content"><div class="feed-date">${e.event_date}</div><h3 class="feed-title">${e.title}</h3>${descHtml}<div class="feed-meta"><span>📍 ${e.location||'-'}</span></div>${e.file_url?`<a href="${e.file_url}" target="_blank" class="file-btn">💾 Скачать</a>`:''}${isPresGlobal?`<div class="admin-actions" style="margin-top:10px;"><button class="btn-del" onclick="deleteEvent('${e.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
-        
+        let h = `<div class="feed-item">${imgHtml}<div class="feed-content"><div class="feed-date">${e.event_date}</div><h3 class="feed-title">${e.title}</h3><p class="feed-desc">${e.description || ''}</p><div class="feed-meta"><span>📍 ${e.location||'-'}</span></div>${e.file_url?`<a href="${e.file_url}" target="_blank" class="file-btn">💾 Скачать</a>`:''}${isPresGlobal?`<div class="admin-actions" style="margin-top:10px;"><button class="btn-del" onclick="deleteEvent('${e.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
         const eventDate = new Date(e.event_date);
         if (eventDate >= today) { if (activeCount < 3) { evM += h; activeCount++; } }
         evA += h;
@@ -148,10 +143,7 @@ async function loadNewsAndEvents() {
     let nM='', nA='';
     nData?.forEach((n, i) => {
         let imgHtml = n.image_url ? `<div class="feed-image-wrapper" onclick="window.open('${n.image_url}', '_blank')"><img src="${n.image_url}" class="feed-poster"></div>` : '';
-        let descText = n.content || '';
-        let descHtml = descText ? `<p class="feed-desc">${descText}</p>` : '';
-
-        let h = `<div class="feed-item news-item">${imgHtml}<div class="feed-content"><div class="feed-date">${n.published_at}</div><h3 class="feed-title">${n.title}</h3>${descHtml}${n.file_url?`<a href="${n.file_url}" target="_blank" class="file-btn">💾 Скачать</a>`:''}${isPresGlobal?`<div class="admin-actions" style="margin-top:10px;"><button class="btn-del" onclick="deleteNews('${n.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
+        let h = `<div class="feed-item news-item">${imgHtml}<div class="feed-content"><div class="feed-date">${n.published_at}</div><h3 class="feed-title">${n.title}</h3><p class="feed-desc">${n.content || ''}</p>${n.file_url?`<a href="${n.file_url}" target="_blank" class="file-btn">💾 Скачать</a>`:''}${isPresGlobal?`<div class="admin-actions" style="margin-top:10px;"><button class="btn-del" onclick="deleteNews('${n.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
         if(i<2) nM+=h; nA+=h;
     });
     document.getElementById('news-feed-container').innerHTML = nM || '<p class="empty-card">Новостей пока нет</p>'; document.getElementById('news-archive-container').innerHTML = nA || '<p class="empty-card">Архив пуст</p>';
@@ -195,8 +187,6 @@ async function loadCoachesDirectory() {
                 <div class="coach-stat-row"><strong>👥 Учеников в базе:</strong> <span>${myStudents.length}</span></div>
                 <div class="coach-stat-row"><strong>🏆 Чемпионов:</strong> <span>${championsSet.size} чел.</span></div>
                 <div class="medals-box"><div class="medal-item"><span>🥇</span>${gold}</div><div class="medal-item"><span>🥈</span>${silver}</div><div class="medal-item"><span>🥉</span>${bronze}</div></div>
-                <button class="btn-link" style="margin-top:15px; width:100%; border: 1px dashed var(--accent-gold); background: #fff;" onclick="toggleCoachDetails(this)">Подробнее ⬇️</button>
-                <div style="display:none; margin-top:10px;">${dojosDetails}</div>
             </div>
         </div>`;
     });
@@ -337,7 +327,6 @@ async function openStudentProfile(studentId) {
 
 function openExamModal(id, name, kyu) { document.getElementById('exam-student-id').value = id; document.getElementById('exam-student-name-header').innerText = `${name} (${kyu})`; document.getElementById('exam-date').value = new Date().toISOString().split('T')[0]; openModal('modal-exam'); }
 async function saveExamResult() { const id = document.getElementById('exam-student-id').value; const newKyu = document.getElementById('exam-new-kyu').value; const date = document.getElementById('exam-date').value; if(!id || !newKyu || !date) return; await supabaseClient.from('students').update({ current_kyu: newKyu, last_exam_date: date }).eq('id', id); alert("✅ Пояс присвоен!"); closeModal('modal-exam'); loadExams(); loadStudents(); loadGlobalAdminData(); }
-
 async function loadExams() {
     const { data } = await supabaseClient.from('students').select('*').eq('profile_id', currentUserId); let html = '';
     if(!data || data.length === 0) { document.getElementById('exams-table-body').innerHTML = '<tr><td colspan="5" style="text-align:center;">У вас пока нет учеников</td></tr>'; return; }
@@ -357,15 +346,13 @@ async function deleteStudent(id) {
     if(confirm("Удалить ученика из базы безвозвратно?")) {
         await supabaseClient.from('students').delete().eq('id', id);
         alert("Ученик удален.");
-        loadStudents();
-        loadGlobalAdminData();
+        loadStudents(); loadGlobalAdminData();
     }
 }
 
 function addGroupRow() { const c=document.getElementById('groups-container'), r=document.createElement('div'); r.className='form-grid'; r.innerHTML=`<div><label class="form-label">Группа</label><input type="text" class="form-control group-name"></div><div><label class="form-label">Расписание</label><input type="text" class="form-control group-schedule"></div><div><label class="form-label">Учеников</label><input type="number" class="form-control group-count"></div>`; c.appendChild(r); }
 async function saveDojo() { const city=document.getElementById('dojo-city').value, addr=document.getElementById('dojo-address').value; let gr=[]; for(let r of document.getElementById('groups-container').children){ let n=r.querySelector('.group-name').value; if(n) gr.push({profile_id:currentUserId, address_city:city, address_raw:addr, group_name:n, schedule:r.querySelector('.group-schedule').value, students_count:r.querySelector('.group-count').value||0}); } await supabaseClient.from('groups').insert(gr); toggleForm('dojo-form-container'); loadDojos(); loadGlobalAdminData(); }
 async function loadDojos() { const { data } = await supabaseClient.from('groups').select('*').eq('profile_id', currentUserId); const sel=document.getElementById('st-group'); sel.innerHTML=''; data?.forEach(g => sel.innerHTML+=`<option value="${g.id}">${g.address_city}, ${g.group_name}</option>`); }
-
 async function saveStudent() { await supabaseClient.from('students').insert([{ profile_id: currentUserId, group_id: document.getElementById('st-group').value, full_name: document.getElementById('st-name').value, birth_date: document.getElementById('st-dob').value, current_kyu: document.getElementById('st-kyu').value, current_weight: document.getElementById('st-weight').value || null, is_national_team: document.getElementById('st-national').checked }]); toggleForm('student-form-container'); loadStudents(); loadBirthdays(); loadExams(); loadCoachesDirectory(); loadGlobalAdminData(); }
 
 async function loadStudents() {
@@ -439,4 +426,3 @@ async function login() { const { data, error } = await supabaseClient.auth.signI
 async function logout() { await supabaseClient.auth.signOut(); location.reload(); }
 async function checkSession() { const { data: { session } } = await supabaseClient.auth.getSession(); if (session) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('app-content').style.display = 'block'; loadProfile(session.user.id); } }
 checkSession();
-
