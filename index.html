@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ФЕДЕРАЦИЯ КАРАТЭ-ДО КЁКУШИНКАЙ KWF</title>
+    <title>ФЕДЕРАЦИЯ КАРАТЭ-ДО КЁКУШИНКАЙ KWF АЛМАТИНСКОЙ ОБЛАСТИ</title>
     <link rel="icon" type="image/jpeg" href="IMG_0670.jpeg">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        /* === ЭЛИТНЫЙ ДИЗАЙН (БОРДО И ЗОЛОТО) === */
+        /* === ЭЛИТНЫЙ ДИЗАЙН === */
         :root { --primary-dark: #4a0000; --primary-color: #8B0000; --accent-gold: #D4AF37; --bg-main: #f4f6f9; --bg-white: #ffffff; --text-main: #1c1e21; --text-muted: #606770; --shadow-sm: 0 2px 4px rgba(0,0,0,0.08); --shadow-md: 0 8px 16px rgba(0,0,0,0.1); --border-rad: 12px; }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-main); margin: 0; padding: 0; color: var(--text-main); }
         #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom right, #ffffff, #f0f2f5); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; }
@@ -40,9 +40,7 @@
         .menu-btn:hover { background: #f0f2f5; color: var(--primary-color); padding-left: 20px; }
         .menu-btn.active { background: var(--primary-color); color: var(--bg-white); box-shadow: 0 4px 8px rgba(139,0,0,0.2); }
         
-        /* ИСПРАВЛЕННЫЙ БОРДОВЫЙ ТАЙМЕР С ПУЛЬСОМ */
-        .timer-widget { background: linear-gradient(135deg, #7a0000, #3a0000) !important; color: white !important; padding: 25px; border-radius: var(--border-rad); text-align: center; position: relative; border: 2px solid var(--accent-gold); animation: gold-pulse 2s infinite; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-        @keyframes gold-pulse { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.6); } 70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
+        .timer-widget { background: linear-gradient(135deg, #7a0000, #3a0000) !important; color: white !important; padding: 25px; border-radius: var(--border-rad); text-align: center; position: relative; border: 2px solid var(--accent-gold); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
         .timer-widget .edit-btn { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.4); border: 1px solid var(--accent-gold); color: var(--accent-gold); border-radius: 6px; cursor: pointer; font-size: 11px; padding: 5px 10px; font-weight: bold; transition: 0.2s;}
         .timer-widget .edit-btn:hover { background: var(--accent-gold); color: var(--primary-dark); }
         .countdown { font-size: 36px; font-weight: 900; font-family: monospace; letter-spacing: 3px; margin: 15px 0; color: #ffffff !important; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
@@ -145,7 +143,7 @@
                     <button class="menu-btn" id="btn-dojos" onclick="showTab('dojos')">🏢 Мои филиалы</button>
                     <button class="menu-btn" id="btn-students" onclick="showTab('students')">👥 База учеников</button>
                     <button class="menu-btn" id="btn-exams" onclick="showTab('exams')">⏳ Аттестация (Кю-тест)</button>
-                    <button id="admin-btn-tournaments" class="menu-btn" onclick="openModal('modal-create-tournament')" style="display: none; background: #fff8e1; border: 1px dashed var(--accent-gold); color: var(--primary-dark);">🏆 База Турниров (+)</button>
+                    <button id="admin-btn-tournaments" class="menu-btn" onclick="showTab('tournaments')" style="display: none;">🏆 База Турниров</button>
                     
                     <div class="menu-title">ФЕДЕРАЦИЯ</div>
                     <button class="menu-btn" id="btn-team" onclick="showTab('team')">🇰🇿 Сборная Алматинской области</button>
@@ -199,6 +197,24 @@
                 <div id="tab-students" class="tab-content"><div class="card"><div class="card-header"><h2>База учеников</h2><button class="btn-osu" onclick="toggleForm('student-form-container')">+ Внести ученика</button></div><div id="student-form-container" style="display: none; background: #fdfafb; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e0c8c8;"><div class="form-grid"><div><label class="form-label">ФИО Ученика</label><input type="text" id="st-name" class="form-control"></div><div><label class="form-label">Дата рождения</label><input type="date" id="st-dob" class="form-control"></div><div><label class="form-label">Пол</label><select id="st-gender" class="form-control"><option>Мужской</option><option>Женский</option></select></div></div><div class="form-grid"><div><label class="form-label">Кю/Дан</label><select id="st-kyu" class="form-control"><option>11 Кю (Белый)</option><option>10 Кю (Оранж)</option><option>9 Кю (Оранж-полоса)</option><option>8 Кю (Синий)</option></select></div><div><label class="form-label">Вес (кг)</label><input type="number" id="st-weight" class="form-control"></div><div><label class="form-label">Зал</label><select id="st-group" class="form-control"></select></div></div><div style="background: #fffcf5; padding: 15px; border-radius: 8px; border: 1px dashed var(--accent-gold); margin-bottom: 15px;"><label style="display: flex; align-items: center; gap: 10px; font-weight: bold; cursor: pointer;"><input type="checkbox" id="st-national" style="width: 20px; height: 20px; accent-color: var(--primary-color);"> 🇰🇿 Включить в состав Сборной</label></div><div style="display: flex; gap: 15px;"><button class="btn-osu" onclick="saveStudent()" style="flex: 2;">💾 Сохранить</button><button class="btn-osu" onclick="toggleForm('student-form-container')" style="flex: 1; background: #e0e0e0; color: #333;">Отмена</button></div></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>ФИО</th><th>Возраст</th><th>Квалификация</th><th>Группа</th></tr></thead><tbody id="students-table-body"></tbody></table></div></div></div>
                 <div id="tab-team" class="tab-content"><div class="card accent-gold" style="border-top: 4px solid var(--accent-gold);"><div class="card-header"><h2 style="color: var(--accent-gold);">🇰🇿 Сборная Алматинской области</h2></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Спортсмен</th><th>Возраст</th><th>Вес</th><th>Квалификация</th><th>Тренер</th></tr></thead><tbody id="national-team-body"></tbody></table></div></div></div>
                 <div id="tab-athlete-ranking" class="tab-content"><div class="card"><div class="card-header"><h2>🏆 Годовой Рейтинг</h2></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Место</th><th>Спортсмен</th><th>Баллы</th><th id="th-admin-rank" style="display:none;">Управление</th></tr></thead><tbody id="full-ranking-body"></tbody></table></div></div></div>
+                
+                <div id="tab-tournaments" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>🏆 Управление Турнирами</h2>
+                            <button class="btn-osu" onclick="openModal('modal-create-tournament')">+ Добавить турнир</button>
+                        </div>
+                        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Один раз добавьте турнир сюда, чтобы тренеры могли выбирать его при начислении баллов.</p>
+                        
+                        <div style="overflow-x: auto;">
+                            <table class="data-table">
+                                <thead><tr><th>Название</th><th>Уровень</th><th>Дата</th><th>Действие</th></tr></thead>
+                                <tbody id="tournaments-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="tab-events-archive" class="tab-content"><div class="card"><div class="card-header"><h2>Все Анонсы и Архив</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад</button></div><div id="events-archive-container"></div></div></div>
                 <div id="tab-news-archive" class="tab-content"><div class="card"><div class="card-header"><h2>Архив Новостей</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад</button></div><div id="news-archive-container"></div></div></div>
             </div>
@@ -281,7 +297,8 @@
         async function saveTimer() {
             const title = document.getElementById('timer-edit-title').value.trim(); const d = document.getElementById('timer-edit-date').value;
             if(!title || !d) return alert("Введите название и дату!");
-            await supabaseClient.from('app_settings').upsert({ id: 1, timer_title: title, timer_date: d });
+            const { error } = await supabaseClient.from('app_settings').upsert({ id: 1, timer_title: title, timer_date: d });
+            if (error) { alert("Ошибка сохранения таймера: " + error.message); return; }
             closeModal('modal-timer'); loadGlobalSettings();
         }
 
@@ -303,7 +320,10 @@
             let aUrl = null; if(document.getElementById('prof-avatar-file').files.length > 0) { const iData = await uploadFile('prof-avatar-file', 'avatars'); if(iData) aUrl = iData.url; }
             const u = { full_name: document.getElementById('prof-name').value, dan: document.getElementById('prof-dan').value, phone: document.getElementById('prof-phone').value };
             if(aUrl) u.avatar_url = aUrl;
-            await supabaseClient.from('profiles').update(u).eq('id', currentUserId);
+            
+            const { error } = await supabaseClient.from('profiles').update(u).eq('id', currentUserId);
+            if (error) { alert("Ошибка сохранения профиля: " + error.message); document.getElementById('prof-loading').style.display='none'; return; }
+
             const p = document.getElementById('prof-pwd').value; if(p) await supabaseClient.auth.updateUser({ password: p });
             document.getElementById('prof-loading').style.display='none'; alert("✅ Профиль обновлен!"); loadProfile(currentUserId);
         }
@@ -372,6 +392,20 @@
             const sel = document.getElementById('pt-tournament-select');
             sel.innerHTML = '<option value="">-- Выберите турнир --</option>';
             globalTournaments.forEach(t => { sel.innerHTML += `<option value="${t.id}">${t.title} (${t.level})</option>`; });
+            
+            // Загружаем список турниров во вкладку
+            let h = '';
+            globalTournaments.forEach(t => {
+                h += `<tr><td><strong>${t.title}</strong></td><td>${t.level}</td><td>${t.event_date}</td><td><button class="btn-del" onclick="deleteTournament('${t.id}')">🗑 Удалить</button></td></tr>`;
+            });
+            document.getElementById('tournaments-table-body').innerHTML = h || '<tr><td colspan="4" style="text-align:center;">База турниров пуста</td></tr>';
+        }
+        
+        async function deleteTournament(id) {
+            if(confirm("Удалить турнир из базы?")) {
+                await supabaseClient.from('tournaments').delete().eq('id', id);
+                loadTournamentsForPoints();
+            }
         }
         
         function autoSetLevel() {
@@ -382,9 +416,11 @@
 
         async function saveNewTournament() {
             const t = document.getElementById('ct-title').value, l = document.getElementById('ct-level').value, d = document.getElementById('ct-date').value;
-            if(!t || !d) return alert("Заполните поля!");
-            await supabaseClient.from('tournaments').insert([{title: t, level: l, event_date: d}]);
-            closeModal('modal-create-tournament'); alert("Турнир добавлен в базу!");
+            if(!t || !d) return alert("Заполните все поля!");
+            const { error } = await supabaseClient.from('tournaments').insert([{title: t, level: l, event_date: d}]);
+            if (error) { alert("Ошибка сохранения: " + error.message); return; }
+            closeModal('modal-create-tournament'); alert("Турнир успешно добавлен в базу!");
+            loadTournamentsForPoints();
         }
 
         async function openPointsModal() { 
@@ -484,7 +520,7 @@
                 isPresGlobal = (data.budopassport_num === 'PRESIDENT'); document.getElementById('profile-rank').innerText = (data.dan || 'Пояс') + (isPresGlobal ? ' (Президент)' : '');
                 if (isPresGlobal) { document.getElementById('admin-btn-news').style.display='block'; document.getElementById('admin-btn-event').style.display='block'; document.getElementById('admin-btn-points').style.display='block'; document.getElementById('admin-btn-timer').style.display='block'; document.getElementById('admin-btn-doc').style.display='block'; document.getElementById('admin-btn-tournaments').style.display='flex'; }
             }
-            addGroupRow(); loadGlobalSettings(); loadDojos(); loadStudents(); loadNewsAndEvents(); loadRankings(); loadBirthdays(); loadExams(); loadPoll(); loadDocuments();
+            addGroupRow(); loadGlobalSettings(); loadDojos(); loadStudents(); loadNewsAndEvents(); loadRankings(); loadBirthdays(); loadExams(); loadPoll(); loadDocuments(); loadTournamentsForPoints();
         }
         
         async function login() { const { data, error } = await supabaseClient.auth.signInWithPassword({ email: document.getElementById('email').value.trim(), password: document.getElementById('password').value.trim() }); if (!error) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('app-content').style.display = 'block'; loadProfile(data.user.id); } else { document.getElementById('error-msg').style.display='block'; } }
