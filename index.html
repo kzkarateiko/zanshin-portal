@@ -36,29 +36,44 @@
         
         .widget-block { background: var(--bg-white); padding: 20px; border-radius: var(--border-rad); box-shadow: var(--shadow-sm); width: 100%; }
         
-        /* === ПРОФИЛЬ === */
-        .admin-profile { text-align: center; }
-        .admin-avatar { width: 90px; height: 90px; background: #f8f9fa; border-radius: 50%; margin: 0 auto 15px; border: 3px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 40px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1);}
-        .admin-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .admin-name { font-weight: 900; font-size: 18px; color: var(--primary-dark); margin-bottom: 8px; }
-        .admin-rank { font-size: 12px; color: var(--primary-dark); font-weight: bold; background: #fef9e7; border: 1px solid var(--accent-gold); padding: 4px 12px; border-radius: 12px; display: inline-block; margin-bottom: 15px; }
-        
-        /* === МЕНЮ === */
+        /* === МЕНЮ В 2 РЯДА НА МОБИЛЬНЫХ === */
+        .menu-grid { display: flex; flex-direction: column; gap: 15px; }
+        .menu-column { display: flex; flex-direction: column; }
         .menu-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 900; margin: 10px 0 10px 10px; letter-spacing: 1px;}
         .menu-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px 15px; margin-bottom: 5px; background: transparent; border: none; border-radius: 8px; text-align: left; cursor: pointer; font-weight: 700; color: var(--text-main); font-size: 14px; transition: 0.2s; border: 1px solid transparent; }
         .menu-btn:hover { background: #f0f2f5; color: var(--primary-color); border-color: #eee; transform: translateX(5px); }
         .menu-btn.active { background: var(--primary-color); color: var(--bg-white); box-shadow: 0 4px 8px rgba(139,0,0,0.2); transform: none; }
         
-        .stat-widget { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f8f9fa; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--primary-color); }
-        .stat-widget strong { font-size: 20px; color: var(--primary-dark); }
+        /* === ПО ЧЕРТЕЖУ СЕНСЕЯ: ТАЙМЕР + ПРОФИЛЬ РЯДОМ === */
+        .top-dashboard-row { display: flex; gap: 20px; align-items: stretch; margin-bottom: 20px;}
+        .top-row-block { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         
-        /* === ТАЙМЕР === */
-        .timer-widget { background: linear-gradient(135deg, #7a0000, #3a0000); color: white; padding: 25px; border-radius: var(--border-rad); text-align: center; position: relative; border: 2px solid var(--accent-gold); box-shadow: 0 10px 20px rgba(0,0,0,0.3); width: 100%; animation: gold-pulse 2s infinite; }
+        .timer-widget { background: linear-gradient(135deg, #7a0000, #3a0000); color: white; padding: 25px; border-radius: var(--border-rad); text-align: center; position: relative; border: 2px solid var(--accent-gold); box-shadow: 0 10px 20px rgba(0,0,0,0.3); animation: gold-pulse 2s infinite; height: 100%; width: 100%; }
         @keyframes gold-pulse { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
         .timer-widget .edit-btn { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.4); border: 1px solid var(--accent-gold); color: var(--accent-gold); border-radius: 6px; cursor: pointer; font-size: 11px; padding: 5px 10px; font-weight: bold; transition: 0.2s;}
         .countdown { font-size: 36px; font-weight: 900; font-family: monospace; letter-spacing: 3px; margin: 15px 0; color: #ffffff; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
         .timer-label { font-size: 11px; color: var(--accent-gold); font-weight: bold; text-transform: uppercase; letter-spacing: 2px;}
         .timer-title { font-size: 20px; font-weight: bold; color: #ffffff; margin-top: 5px;}
+        
+        .profile-widget { padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center;}
+        .admin-avatar { width: 80px; height: 80px; background: #f8f9fa; border-radius: 50%; margin: 0 auto 10px; border: 3px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 35px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1);}
+        .admin-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .admin-name { font-weight: 900; font-size: 16px; color: var(--primary-dark); margin-bottom: 5px; line-height: 1.2;}
+        .admin-rank { font-size: 11px; color: var(--primary-dark); font-weight: bold; background: #fef9e7; border: 1px solid var(--accent-gold); padding: 4px 10px; border-radius: 12px; display: inline-block; margin-bottom: 10px; }
+        .profile-actions { display: flex; justify-content: center; gap: 10px; font-size: 12px; }
+        .profile-actions button { background:none; border:none; color: var(--primary-color); font-weight:bold; cursor: pointer; padding: 0;}
+        
+        .stat-widget { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f8f9fa; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--primary-color); }
+        .stat-widget strong { font-size: 20px; color: var(--primary-dark); }
+        
+        /* === ОПРОСНИК === */
+        .widget-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; }
+        .widget-header h3 { margin: 0; font-size: 14px; color: var(--primary-dark); font-weight: 800; }
+        .poll-option { width: 100%; background: #f8f9fa; border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 10px; text-align: left; cursor: pointer; font-size: 14px; color: var(--text-main); transition: 0.2s; position: relative; overflow: hidden; font-weight: 600; display: block;}
+        .poll-option:hover { border-color: var(--primary-color); background: #fffcfc; color: var(--primary-color); }
+        .poll-progress { position: absolute; top: 0; left: 0; height: 100%; background: rgba(139,0,0,0.1); border-right: 2px solid rgba(139,0,0,0.2); transition: width 0.4s; }
+        .poll-text { position: relative; z-index: 2; display: flex; justify-content: space-between; }
+        .empty-card { text-align: center; color: #888; font-size: 13px; font-style: italic; padding: 20px; background: #fcfcfc; border-radius: 8px; border: 1px dashed #eee; }
         
         .tab-content { display: none; width: 100%; } .tab-content.active { display: block; animation: fadeIn 0.4s; } 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -68,9 +83,9 @@
         .card-header h2 { margin: 0; color: var(--primary-dark); font-size: 18px; font-weight: 900; }
         
         .btn-osu { background: var(--primary-color); color: var(--accent-gold); border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: 800; font-size: 12px; text-transform: uppercase; transition: 0.2s; letter-spacing: 0.5px;}
-        .btn-osu:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .btn-osu:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(139,0,0,0.2); }
         .btn-del { background: #fee; color: #c00; border: 1px solid #fcc; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; }
-        .btn-link { width: 100%; background: #f8f9fa; border: 1px solid #ddd; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; color: var(--primary-dark); transition: 0.2s; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; text-align: center;}
+        .btn-link { width: 100%; background: #f8f9fa; border: 1px solid #ddd; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; color: var(--primary-dark); transition: 0.2s; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; text-align: center; display: block; text-decoration: none;}
         
         /* === АНОНСЫ И НОВОСТИ === */
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
@@ -104,9 +119,7 @@
         .medals-box { background: #fdfafb; padding: 10px; border-radius: 8px; margin-top: 10px; display: flex; justify-content: space-around; border: 1px solid #f9e29c;}
         .medal-item { text-align: center; font-size: 11px; font-weight: bold; color: var(--primary-dark); }
         .medal-item span { display: block; font-size: 16px; margin-bottom: 2px; }
-
-        .widget-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; }
-        .widget-header h3 { margin: 0; font-size: 14px; color: var(--primary-dark); font-weight: 800; }
+        
         .list-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0f2f5; }
         .list-item:last-child { border-bottom: none; }
         .rank-number { font-size: 18px; font-weight: 900; color: #ccc; width: 25px; text-align: center; }
@@ -121,24 +134,26 @@
         .form-control:focus { border-color: var(--primary-color); outline: none; background: #fff; box-shadow: 0 0 0 3px rgba(139,0,0,0.1); }
         .form-label { display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 15px; overflow-y: auto;}
-        .modal-box { background: #fff; padding: 20px; border-radius: 12px; width: 100%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-top: 5px solid var(--primary-color); position: relative; max-height: 90vh; overflow-y: auto; margin: auto;}
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 15px; }
+        .modal-box { background: #fff; padding: 20px; border-radius: 12px; width: 100%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-top: 5px solid var(--primary-color); position: relative; max-height: 90vh; overflow-y: auto;}
         .close-modal { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 20px; cursor: pointer; color: #888; }
         .loading-text { text-align: center; color: var(--primary-color); font-weight: bold; display: none; margin-bottom: 10px; font-size: 13px;}
 
-        /* === ИДЕАЛЬНЫЙ АДАПТИВ (ПО СХЕМЕ) === */
+        /* === ИДЕАЛЬНЫЙ АДАПТИВ (ПО ЧЕРТЕЖУ) === */
         @media (max-width: 1100px) { 
             .layout-wrapper { flex-direction: column; padding: 15px 10px; gap: 15px; } 
             
             .sidebar-left, .content-center, .sidebar-right { width: 100%; position: static; display: flex; flex-direction: column; gap: 15px; } 
             
+            /* МЕНЮ В 2 РЯДА НА МОБИЛЬНЫХ */
             .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
             
+            /* ШАПКА: Логотип слева, текст сбалансирован */
             .navbar { flex-direction: row; justify-content: space-between; padding: 10px 15px; align-items: center; } 
             .header-left { gap: 10px; } 
-            .header-left img { max-height: 55px; }
-            .header-titles h1 { font-size: 15px; margin:0 0 2px 0;}
-            .header-titles h2 { display: none; } /* Прячем длинный текст на мобилках */
+            .header-left img { max-height: 60px; }
+            .header-titles h1 { font-size: 16px; margin:0 0 2px 0;}
+            .header-titles h2 { display: none; } /* Скрываем длинный текст */
             
             .header-wisdom { border-left: none; padding-left: 0; text-align: right; } 
             .header-wisdom h4 { font-size: 9px; }
@@ -148,9 +163,15 @@
         }
         
         @media (max-width: 650px) { 
+            /* Dashboard на мобильных: Таймер и Профиль Сенсея рядом (flex-row) */
             .top-dashboard-row { flex-direction: row; gap: 10px; }
-            .profile-widget { width: 38%; padding: 15px 10px; }
             .timer-widget { width: 62%; padding: 15px 10px; }
+            .profile-widget { width: 38%; padding: 15px 10px; }
+            
+            .countdown { font-size: 20px; margin: 8px 0; letter-spacing: 1px;}
+            .timer-title { font-size: 14px; line-height: 1.2; }
+            .timer-label { font-size: 8px; gap: 8px !important; letter-spacing: 1px;}
+            .timer-widget .edit-btn { padding: 3px 6px; font-size: 9px; }
             
             .admin-avatar { width: 50px; height: 50px; font-size: 20px; border-width: 2px; margin-bottom: 5px;}
             .admin-name { font-size: 12px; margin-bottom: 5px; }
@@ -159,14 +180,8 @@
             .profile-actions span { display: none; }
             .profile-actions button { font-size: 9px !important; }
             
-            .countdown { font-size: 18px; margin: 8px 0; letter-spacing: 1px;}
-            .timer-title { font-size: 13px; line-height: 1.2; }
-            .timer-label { font-size: 8px; gap: 8px !important; letter-spacing: 1px;}
-            .timer-widget .edit-btn { padding: 3px 6px; font-size: 9px; }
-            
-            .menu-grid { gap: 10px; }
-            .menu-title { margin: 5px 0 5px 5px; font-size: 10px; text-align: center;}
-            .menu-btn { font-size: 11px; padding: 10px; justify-content: center; text-align: center; }
+            .menu-title { margin: 5px 0 5px 5px; font-size: 10px;}
+            .menu-btn { font-size: 11px; padding: 10px; }
             
             .card { padding: 15px; margin-bottom: 15px; }
             
@@ -256,26 +271,30 @@
             <div class="content-center">
                 
                 <div class="top-dashboard-row">
-                    <div class="widget-block profile-widget">
-                        <div class="admin-profile">
-                            <div class="admin-avatar" id="sidebar-avatar">🥋</div>
-                            <div class="admin-name" id="profile-name">Загрузка...</div>
-                            <div class="admin-rank" id="profile-rank">Загрузка...</div>
-                            <div class="profile-actions">
-                                <button onclick="showTab('profile')">⚙️ Настройки</button>
-                                <span>|</span>
-                                <button onclick="logout()">Выход</button>
+                    <div class="top-row-block">
+                        <div class="timer-widget">
+                            <button id="admin-btn-timer" class="edit-btn" onclick="openModal('modal-timer')" style="display: none;">⚙️ ИЗМЕНИТЬ</button>
+                            <div class="timer-label">Ближайший старт</div>
+                            <div id="timer-display-title" class="timer-title">Загрузка...</div>
+                            <div class="countdown" id="tournament-timer">00:00:00:00</div>
+                            <div class="timer-label" style="display: flex; justify-content: center; gap: 15px;">
+                                <span>ДНЕЙ</span><span>ЧАСОВ</span><span>МИН</span><span>СЕК</span>
                             </div>
                         </div>
                     </div>
-
-                    <div class="timer-widget">
-                        <button id="admin-btn-timer" class="edit-btn" onclick="openModal('modal-timer')" style="display: none;">⚙️ ИЗМЕНИТЬ</button>
-                        <div class="timer-label">Ближайший старт</div>
-                        <div id="timer-display-title" class="timer-title">Загрузка турнира...</div>
-                        <div class="countdown" id="tournament-timer">00:00:00:00</div>
-                        <div class="timer-label" style="display: flex; justify-content: center; gap: 15px;">
-                            <span>ДНЕЙ</span><span>ЧАСОВ</span><span>МИН</span><span>СЕК</span>
+                    
+                    <div class="top-row-block">
+                        <div class="widget-block profile-widget" style="height: 100%; margin-bottom: 0;">
+                            <div class="admin-profile">
+                                <div class="admin-avatar" id="sidebar-avatar">🥋</div>
+                                <div class="admin-name" id="profile-name">Загрузка...</div>
+                                <div class="admin-rank" id="profile-rank">Загрузка...</div>
+                                <div class="profile-actions">
+                                    <button onclick="showTab('profile')">⚙️ Настройки</button>
+                                    <span>|</span>
+                                    <button onclick="logout()">Выход</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -287,7 +306,7 @@
                             <button id="admin-btn-event" class="btn-osu" style="background: var(--accent-gold); color: var(--primary-dark); font-size: 12px; padding: 6px 12px; display: none;" onclick="openModal('modal-event')">+ Добавить анонс</button>
                         </div>
                         <div id="events-feed-container"></div>
-                        <button class="btn-link" onclick="showTab('events-archive')">Все мероприятия и архив ➡️</button>
+                        <a href="#" class="btn-link" onclick="showTab('events-archive')">Все мероприятия и архив ➡️</a>
                     </div>
 
                     <div class="card" style="border-top-color: var(--primary-color); padding: 20px;">
@@ -296,77 +315,46 @@
                             <button id="admin-btn-news" class="btn-osu" style="font-size: 12px; padding: 6px 12px; display: none;" onclick="openModal('modal-news')">+ Опубликовать новость</button>
                         </div>
                         <div id="news-feed-container"></div>
-                        <button class="btn-link" onclick="showTab('news-archive')">Архив новостей 🗄️</button>
+                        <a href="#" class="btn-link" onclick="showTab('news-archive')">Архив новостей 🗄️</a>
                     </div>
                 </div>
 
-                <div id="tab-coaches-dir" class="tab-content">
-                    <div class="card">
-                        <div class="card-header"><h2>🥋 Тренерский состав Федерации</h2></div>
-                        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Список официальных инструкторов, их достижения и залы.</p>
-                        <div id="coaches-directory-container" class="coaches-grid"><p style="text-align: center; color: #888;">Загрузка состава...</p></div>
-                    </div>
-                </div>
-
-                <div id="tab-profile" class="tab-content"><div class="card" style="max-width: 600px; margin: 0 auto;"><h2 style="color: var(--primary-dark); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; font-size: 18px;">⚙️ Настройки Профиля</h2><div style="text-align: center; margin-bottom: 25px;"><div id="profile-avatar-preview" style="width: 100px; height: 100px; background: #f0f2f5; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 40px; border: 3px solid var(--accent-gold); overflow: hidden;">🥋</div><label style="font-size: 12px; color: var(--primary-color); cursor: pointer; font-weight: bold; display: inline-block; padding: 5px 10px; border: 1px dashed var(--primary-color); border-radius: 6px;">📷 Загрузить новое фото<input type="file" id="prof-avatar-file" accept="image/*" style="display: none;" onchange="previewAvatar(this)"></label></div><div class="form-group"><label>Ваше ФИО</label><input type="text" class="form-control" id="prof-name"></div><div class="form-group"><label>Квалификация (Дан/Кю)</label><input type="text" class="form-control" id="prof-dan"></div><div class="form-group"><label>Номер телефона</label><input type="tel" class="form-control" id="prof-phone"></div><div class="form-group"><label>Сменить пароль</label><input type="password" class="form-control" id="prof-pwd" placeholder="Оставьте пустым, если не меняете"></div><div id="prof-loading" class="loading-text">Сохранение данных...</div><button class="btn-osu" style="width: 100%; margin-top: 10px;" onclick="saveProfile()">💾 Сохранить изменения</button></div></div>
-                <div id="tab-documents" class="tab-content"><div class="card"><div class="card-header"><h2 style="font-size:18px;">📁 База Знаний и Документы</h2><button id="admin-btn-doc" class="btn-osu" style="display:none; background: #2c3e50; color: #fff;" onclick="openModal('modal-document')">+ Добавить</button></div><p style="color: var(--text-muted); font-size: 13px; margin-bottom: 15px;">Официальные документы Федерации.</p><div id="documents-list-container" style="display: flex; flex-direction: column; gap: 15px;"><p style="text-align: center; color: #888;">Загрузка документов...</p></div></div></div>
-                <div id="tab-exams" class="tab-content"><div class="card"><div class="card-header"><h2 style="font-size:18px;">🥋 Допуск к Кю-тесту</h2></div><p style="color: var(--text-muted); font-size: 13px; margin-bottom: 15px;">Система автоматически рассчитывает срок с последней аттестации (норматив: 90 дней). Зеленым отмечены бойцы, допущенные к экзамену.</p><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Спортсмен</th><th>Текущий пояс</th><th>Дней с экзамена</th><th>Статус</th><th>Действие</th></tr></thead><tbody id="exams-table-body"></tbody></table></div></div></div>
+                <div id="tab-coaches-dir" class="tab-content"><div class="card"><div class="card-header"><h2>🥋 Тренерский состав</h2></div><div id="coaches-directory-container" class="coaches-grid"><p class="empty-card">Загрузка состава...</p></div></div></div>
+                <div id="tab-profile" class="tab-content"><div class="card" style="max-width: 600px; margin: 0 auto;"><h2 style="color: var(--primary-dark); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; font-size: 18px;">⚙️ Настройки Профиля</h2><div style="text-align: center; margin-bottom: 25px;"><div id="profile-avatar-preview" style="width: 100px; height: 100px; background: #f0f2f5; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 40px; border: 3px solid var(--accent-gold); overflow: hidden;">🥋</div><label style="font-size: 12px; color: var(--primary-color); cursor: pointer; font-weight: bold; display: inline-block; padding: 5px 10px; border: 1px dashed var(--primary-color); border-radius: 6px;">📷 Загрузить фото<input type="file" id="prof-avatar-file" accept="image/*" style="display: none;" onchange="previewAvatar(this)"></label></div><div class="form-group"><label>Ваше ФИО</label><input type="text" class="form-control" id="prof-name"></div><div class="form-group"><label>Квалификация</label><input type="text" class="form-control" id="prof-dan"></div><div class="form-group"><label>Телефон</label><input type="tel" class="form-control" id="prof-phone"></div><div id="prof-loading" class="loading-text">Сохранение...</div><button class="btn-osu" style="width: 100%; margin-top: 10px;" onclick="saveProfile()">💾 Сохранить изменения</button></div></div>
+                <div id="tab-documents" class="tab-content"><div class="card"><div class="card-header"><h2 style="font-size:18px;">📁 База Знаний</h2><button id="admin-btn-doc" class="btn-osu" style="display:none; background: #2c3e50; color: #fff;" onclick="openModal('modal-document')">+ Добавить</button></div><div id="documents-list-container" style="display: flex; flex-direction: column; gap: 15px;"><p class="empty-card">Загрузка документов...</p></div></div></div>
+                <div id="tab-exams" class="tab-content"><div class="card"><div class="card-header"><h2 style="font-size:18px;">🥋 Допуск к Кю-тесту</h2></div><p style="color: var(--text-muted); font-size: 13px; margin-bottom: 15px;">Зеленым отмечены бойцы, допущенные к экзамену (норматив: 90 дней).</p><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Спортсмен</th><th>Пояс</th><th>Дней назад</th><th>Статус</th><th>Действие</th></tr></thead><tbody id="exams-table-body"></tbody></table></div></div></div>
                 <div id="tab-dojos" class="tab-content"><div class="card"><div class="card-header"><h2 style="font-size:18px;">Управление филиалами</h2><button class="btn-osu" onclick="toggleForm('dojo-form-container')">+ Добавить зал</button></div><div id="dojo-form-container" style="display: none; background: #fdfafb; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e0c8c8;"><div class="form-grid"><div><label class="form-label">Город</label><input type="text" id="dojo-city" class="form-control"></div><div><label class="form-label">Адрес</label><input type="text" id="dojo-address" class="form-control"></div></div><h3 style="margin-top: 10px; color: var(--primary-dark); font-size: 14px;">Группы в зале</h3><div id="groups-container"></div><button onclick="addGroupRow()" class="btn-link" style="margin-bottom: 15px; border-style: dashed; background: transparent;">+ Добавить еще группу</button><div style="display: flex; gap: 10px;"><button class="btn-osu" onclick="saveDojo()" style="flex: 2;">💾 Сохранить зал</button><button class="btn-osu" onclick="toggleForm('dojo-form-container')" style="flex: 1; background: #e0e0e0; color: #333;">Отмена</button></div></div><div id="dojos-list"></div></div></div>
-                <div id="tab-students" class="tab-content"><div class="card"><div class="card-header"><h2 style="font-size:18px;">База учеников</h2><button class="btn-osu" onclick="toggleForm('student-form-container')">+ Внести ученика</button></div><div id="student-form-container" style="display: none; background: #fdfafb; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e0c8c8;"><div class="form-grid"><div><label class="form-label">ФИО Ученика</label><input type="text" id="st-name" class="form-control"></div><div><label class="form-label">Дата рождения</label><input type="date" id="st-dob" class="form-control"></div><div><label class="form-label">Пол</label><select id="st-gender" class="form-control"><option>Мужской</option><option>Женский</option></select></div></div><div class="form-grid"><div><label class="form-label">Кю/Дан</label><select id="st-kyu" class="form-control"><option>11 Кю (Белый)</option><option>10 Кю (Оранж)</option><option>9 Кю (Оранж-полоса)</option><option>8 Кю (Синий)</option></select></div><div><label class="form-label">Вес (кг)</label><input type="number" id="st-weight" class="form-control"></div><div><label class="form-label">Зал</label><select id="st-group" class="form-control"></select></div></div><div style="background: #fffcf5; padding: 10px; border-radius: 8px; border: 1px dashed var(--accent-gold); margin-bottom: 15px;"><label style="display: flex; align-items: center; gap: 8px; font-weight: bold; cursor: pointer; font-size:12px;"><input type="checkbox" id="st-national" style="width: 16px; height: 16px; accent-color: var(--primary-color);"> 🇰🇿 Включить в Сборную</label></div><div style="display: flex; gap: 10px;"><button class="btn-osu" onclick="saveStudent()" style="flex: 2;">💾 Сохранить</button><button class="btn-osu" onclick="toggleForm('student-form-container')" style="flex: 1; background: #e0e0e0; color: #333;">Отмена</button></div></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>ФИО</th><th>Возраст</th><th>Квалификация</th><th>Группа</th></tr></thead><tbody id="students-table-body"></tbody></table></div></div></div>
-                <div id="tab-team" class="tab-content"><div class="card accent-gold" style="border-top-color: var(--accent-gold);"><div class="card-header"><h2 style="color: var(--accent-gold); font-size:18px;">🇰🇿 Сборная Алматинской области</h2></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Спортсмен</th><th>Возраст</th><th>Вес</th><th>Квалификация</th><th>Тренер</th></tr></thead><tbody id="national-team-body"></tbody></table></div></div></div>
-                <div id="tab-athlete-ranking" class="tab-content"><div class="card"><div class="card-header"><h2 style="font-size:18px;">🏆 Годовой Рейтинг</h2></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Место</th><th>Спортсмен</th><th>Баллы</th><th id="th-admin-rank" style="display:none;">Управление</th></tr></thead><tbody id="full-ranking-body"></tbody></table></div></div></div>
-                
-                <div id="tab-tournaments" class="tab-content">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2 style="font-size:18px;">🏆 База Турниров</h2>
-                            <button class="btn-osu" onclick="openModal('modal-create-tournament')">+ Добавить турнир</button>
-                        </div>
-                        <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 15px;">Один раз добавьте турнир сюда, чтобы тренеры могли выбирать его при начислении баллов.</p>
-                        <div style="overflow-x: auto;">
-                            <table class="data-table">
-                                <thead><tr><th>Название</th><th>Уровень</th><th>Дата</th><th>Действие</th></tr></thead>
-                                <tbody id="tournaments-table-body"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="tab-events-archive" class="tab-content"><div class="card"><div class="card-header"><h2 style="font-size:18px;">Все Анонсы и Архив</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад</button></div><div id="events-archive-container"></div></div></div>
-                <div id="tab-news-archive" class="tab-content"><div class="card"><div class="card-header"><h2 style="font-size:18px;">Архив Новостей</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад</button></div><div id="news-archive-container"></div></div></div>
+                <div id="tab-students" class="tab-content"><div class="card"><div class="card-header"><h2 style="font-size:18px;">База учеников</h2><button class="btn-osu" onclick="toggleForm('student-form-container')">+ Внести ученика</button></div><div id="student-form-container" style="display: none; background: #fdfafb; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e0c8c8;"><div class="form-grid"><div><label class="form-label">ФИО Ученика</label><input type="text" id="st-name" class="form-control"></div><div><label class="form-label">Дата рождения</label><input type="date" id="st-dob" class="form-control"></div><div><label class="form-label">Пол</label><select id="st-gender" class="form-control"><option>Мужской</option><option>Женский</option></select></div></div><div class="form-grid"><div><label class="form-label">Пояс</label><select id="st-kyu" class="form-control"><option>11 Кю</option><option>10 Кю</option><option>9 Кю</option><option>8 Кю</option></select></div><div><label class="form-label">Вес (кг)</label><input type="number" id="st-weight" class="form-control"></div><div><label class="form-label">Зал</label><select id="st-group" class="form-control"></select></div></div><div style="background: #fffcf5; padding: 10px; border-radius: 8px; border: 1px dashed var(--accent-gold); margin-bottom: 15px;"><label style="display: flex; align-items: center; gap: 8px; font-weight: bold; cursor: pointer; font-size:12px;"><input type="checkbox" id="st-national" style="width: 16px; height: 16px;"> 🇰🇿 Включить в Сборную</label></div><div style="display: flex; gap: 10px;"><button class="btn-osu" onclick="saveStudent()" style="flex: 2;">💾 Сохранить</button><button class="btn-osu" onclick="toggleForm('student-form-container')" style="flex: 1; background: #e0e0e0; color: #333;">Отмена</button></div></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>ФИО</th><th>Возраст</th><th>Пояс</th><th>Группа</th></tr></thead><tbody id="students-table-body"></tbody></table></div></div></div>
+                <div id="tab-team" class="tab-content"><div class="card" style="border-top-color: var(--accent-gold);"><div class="card-header"><h2 style="color: var(--accent-gold);">🇰🇿 Сборная Алматинской области</h2></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Спортсмен</th><th>Возраст</th><th>Вес</th><th>Пояс</th><th>Тренер</th></tr></thead><tbody id="national-team-body"></tbody></table></div></div></div>
+                <div id="tab-athlete-ranking" class="tab-content"><div class="card"><div class="card-header"><h2>🏆 Годовой Рейтинг</h2></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Место</th><th>Спортсмен</th><th>Баллы</th><th id="th-admin-rank" style="display:none;">Управление</th></tr></thead><tbody id="full-ranking-body"></tbody></table></div></div></div>
+                <div id="tab-tournaments" class="tab-content"><div class="card"><div class="card-header"><h2>🏆 База Турниров</h2><button class="btn-osu" onclick="openModal('modal-create-tournament')">+ Добавить</button></div><p style="color:var(--text-muted); font-size:12px; margin-bottom:15px;">Добавьте турнир в базу, чтобы начислять за него баллы.</p><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Название</th><th>Уровень</th><th>Дата</th><th>Действие</th></tr></thead><tbody id="tournaments-table-body"></tbody></table></div></div></div>
+                <div id="tab-events-archive" class="tab-content"><div class="card"><div class="card-header"><h2>Архив Мероприятий</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад</button></div><div id="events-archive-container"></div></div></div>
+                <div id="tab-news-archive" class="tab-content"><div class="card"><div class="card-header"><h2>Архив Новостей</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад</button></div><div id="news-archive-container"></div></div></div>
             </div>
 
             <div class="sidebar-right">
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                    <div class="widget-block" style="background: linear-gradient(to bottom, #fff, #fef9e7); border: 1px solid #f9e29c; text-align: center; padding: 15px; margin-bottom: 0;">
-                        <h3 style="margin: 0 0 10px 0; color: var(--accent-gold); font-size: 11px; text-transform: uppercase;">🌟 Лучший боец</h3>
-                        <div style="width: 55px; height: 55px; background: #eee; border-radius: 50%; margin: 0 auto 10px; border: 2px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 25px; box-shadow: 0 0 10px rgba(212,175,55,0.4);">👦🏻</div>
-                        <strong style="font-size: 13px; color: var(--primary-dark); line-height:1.2; display:block;" id="best-fighter-name">Загрузка...</strong>
-                    </div>
-                    <div class="widget-block" style="background: linear-gradient(to bottom, #fff, #fef9e7); border: 1px solid #f9e29c; text-align: center; padding: 15px; margin-bottom: 0;">
-                        <h3 style="margin: 0 0 10px 0; color: var(--accent-gold); font-size: 11px; text-transform: uppercase;">🌟 Лучший тренер</h3>
-                        <div style="width: 55px; height: 55px; background: #eee; border-radius: 50%; margin: 0 auto 10px; border: 2px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 25px; box-shadow: 0 0 10px rgba(212,175,55,0.4);" id="best-coach-avatar">🥋</div>
-                        <strong style="font-size: 13px; color: var(--primary-dark); line-height:1.2; display:block;" id="best-coach-name">Загрузка...</strong>
-                    </div>
-                </div>
-
                 <div class="widget-block" style="padding: 15px;">
                     <div class="menu-title" style="margin: 0 0 10px 0;">СВОДКА ФЕДЕРАЦИИ</div>
                     <div class="stat-widget"><div><span style="font-size: 12px; color: var(--text-muted);">Всего учеников</span></div><strong id="dash-total-students">0</strong></div>
                     <div class="stat-widget" style="border-left-color: var(--accent-gold);"><div><span style="font-size: 12px; color: var(--text-muted);">Филиалов / Групп</span></div><strong id="dash-total-groups">0</strong></div>
                 </div>
+                
+                <div class="widget-block" style="background: linear-gradient(to bottom, #fff, #fef9e7); border: 1px solid #f9e29c; text-align: center;">
+                    <h3 style="margin: 0 0 15px 0; color: var(--accent-gold); font-size: 12px; text-transform: uppercase;">🌟 Лучший боец месяца</h3>
+                    <div style="width: 70px; height: 70px; background: #eee; border-radius: 50%; margin: 0 auto 10px; border: 3px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 30px;">👦🏻</div>
+                    <strong style="font-size: 15px; color: var(--primary-dark);" id="best-fighter-name">Загрузка...</strong>
+                </div>
 
-                <div class="widget-block" style="background: linear-gradient(to bottom, #fff, #fef9e7); border: 1px solid #f9e29c;">
-                    <div class="widget-header" style="border-bottom-color: #faebcc;"><h3>🌟 Рейтинг бойцов</h3></div>
+                <div class="widget-block">
+                    <div class="widget-header"><h3>🌟 Рейтинг бойцов</h3></div>
                     <div id="short-ranking-container"></div>
-                    <button class="btn-link" style="margin-top: 10px; padding: 8px;" onclick="showTab('athlete-ranking')">Весь рейтинг 📊</button>
+                    <a href="#" class="btn-link" style="margin-top: 10px;" onclick="showTab('athlete-ranking')">Весь рейтинг 📊</a>
                 </div>
 
                 <div class="widget-block">
                     <div class="widget-header">
                         <h3>🏆 Тренеры (Медали)</h3>
-                        <button id="admin-btn-points" style="background:none; border:none; color:var(--primary-color); cursor:pointer; font-size:11px; font-weight:bold; text-decoration: underline; display:none;" onclick="openPointsModal()">Начислить</button>
+                        <button id="admin-btn-points" style="background:none; border:none; color:var(--primary-color); cursor:pointer; font-size:11px; font-weight:bold; display:none;" onclick="openPointsModal()">Начислить 🥇</button>
                     </div>
                     <div id="coaches-medals-container"></div>
                 </div>
@@ -381,18 +369,12 @@
                         <h3>📊 Опрос Федерации</h3>
                         <button id="admin-btn-poll" style="display:none; background:none; border:none; cursor:pointer;" onclick="openPollModal()">⚙️</button>
                     </div>
-                    <p id="poll-question-text" style="font-size: 13px; margin: 0 0 10px 0; font-weight: bold;">Загрузка вопроса...</p>
-                    <div id="poll-container"><p style="font-size:12px; color:#888; text-align:center;">Загрузка...</p></div>
+                    <p id="poll-question-text" style="font-size: 13px; margin: 0 0 10px 0; font-weight: bold; color: var(--primary-dark);">Загрузка вопроса...</p>
+                    <div id="poll-container"><p class="empty-card">Загрузка...</p></div>
                 </div>
 
-                <div class="widget-block" style="background: #fffcf5; border: 1px solid #faebcc;">
-                    <h3 style="font-size: 13px; margin: 0 0 10px 0; color: #8a6d3b;">🎂 Дни рождения (Тренеры)</h3>
-                    <div id="coach-birthdays-container"></div>
-                </div>
-                <div class="widget-block" style="background: #f4f8fa; border: 1px solid #bce8f1;">
-                    <h3 style="font-size: 13px; margin: 0 0 10px 0; color: #31708f;">🎈 Именинники (Ученики)</h3>
-                    <div id="student-birthdays-container"></div>
-                </div>
+                <div class="widget-block" style="background: #fffcf5; border: 1px solid #faebcc;"><h3 style="font-size: 13px; margin: 0 0 10px 0; color: #8a6d3b;">🎂 Именинники (Тренеры)</h3><div id="coach-birthdays-container"></div></div>
+                <div class="widget-block" style="background: #f4f8fa; border: 1px solid #bce8f1;"><h3 style="font-size: 13px; margin: 0 0 10px 0; color: #31708f;">🎈 Именинники (Ученики)</h3><div id="student-birthdays-container"></div></div>
             </div>
         </div>
     </div>
@@ -431,8 +413,7 @@
         async function saveTimer() {
             const title = document.getElementById('timer-edit-title').value.trim(); const d = document.getElementById('timer-edit-date').value;
             if(!title || !d) return alert("Введите название и дату!");
-            const { error } = await supabaseClient.from('app_settings').upsert({ id: 1, timer_title: title, timer_date: d });
-            if (error) { alert("Ошибка сохранения таймера: " + error.message); return; }
+            await supabaseClient.from('app_settings').upsert({ id: 1, timer_title: title, timer_date: d });
             closeModal('modal-timer'); loadGlobalSettings();
         }
 
@@ -448,7 +429,7 @@
         function toggleCoachDetails(btn) { 
             const div = btn.nextElementSibling; 
             if(div.style.display === 'none') { div.style.display = 'block'; btn.innerText = 'Скрыть детали ⬆️'; } 
-            else { div.style.display = 'none'; btn.innerText = 'Подробнее о залах ⬇️'; } 
+            else { div.style.display = 'none'; btn.innerText = 'Подробнее ⬇️'; } 
         }
         function toggleDesc(btn) { const p = btn.previousElementSibling; p.classList.toggle('expanded'); btn.innerText = btn.innerText === 'Подробнее' ? 'Скрыть' : 'Подробнее'; }
         function calculateAge(d) { return Math.abs(new Date(Date.now() - new Date(d).getTime()).getUTCFullYear() - 1970); }
@@ -461,56 +442,69 @@
             let aUrl = null; if(document.getElementById('prof-avatar-file').files.length > 0) { const iData = await uploadFile('prof-avatar-file', 'avatars'); if(iData) aUrl = iData.url; }
             const u = { full_name: document.getElementById('prof-name').value, dan: document.getElementById('prof-dan').value, phone: document.getElementById('prof-phone').value };
             if(aUrl) u.avatar_url = aUrl;
-            const { error } = await supabaseClient.from('profiles').update(u).eq('id', currentUserId);
-            if (error) { alert("Ошибка сохранения профиля: " + error.message); document.getElementById('prof-loading').style.display='none'; return; }
-            const p = document.getElementById('prof-pwd').value; if(p) await supabaseClient.auth.updateUser({ password: p });
-            document.getElementById('prof-loading').style.display='none'; alert("✅ Профиль обновлен!"); loadProfile(currentUserId);
+            await supabaseClient.from('profiles').update(u).eq('id', currentUserId);
+            document.getElementById('prof-loading').style.display='none'; alert("Профиль обновлен!"); loadProfile(currentUserId);
         }
 
-        // === УМНЫЙ ОПРОСНИК (РЕДАКТИРУЕМЫЙ) ===
+        // === УМНЫЙ ОПРОСНИК (ФИКС) ===
         async function loadPoll() {
+            // 1. Загружаем вопрос и варианты ответа Сенсея
             const { data: appData } = await supabaseClient.from('app_settings').select('poll_question, poll_options').eq('id', 1).single();
-            currentPollQuestion = appData?.poll_question || 'Загрузка вопроса...'; 
+            currentPollQuestion = appData?.poll_question || 'Где проведем Зимнюю Школу?';
             currentPollOptions = appData?.poll_options || [];
             document.getElementById('poll-question-text').innerText = currentPollQuestion;
 
-            const { data } = await supabaseClient.from('poll_votes').select('option_id');
-            let v = {}; currentPollOptions.forEach((_, i) => v[i] = 0);
-            let total = 0; let iVoted = false;
+            // 2. Загружаем все голоса
+            const { data: votes } = await supabaseClient.from('poll_votes').select('option_id, profile_id');
+            let vMap = {}; currentPollOptions.forEach((_,i) => vMap[i] = 0);
+            let total = 0; let userVotedIdx = -1;
             
-            if(data) { data.forEach(x => { v[x.option_id] = (v[x.option_id] || 0) + 1; total++; }); const { data: myV } = await supabaseClient.from('poll_votes').select('*').eq('profile_id', currentUserId).single(); if(myV) iVoted = true; }
-            
-            const c = document.getElementById('poll-container');
-            if(iVoted || currentPollOptions.length === 0) {
-                let html = '';
-                currentPollOptions.forEach((opt, idx) => {
-                    let p = total > 0 ? Math.round((v[idx]/total)*100) : 0;
-                    html += `<div class="poll-option" style="cursor:default;"><div class="poll-progress" style="width:${p}%;"></div><div class="poll-text"><span>${opt}</span><span>${p}%</span></div></div>`;
+            if(votes) {
+                total = votes.length;
+                votes.forEach(vote => {
+                    vMap[vote.option_id] = (vMap[vote.option_id] || 0) + 1;
+                    if(vote.profile_id === currentUserId) userVotedIdx = vote.option_id;
                 });
-                html += `<p style="font-size: 11px; color: #888; text-align: center; margin: 5px 0 0 0;">Всего голосов: ${total}</p>`;
-                c.innerHTML = html;
+            }
+            
+            // 3. Рендерим UI (или кнопки голосования, или результаты с барами)
+            const cont = document.getElementById('poll-container');
+            if(userVotedIdx !== -1 || currentPollOptions.length === 0) {
+                // Ученик уже голосовал — показываем результаты (бары)
+                let h = '';
+                currentPollOptions.forEach((opt, idx) => {
+                    let perc = total > 0 ? Math.round((vMap[idx]/total)*100) : 0;
+                    let isUserChoice = (idx === userVotedIdx) ? 'border-color: var(--primary-color); background: #fffcfc;' : '';
+                    h += `<div class="poll-option" style="cursor:default; ${isUserChoice}"><div class="poll-progress" style="width:${perc}%;"></div><div class="poll-text"><span>${opt}</span><span>${perc}%</span></div></div>`;
+                });
+                h += `<p style="font-size: 11px; color: #888; text-align: center; margin: 5px 0 0 0;">Всего голосов: ${total}</p>`;
+                cont.innerHTML = h;
             } else {
-                let html = '';
-                currentPollOptions.forEach((opt, idx) => { html += `<button class="poll-option" onclick="castVote(${idx})">${opt}</button>`; });
-                c.innerHTML = html;
+                // Ученик еще не голосовал — показываем кнопки
+                let h = '';
+                currentPollOptions.forEach((opt, idx) => { h += `<button class="poll-option" onclick="castVote(${idx})">${opt}</button>`; });
+                cont.innerHTML = h;
             }
         }
-        async function castVote(opt) { await supabaseClient.from('poll_votes').insert([{ profile_id: currentUserId, option_id: opt }]); loadPoll(); }
+        async function castVote(optIdx) { if(!currentUserId) return alert("Войдите в систему!"); await supabaseClient.from('poll_votes').insert([{ profile_id: currentUserId, option_id: optIdx }]); loadPoll(); }
         
+        // Функции Админа (Сенсея) для редактирования
         function openPollModal() { document.getElementById('poll-edit-q').value = currentPollQuestion; renderPollEditOptions(); openModal('modal-poll-edit'); }
         function renderPollEditOptions() {
-            let h = ''; currentPollOptions.forEach((opt, i) => { h += `<div style="display:flex; gap:10px; margin-bottom:10px;"><input type="text" class="form-control" value="${opt}" onchange="currentPollOptions[${i}]=this.value"><button class="btn-del" style="flex-shrink:0;" onclick="currentPollOptions.splice(${i},1); renderPollEditOptions()">✖</button></div>`; });
+            let h = ''; currentPollOptions.forEach((opt, i) => { h += `<div style="display:flex; gap:10px; margin-bottom:10px;"><input type="text" class="form-control group-input" value="${opt}" onchange="currentPollOptions[${i}]=this.value"><button class="btn-del" style="flex-shrink:0;" onclick="currentPollOptions.splice(${i},1); renderPollEditOptions()">✖</button></div>`; });
             document.getElementById('poll-edit-opts').innerHTML = h;
         }
         function addPollOption() { currentPollOptions.push('Новый вариант'); renderPollEditOptions(); }
         async function savePollAdmin() {
             const q = document.getElementById('poll-edit-q').value;
+            // Убираем пустые варианты
             currentPollOptions = currentPollOptions.filter(x => x.trim() !== '');
-            if(currentPollOptions.length === 0) return alert("Добавьте хотя бы один вариант ответа!");
+            if(currentPollOptions.length < 2) return alert("Добавьте хотя бы два варианта!");
+            // 1. Обновляем настройки в Supabase
             await supabaseClient.from('app_settings').update({ poll_question: q, poll_options: currentPollOptions }).eq('id', 1);
-            // Обнуляем голоса (удаляем все записи где профиль не пустой)
+            // 2. ВАЖНО: Обнуляем старые голоса!
             await supabaseClient.from('poll_votes').delete().not('profile_id', 'is', null);
-            closeModal('modal-poll-edit'); alert("Опрос успешно обновлен! Голоса сброшены."); loadPoll();
+            closeModal('modal-poll-edit'); alert("✅ Опрос обновлен, голоса сброшены!"); loadPoll();
         }
 
         // === ДОКУМЕНТЫ ===
@@ -526,10 +520,10 @@
         async function loadDocuments() {
             const { data } = await supabaseClient.from('documents').select('*').order('created_at', { ascending: false }); let h = '';
             data?.forEach(d => { h += `<div style="background: #fdfafb; border: 1px solid #eee; padding: 15px; border-radius: 8px; border-left: 4px solid var(--primary-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;"><div style="flex: 1; min-width: 200px;"><h3 style="margin: 0 0 5px 0; color: var(--primary-dark); font-size: 15px;">${d.title}</h3><p style="margin: 0; font-size: 12px; color: var(--text-muted);">${d.description || ''}</p></div><div style="display: flex; gap: 10px; align-items: center;"><a href="${d.file_url}" target="_blank" class="btn-osu" style="text-decoration: none; padding: 6px 12px; font-size: 11px; background: var(--accent-gold); color: var(--primary-dark);">💾 Скачать</a>${isPresGlobal ? `<button class="btn-del" onclick="deleteDocument('${d.id}')">🗑</button>` : ''}</div></div>`; });
-            document.getElementById('documents-list-container').innerHTML = h || '<p style="text-align: center; color: #888; font-size:13px;">Документов пока нет.</p>';
+            document.getElementById('documents-list-container').innerHTML = h || '<p class="empty-card">Документов пока нет</p>';
         }
 
-        // === НОВОСТИ И АНОНСЫ (КОМПАКТНЫЕ АФИШИ + ПОДРОБНЕЕ) ===
+        // === НОВОСТИ И АНОНСЫ (КОМПАКТНЫЕ АФИШИ) ===
         async function saveNews() { const t = document.getElementById('news-title').value, c = document.getElementById('news-content').value; if (!t || !c) return alert("Заполните текст!"); document.getElementById('news-loading').style.display='block'; const img = await uploadFile('news-image', 'news_images'); const file = await uploadFile('news-file', 'news_files'); await supabaseClient.from('news').insert([{ title: t, content: c, image_url: img?.url, file_url: file?.url, file_name: file?.name }]); closeModal('modal-news'); document.getElementById('news-loading').style.display='none'; loadNewsAndEvents(); }
         async function saveEvent() { const t = document.getElementById('ev-title').value, d = document.getElementById('ev-date').value; if (!t || !d) return alert("Обязательно!"); document.getElementById('ev-loading').style.display='block'; const img = await uploadFile('ev-image', 'events_images'); const file = await uploadFile('ev-file', 'events_files'); await supabaseClient.from('events').insert([{ title: t, event_date: d, location: document.getElementById('ev-loc').value, description: document.getElementById('ev-desc').value, image_url: img?.url, file_url: file?.url, file_name: file?.name }]); closeModal('modal-event'); document.getElementById('ev-loading').style.display='none'; loadNewsAndEvents(); }
         async function deleteNews(id) { if(confirm("Удалить?")) { await supabaseClient.from('news').delete().eq('id', id); loadNewsAndEvents(); } }
@@ -544,10 +538,10 @@
                 let descHtml = descText ? `<p class="feed-desc">${descText}</p>` : '';
                 let btnHtml = descText.length > 50 ? `<button class="read-more-btn" onclick="toggleDesc(this)">Подробнее</button>` : '';
                 
-                let h = `<div class="feed-item">${imgHtml}<div class="feed-content"><div class="feed-date">${e.event_date}</div><h3 class="feed-title">${e.title}</h3>${descHtml}${btnHtml}<div class="feed-meta"><span>📍 ${e.location||'-'}</span></div>${e.file_url?`<a href="${e.file_url}" target="_blank" class="file-btn">💾 Скачать: ${e.file_name}</a>`:''}${isPresGlobal?`<div class="admin-actions"><button class="btn-del" onclick="deleteEvent('${e.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
+                let h = `<div class="feed-item">${imgHtml}<div class="feed-content"><div class="feed-date">${e.event_date}</div><h3 class="feed-title">${e.title}</h3>${descHtml}${btnHtml}<div class="feed-meta"><span>📍 ${e.location||'-'}</span></div>${e.file_url?`<a href="${e.file_url}" target="_blank" class="file-btn">💾 Скачать</a>`:''}${isPresGlobal?`<div class="admin-actions" style="margin-top:10px;"><button class="btn-del" onclick="deleteEvent('${e.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
                 if(i<2) evM+=h; evA+=h;
             });
-            document.getElementById('events-feed-container').innerHTML = evM || '<div class="empty-card">Анонсов пока нет</div>'; document.getElementById('events-archive-container').innerHTML = evA;
+            document.getElementById('events-feed-container').innerHTML = evM || '<p class="empty-card">Анонсов пока нет</p>'; document.getElementById('events-archive-container').innerHTML = evA || '<p class="empty-card">Архив пуст</p>';
 
             const { data: nData } = await supabaseClient.from('news').select('*').order('published_at', { ascending: false });
             let nM='', nA='';
@@ -557,10 +551,10 @@
                 let descHtml = descText ? `<p class="feed-desc">${descText}</p>` : '';
                 let btnHtml = descText.length > 50 ? `<button class="read-more-btn" onclick="toggleDesc(this)">Подробнее</button>` : '';
 
-                let h = `<div class="feed-item news-item">${imgHtml}<div class="feed-content"><div class="feed-date">${n.published_at}</div><h3 class="feed-title">${n.title}</h3>${descHtml}${btnHtml}${n.file_url?`<a href="${n.file_url}" target="_blank" class="file-btn">💾 Скачать: ${n.file_name}</a>`:''}${isPresGlobal?`<div class="admin-actions"><button class="btn-del" onclick="deleteNews('${n.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
+                let h = `<div class="feed-item news-item">${imgHtml}<div class="feed-content"><div class="feed-date">${n.published_at}</div><h3 class="feed-title">${n.title}</h3>${descHtml}${btnHtml}${n.file_url?`<a href="${n.file_url}" target="_blank" class="file-btn">💾 Скачать</a>`:''}${isPresGlobal?`<div class="admin-actions" style="margin-top:10px;"><button class="btn-del" onclick="deleteNews('${n.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
                 if(i<2) nM+=h; nA+=h;
             });
-            document.getElementById('news-feed-container').innerHTML = nM || '<div class="empty-card">Новостей пока нет</div>'; document.getElementById('news-archive-container').innerHTML = nA;
+            document.getElementById('news-feed-container').innerHTML = nM || '<p class="empty-card">Новостей пока нет</p>'; document.getElementById('news-archive-container').innerHTML = nA || '<p class="empty-card">Архив пуст</p>';
         }
 
         // === МОДУЛЬ "НАШИ ТРЕНЕРЫ" ===
@@ -568,7 +562,7 @@
             const { data: profiles } = await supabaseClient.from('profiles').select('*');
             const { data: groups } = await supabaseClient.from('groups').select('*');
             const { data: results } = await supabaseClient.from('athlete_results').select('place, students(id, profile_id)');
-            const { data: allStudents } = await supabaseClient.from('students').select('id, profile_id, current_kyu');
+            const { data: allStudents } = await supabaseClient.from('students').select('id, profile_id');
             
             if(!profiles) return;
             let html = '';
@@ -578,7 +572,7 @@
                 let myStudents = allStudents ? allStudents.filter(s => s.profile_id === coach.id) : [];
                 
                 let dojosDetails = '';
-                myDojos.forEach(d => { dojosDetails += `<div style="font-size:12px; background:#f4f6f9; padding:10px; border-radius:6px; margin-bottom:8px; border:1px solid #eee;"><strong>📍 ${d.address_city}</strong>, ${d.address_raw}<br>🗓 ${d.schedule} <br>👥 В группе: <strong>${d.students_count || 0}</strong> чел.</div>`; });
+                myDojos.forEach(d => { dojosDetails += `<div style="font-size:12px; background:#f4f6f9; padding:8px; border-radius:6px; margin-bottom:8px; border:1px solid #eee;"><strong>📍 ${d.address_city}</strong>, ${d.address_raw}<br>👥 Группа: ${d.group_name} (${d.students_count || 0} чел.)</div>`; });
                 if(!dojosDetails) dojosDetails = '<span style="color:#aaa; font-size:12px;">Нет данных о залах</span>';
 
                 let gold = 0, silver = 0, bronze = 0; let championsSet = new Set();
@@ -600,7 +594,7 @@
                         <div class="coach-avatar">${avatar}</div>
                         <div class="coach-info">
                             <h3>${coach.full_name || 'Инструктор'}</h3>
-                            <div class="rank">${coach.dan || 'Пояс не указан'}</div>
+                            <div class="rank">${coach.dan || '- Кю/Дан'}</div>
                         </div>
                     </div>
                     <div class="coach-body">
@@ -614,13 +608,13 @@
                             <div class="medal-item"><span>🥉</span>${bronze}</div>
                         </div>
                         
-                        <button class="btn-link" style="margin-top:15px; width:100%; border: 1px dashed var(--accent-gold); background: #fff;" onclick="toggleCoachDetails(this)">Подробнее о залах ⬇️</button>
+                        <button class="btn-link" style="margin-top:15px; width:100%; border: 1px dashed var(--accent-gold); background: #fff;" onclick="toggleCoachDetails(this)">Подробнее ⬇️</button>
                         <div style="display:none; margin-top:10px;">${dojosDetails}</div>
                     </div>
                 </div>
                 `;
             });
-            document.getElementById('coaches-directory-container').innerHTML = html || '<p>Список тренеров пуст</p>';
+            document.getElementById('coaches-directory-container').innerHTML = html || '<p class="empty-card">Список тренеров пуст</p>';
         }
 
         // === БАЗА ТУРНИРОВ И НАЧИСЛЕНИЕ БАЛЛОВ ===
@@ -644,9 +638,8 @@
         async function saveNewTournament() {
             const t = document.getElementById('ct-title').value, l = document.getElementById('ct-level').value, d = document.getElementById('ct-date').value;
             if(!t || !d) return alert("Заполните все поля!");
-            const { error } = await supabaseClient.from('tournaments').insert([{title: t, level: l, event_date: d}]);
-            if (error) { alert("Ошибка сохранения: " + error.message); return; }
-            closeModal('modal-create-tournament'); alert("Турнир успешно добавлен в базу!"); loadTournamentsForPoints();
+            await supabaseClient.from('tournaments').insert([{title: t, level: l, event_date: d}]);
+            closeModal('modal-create-tournament'); loadTournamentsForPoints();
         }
 
         async function openPointsModal() { openModal('modal-points'); const s = document.getElementById('pt-student'); const { data } = await supabaseClient.from('students').select('id, full_name').order('full_name'); s.innerHTML='<option value="">-- Выберите ученика --</option>'; data?.forEach(x => s.innerHTML+=`<option value="${x.id}">${x.full_name}</option>`); loadTournamentsForPoints(); }
@@ -661,7 +654,7 @@
         
         async function deleteResult(id) { if(confirm("Сбросить баллы?")) { await supabaseClient.from('athlete_results').delete().eq('student_id', id); loadRankings(); loadCoachesDirectory(); } }
         async function loadRankings() {
-            const { data: profData } = await supabaseClient.from('profiles').select('id, full_name, avatar_url'); const trainersMap = {}; profData?.forEach(p => trainersMap[p.id] = { name: p.full_name, avatar: p.avatar_url });
+            const { data: profData } = await supabaseClient.from('profiles').select('id, full_name'); const trainersMap = {}; profData?.forEach(p => trainersMap[p.id] = p.full_name);
             const { data } = await supabaseClient.from('athlete_results').select('points, student_id, students(full_name, profile_id)');
             const stScores = {}; const stIds = {}; const trScores = {};
             data?.forEach(r => { if(r.students) { stScores[r.students.full_name] = (stScores[r.students.full_name]||0)+r.points; stIds[r.students.full_name] = r.student_id; if(r.students.profile_id) trScores[r.students.profile_id] = (trScores[r.students.profile_id]||0)+r.points; } });
@@ -676,46 +669,39 @@
             document.getElementById('full-ranking-body').innerHTML = fHtml;
 
             const sortedTr = Object.entries(trScores).sort((a,b)=>b[1]-a[1]);
-            let tHtml=''; for(let i=0; i<Math.min(3, sortedTr.length); i++) tHtml+=`<div class="list-item"><span class="rank-number ${i===0?'top-1':(i===1?'top-2':'top-3')}">${i+1}</span><div style="flex:1;font-size:13px;"><strong>${trainersMap[sortedTr[i][0]]?.name || 'Тренер'}</strong></div><span style="font-weight:bold;color:var(--primary-dark);font-size:13px;">${sortedTr[i][1]} б.</span></div>`;
+            let tHtml=''; for(let i=0; i<Math.min(3, sortedTr.length); i++) tHtml+=`<div class="list-item"><span class="rank-number ${i===0?'top-1':(i===1?'top-2':'top-3')}">${i+1}</span><div style="flex:1;font-size:13px;"><strong>${trainersMap[sortedTr[i][0]]||'Тренер'}</strong></div><span style="font-weight:bold;color:var(--primary-dark);font-size:13px;">${sortedTr[i][1]} б.</span></div>`;
             document.getElementById('coaches-medals-container').innerHTML = tHtml || '<p style="text-align:center;font-size:12px;">Нет данных</p>';
-
-            // ВЫВОД ЛУЧШЕГО ТРЕНЕРА В СИММЕТРИЧНЫЙ ВИДЖЕТ
-            if(sortedTr.length > 0) {
-                let topCoachId = sortedTr[0][0];
-                document.getElementById('best-coach-name').innerText = trainersMap[topCoachId]?.name || 'Инструктор';
-                if(trainersMap[topCoachId]?.avatar) document.getElementById('best-coach-avatar').innerHTML = `<img src="${trainersMap[topCoachId].avatar}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`;
-            }
 
             const { data: stAll } = await supabaseClient.from('students').select('profile_id'); const trStudCount = {}; stAll?.forEach(s => { if(s.profile_id) trStudCount[s.profile_id] = (trStudCount[s.profile_id]||0)+1; });
             const sortedTrCount = Object.entries(trStudCount).sort((a,b)=>b[1]-a[1]);
-            let tcHtml=''; for(let i=0; i<Math.min(3, sortedTrCount.length); i++) tcHtml+=`<div class="list-item"><span class="rank-number ${i===0?'top-1':(i===1?'top-2':'top-3')}">${i+1}</span><div style="flex:1;font-size:13px;"><strong>${trainersMap[sortedTrCount[i][0]]?.name || 'Тренер'}</strong></div><span style="font-weight:bold;color:var(--text-muted);font-size:13px;">${sortedTrCount[i][1]} ч.</span></div>`;
+            let tcHtml=''; for(let i=0; i<Math.min(3, sortedTrCount.length); i++) tcHtml+=`<div class="list-item"><span class="rank-number ${i===0?'top-1':(i===1?'top-2':'top-3')}">${i+1}</span><div style="flex:1;font-size:13px;"><strong>${trainersMap[sortedTrCount[i][0]]||'Тренер'}</strong></div><span style="font-weight:bold;color:var(--text-muted);font-size:13px;">${sortedTrCount[i][1]} ч.</span></div>`;
             document.getElementById('coaches-students-container').innerHTML = tcHtml || '<p style="text-align:center;font-size:12px;">Нет данных</p>';
         }
 
-        function openExamModal(id, name, kyu) { document.getElementById('exam-student-id').value = id; document.getElementById('exam-student-name').innerText = `${name} (Текущий: ${kyu})`; document.getElementById('exam-date').value = new Date().toISOString().split('T')[0]; openModal('modal-exam'); }
-        async function saveExamResult() { const id = document.getElementById('exam-student-id').value; const newKyu = document.getElementById('exam-new-kyu').value; const date = document.getElementById('exam-date').value; if(!id || !newKyu || !date) return; await supabaseClient.from('students').update({ current_kyu: newKyu, last_exam_date: date }).eq('id', id); alert("✅ Пояс успешно присвоен! Таймер обнулен."); closeModal('modal-exam'); loadExams(); loadStudents(); }
+        function openExamModal(id, name, kyu) { document.getElementById('exam-student-id').value = id; document.getElementById('exam-student-name').innerText = `${name} (${kyu})`; document.getElementById('exam-date').value = new Date().toISOString().split('T')[0]; openModal('modal-exam'); }
+        async function saveExamResult() { const id = document.getElementById('exam-student-id').value; const newKyu = document.getElementById('exam-new-kyu').value; const date = document.getElementById('exam-date').value; if(!id || !newKyu || !date) return; await supabaseClient.from('students').update({ current_kyu: newKyu, last_exam_date: date }).eq('id', id); alert("✅ Пояс присвоен!"); closeModal('modal-exam'); loadExams(); loadStudents(); }
         async function loadExams() {
             const { data } = await supabaseClient.from('students').select('*').eq('profile_id', currentUserId); let html = '';
             if(!data || data.length === 0) { document.getElementById('exams-table-body').innerHTML = '<tr><td colspan="5" style="text-align:center;">У вас пока нет учеников</td></tr>'; return; }
             const today = new Date();
             data.forEach(s => {
-                let daysPassed = 999; let lastExamText = 'Первый экзамен';
-                if(s.last_exam_date) { const examDate = new Date(s.last_exam_date); daysPassed = Math.floor((today - examDate) / (1000 * 60 * 60 * 24)); lastExamText = `${daysPassed} дней назад`; }
+                let daysPassed = 999; let lastExamText = 'Первый тест';
+                if(s.last_exam_date) { const examDate = new Date(s.last_exam_date); daysPassed = Math.floor((today - examDate) / (1000 * 60 * 60 * 24)); lastExamText = `${daysPassed} дн.`; }
                 const reqDays = 90; const isReady = daysPassed >= reqDays;
                 const statusHtml = isReady ? `<span style="color: #27ae60; font-weight: bold;">✅ Допущен</span>` : `<span style="color: #e74c3c; font-weight: bold;">⏳ Ждать ${reqDays - daysPassed} дн.</span>`;
-                const actionBtn = `<button class="btn-osu" style="padding: 6px 12px; font-size: 11px;" onclick="openExamModal('${s.id}', '${s.full_name}', '${s.current_kyu}')">Аттестовать</button>`;
-                html += `<tr><td><strong>${s.full_name}</strong></td><td><span style="background:#333;color:#fff;padding:3px 8px;border-radius:10px;font-size:11px;">${s.current_kyu}</span></td><td>${lastExamText}</td><td>${statusHtml}</td><td>${actionBtn}</td></tr>`;
+                const actionBtn = `<button class="btn-osu" style="padding: 6px 12px; font-size: 11px;" onclick="openExamModal('${s.id}', '${s.full_name}', '${s.current_kyu}')">Тест</button>`;
+                html += `<tr><td><strong>${s.full_name}</strong></td><td>${s.current_kyu}</td><td>${lastExamText}</td><td>${statusHtml}</td><td>${actionBtn}</td></tr>`;
             });
             document.getElementById('exams-table-body').innerHTML = html;
         }
 
-        function addGroupRow() { const c=document.getElementById('groups-container'), r=document.createElement('div'); r.className='form-grid'; r.innerHTML=`<div><label class="form-label">Название</label><input type="text" class="form-control group-name"></div><div><label class="form-label">Дни</label><input type="text" class="form-control group-schedule"></div><div><label class="form-label">Кол-во</label><input type="number" class="form-control group-count"></div>`; c.appendChild(r); }
+        function addGroupRow() { const c=document.getElementById('groups-container'), r=document.createElement('div'); r.className='form-grid'; r.innerHTML=`<div><label class="form-label">Группа</label><input type="text" class="form-control group-name"></div><div><label class="form-label">Расписание</label><input type="text" class="form-control group-schedule"></div><div><label class="form-label">Учеников</label><input type="number" class="form-control group-count"></div>`; c.appendChild(r); }
         async function saveDojo() { const city=document.getElementById('dojo-city').value, addr=document.getElementById('dojo-address').value; let gr=[]; for(let r of document.getElementById('groups-container').children){ let n=r.querySelector('.group-name').value; if(n) gr.push({profile_id:currentUserId, address_city:city, address_raw:addr, group_name:n, schedule:r.querySelector('.group-schedule').value, students_count:r.querySelector('.group-count').value||0}); } await supabaseClient.from('groups').insert(gr); toggleForm('dojo-form-container'); loadDojos(); }
         async function loadDojos() { const { data } = await supabaseClient.from('groups').select('*').eq('profile_id', currentUserId); const sel=document.getElementById('st-group'); sel.innerHTML=''; data?.forEach(g => sel.innerHTML+=`<option value="${g.id}">${g.address_city}, ${g.group_name}</option>`); }
         async function saveStudent() { await supabaseClient.from('students').insert([{ profile_id: currentUserId, group_id: document.getElementById('st-group').value, full_name: document.getElementById('st-name').value, birth_date: document.getElementById('st-dob').value, current_kyu: document.getElementById('st-kyu').value, current_weight: document.getElementById('st-weight').value || null, is_national_team: document.getElementById('st-national').checked }]); toggleForm('student-form-container'); loadStudents(); loadBirthdays(); loadExams(); loadCoachesDirectory(); }
         async function loadStudents() {
             const { data } = await supabaseClient.from('students').select('*, groups(group_name)').eq('profile_id', currentUserId);
-            let h=''; data?.forEach(s => h+=`<tr><td>${s.full_name}</td><td>${calculateAge(s.birth_date)} лет</td><td><span style="background:#333;color:#fff;padding:3px 8px;border-radius:10px;font-size:11px;">${s.current_kyu}</span></td><td>${s.groups?s.groups.group_name:'-'}</td></tr>`); document.getElementById('students-table-body').innerHTML = h;
+            let h=''; data?.forEach(s => h+=`<tr><td>${s.full_name}</td><td>${calculateAge(s.birth_date)} лет</td><td>${s.current_kyu}</td><td>${s.groups?s.groups.group_name:'-'}</td></tr>`); document.getElementById('students-table-body').innerHTML = h;
             
             const { count: totalSt } = await supabaseClient.from('students').select('*', { count: 'exact', head: true });
             const { count: totalGr } = await supabaseClient.from('groups').select('*', { count: 'exact', head: true });
@@ -723,7 +709,7 @@
             document.getElementById('dash-total-groups').innerText = totalGr || 0;
 
             const { data: tData } = await supabaseClient.from('students').select('*, profiles(full_name)').eq('is_national_team', true);
-            let tH=''; tData?.forEach(t => tH+=`<tr><td><strong>${t.full_name}</strong></td><td>${calculateAge(t.birth_date)} лет</td><td>${t.current_weight?t.current_weight+' кг':'-'}</td><td><span style="background:var(--accent-gold);color:#000;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:bold;">${t.current_kyu}</span></td><td>${t.profiles?t.profiles.full_name:''}</td></tr>`); document.getElementById('national-team-body').innerHTML = tH || '<tr><td colspan="5">В сборной пока нет спортсменов.</td></tr>';
+            let tH=''; tData?.forEach(t => tH+=`<tr><td><strong>${t.full_name}</strong></td><td>${calculateAge(t.birth_date)} лет</td><td>${t.current_weight?t.current_weight+' кг':'-'}</td><td>${t.current_kyu}</td><td>${t.profiles?t.profiles.full_name:''}</td></tr>`); document.getElementById('national-team-body').innerHTML = tH || '<tr><td colspan="5">В сборной пока нет спортсменов.</td></tr>';
         }
         async function loadBirthdays() {
             const today = new Date(); const curM = today.getMonth() + 1; const curD = today.getDate();
@@ -743,7 +729,7 @@
                 document.getElementById('prof-dan').value = data.dan || ''; document.getElementById('prof-phone').value = data.phone || '';
                 if(data.avatar_url) { document.getElementById('sidebar-avatar').innerHTML = `<img src="${data.avatar_url}" style="width:100%;height:100%;object-fit:cover;">`; document.getElementById('profile-avatar-preview').innerHTML = `<img src="${data.avatar_url}" style="width:100%;height:100%;object-fit:cover;">`; }
                 isPresGlobal = (data.budopassport_num === 'PRESIDENT'); document.getElementById('profile-rank').innerText = (data.dan || 'Пояс') + (isPresGlobal ? ' (Президент)' : '');
-                if (isPresGlobal) { document.getElementById('admin-btn-news').style.display='block'; document.getElementById('admin-btn-event').style.display='block'; document.getElementById('admin-btn-points').style.display='block'; document.getElementById('admin-btn-timer').style.display='block'; document.getElementById('admin-btn-doc').style.display='block'; document.getElementById('admin-btn-tournaments').style.display='block'; document.getElementById('admin-btn-poll').style.display='inline-block'; }
+                if (isPresGlobal) { document.getElementById('admin-btn-news').style.display='block'; document.getElementById('admin-btn-event').style.display='block'; document.getElementById('admin-btn-points').style.display='block'; document.getElementById('admin-btn-timer').style.display='block'; document.getElementById('admin-btn-doc').style.display='block'; document.getElementById('admin-btn-tournaments').style.display='flex'; document.getElementById('admin-btn-poll').style.display='inline-block'; }
             }
             addGroupRow(); loadGlobalSettings(); loadDojos(); loadStudents(); loadNewsAndEvents(); loadRankings(); loadBirthdays(); loadExams(); loadPoll(); loadDocuments(); loadTournamentsForPoints(); loadCoachesDirectory();
         }
