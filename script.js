@@ -4,7 +4,6 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
 let currentUserId = null; let isPresGlobal = false; let targetTimerDate = null; let globalTournaments = [];
 let currentPollQuestion = ""; let currentPollOptions = [];
 
-// === ТАЙМЕР ===
 setInterval(() => {
     const el = document.getElementById('tournament-timer');
     if(el && targetTimerDate) {
@@ -47,6 +46,7 @@ function toggleDesc(btn) { const p = btn.previousElementSibling; p.classList.tog
 function calculateAge(d) { return Math.abs(new Date(Date.now() - new Date(d).getTime()).getUTCFullYear() - 1970); }
 async function uploadFile(inputId, path) { const file = document.getElementById(inputId).files[0]; if (!file) return null; const name = `${Math.random().toString(36).substring(2)}.${file.name.split('.').pop()}`; const { error } = await supabaseClient.storage.from('zanshin-media').upload(`${path}/${name}`, file); if (error) return null; return { url: supabaseClient.storage.from('zanshin-media').getPublicUrl(`${path}/${name}`).data.publicUrl, name: file.name }; }
 
+// === ПРОФИЛЬ ===
 function previewAvatar(input) { if (input.files && input.files[0]) { var r = new FileReader(); r.onload = function(e) { document.getElementById('profile-avatar-preview').innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover;">`; }; r.readAsDataURL(input.files[0]); } }
 async function saveProfile() {
     document.getElementById('prof-loading').style.display='block';
@@ -68,7 +68,11 @@ async function loadPoll() {
     const { data: votes } = await supabaseClient.from('poll_votes').select('option_id, profile_id');
     let vMap = {}; currentPollOptions.forEach((_,i) => vMap[i] = 0);
     let total = 0; let userVotedIdx = -1;
-    if(votes) { total = votes.length; votes.forEach(vote => { vMap[vote.option_id] = (vMap[vote.option_id] || 0) + 1; if(vote.profile_id === currentUserId) userVotedIdx = vote.option_id; }); }
+    
+    if(votes) {
+        total = votes.length;
+        votes.forEach(vote => { vMap[vote.option_id] = (vMap[vote.option_id] || 0) + 1; if(vote.profile_id === currentUserId) userVotedIdx = vote.option_id; });
+    }
     
     const cont = document.getElementById('poll-container');
     if(userVotedIdx !== -1 || currentPollOptions.length === 0) {
@@ -81,7 +85,8 @@ async function loadPoll() {
         h += `<p style="font-size: 11px; color: #888; text-align: center; margin: 5px 0 0 0;">Всего голосов: ${total}</p>`;
         cont.innerHTML = h;
     } else {
-        let h = ''; currentPollOptions.forEach((opt, idx) => { h += `<button class="poll-option" onclick="castVote(${idx})">${opt}</button>`; });
+        let h = '';
+        currentPollOptions.forEach((opt, idx) => { h += `<button class="poll-option" onclick="castVote(${idx})">${opt}</button>`; });
         cont.innerHTML = h;
     }
 }
@@ -127,8 +132,9 @@ async function loadNewsAndEvents() {
     evData?.forEach((e) => {
         let imgHtml = e.image_url ? `<div class="feed-image-wrapper" onclick="window.open('${e.image_url}', '_blank')"><img src="${e.image_url}" class="feed-poster"></div>` : '';
         let descText = e.description || ''; let descHtml = descText ? `<p class="feed-desc">${descText}</p>` : '';
+        let btnHtml = descText.length > 50 ? `<button class="read-more-btn" onclick="toggleDesc(this)">Подробнее</button>` : '';
         
-        let h = `<div class="feed-item">${imgHtml}<div class="feed-content"><div class="feed-date">${e.event_date}</div><h3 class="feed-title">${e.title}</h3>${descHtml}<div class="feed-meta"><span>📍 ${e.location||'-'}</span></div>${e.file_url?`<a href="${e.file_url}" target="_blank" class="file-btn">💾 Скачать</a>`:''}${isPresGlobal?`<div class="admin-actions" style="margin-top:10px;"><button class="btn-del" onclick="deleteEvent('${e.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
+        let h = `<div class="feed-item">${imgHtml}<div class="feed-content"><div class="feed-date">${e.event_date}</div><h3 class="feed-title">${e.title}</h3>${descHtml}${btnHtml}<div class="feed-meta"><span>📍 ${e.location||'-'}</span></div>${e.file_url?`<a href="${e.file_url}" target="_blank" class="file-btn">💾 Скачать</a>`:''}${isPresGlobal?`<div class="admin-actions" style="margin-top:10px;"><button class="btn-del" onclick="deleteEvent('${e.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
         const eventDate = new Date(e.event_date);
         if (eventDate >= today) { if (activeCount < 3) { evM += h; activeCount++; } }
         evA += h;
@@ -141,7 +147,9 @@ async function loadNewsAndEvents() {
     nData?.forEach((n, i) => {
         let imgHtml = n.image_url ? `<div class="feed-image-wrapper" onclick="window.open('${n.image_url}', '_blank')"><img src="${n.image_url}" class="feed-poster"></div>` : '';
         let descText = n.content || ''; let descHtml = descText ? `<p class="feed-desc">${descText}</p>` : '';
-        let h = `<div class="feed-item news-item">${imgHtml}<div class="feed-content"><div class="feed-date">${n.published_at}</div><h3 class="feed-title">${n.title}</h3>${descHtml}${n.file_url?`<a href="${n.file_url}" target="_blank" class="file-btn">💾 Скачать</a>`:''}${isPresGlobal?`<div class="admin-actions" style="margin-top:10px;"><button class="btn-del" onclick="deleteNews('${n.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
+        let btnHtml = descText.length > 50 ? `<button class="read-more-btn" onclick="toggleDesc(this)">Подробнее</button>` : '';
+
+        let h = `<div class="feed-item news-item">${imgHtml}<div class="feed-content"><div class="feed-date">${n.published_at}</div><h3 class="feed-title">${n.title}</h3>${descHtml}${btnHtml}${n.file_url?`<a href="${n.file_url}" target="_blank" class="file-btn">💾 Скачать</a>`:''}${isPresGlobal?`<div class="admin-actions" style="margin-top:10px;"><button class="btn-del" onclick="deleteNews('${n.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
         if(i<2) nM+=h; nA+=h;
     });
     document.getElementById('news-feed-container').innerHTML = nM || '<p class="empty-card">Новостей пока нет</p>'; document.getElementById('news-archive-container').innerHTML = nA || '<p class="empty-card">Архив пуст</p>';
@@ -233,18 +241,40 @@ async function saveApplication() {
     closeModal('modal-apply'); alert("Заявка успешно отправлена!");
 }
 
+// === ВЫГРУЗКА МАНДАТНОЙ КОМИССИИ В EXCEL ===
+let currentTournamentApps = [];
 async function viewApplications(tourId, tourTitle) {
     document.getElementById('app-list-title').innerText = tourTitle;
     const { data: apps } = await supabaseClient.from('tournament_applications').select('*, students(*), profiles(full_name)').eq('tournament_id', tourId);
+    
+    currentTournamentApps = apps || []; // Сохраняем для выгрузки
+    
     let h = '';
     if(apps && apps.length > 0) {
         apps.forEach(a => {
             let s = a.students;
-            if(s) { h += `<tr><td><strong>${s.full_name}</strong></td><td>${calculateAge(s.birth_date)}</td><td>${s.current_weight?s.current_weight+' кг':'-'}</td><td><span style="background:#333;color:#fff;padding:2px 6px;border-radius:6px;font-size:10px;">${s.current_kyu}</span></td><td>${a.profiles ? a.profiles.full_name : '-'}</td></tr>`; }
+            if(s) { h += `<tr><td><strong>${s.full_name}</strong></td><td>${calculateAge(s.birth_date)}</td><td>${s.current_weight?s.current_weight+' кг':'-'}</td><td><span style="background:#333;color:#fff;padding:2px 6px;border-radius:6px;font-size:10px;">${s.current_kyu}</span></td><td>${s.sports_category || '-'}</td><td>${a.profiles ? a.profiles.full_name : '-'}</td></tr>`; }
         });
-    } else { h = '<tr><td colspan="5" style="text-align:center;">Заявок пока нет</td></tr>'; }
+        // Добавляем кнопку Excel
+        h += `<tr><td colspan="6"><button class="btn-excel" style="width:100%; margin-top:10px;" onclick="exportAppsToExcel('${tourTitle}')">📊 Скачать список (Excel)</button></td></tr>`;
+    } else { h = '<tr><td colspan="6" style="text-align:center;">Заявок пока нет</td></tr>'; }
     document.getElementById('app-list-body').innerHTML = h; openModal('modal-app-list');
 }
+
+function exportAppsToExcel(tourTitle) {
+    if(currentTournamentApps.length === 0) return alert("Список пуст!");
+    let csvContent = '\uFEFFФИО;Возраст;Вес;Кю/Дан;Разряд;Тренер\n'; 
+    currentTournamentApps.forEach(a => {
+        let s = a.students;
+        if(s) {
+            let name = s.full_name || ''; let age = s.birth_date ? calculateAge(s.birth_date) : ''; let weight = s.current_weight || ''; let kyu = s.current_kyu || ''; let cat = s.sports_category || ''; let coach = a.profiles ? a.profiles.full_name : '';
+            csvContent += `${name};${age};${weight};${kyu};${cat};${coach}\n`;
+        }
+    });
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a"); const url = URL.createObjectURL(blob); link.setAttribute("href", url); link.setAttribute("download", `Заявки_${tourTitle}.csv`); document.body.appendChild(link); link.click(); document.body.removeChild(link);
+}
+
 
 async function openPointsModal() { openModal('modal-points'); const s = document.getElementById('pt-student'); const { data } = await supabaseClient.from('students').select('id, full_name').order('full_name'); s.innerHTML='<option value="">-- Выберите ученика --</option>'; data?.forEach(x => s.innerHTML+=`<option value="${x.id}">${x.full_name}</option>`); loadTournamentsForPoints(); }
 async function savePoints() { 
@@ -284,6 +314,7 @@ async function loadRankings() {
     document.getElementById('coaches-students-container').innerHTML = tcHtml || '<p style="text-align:center;font-size:12px;">Нет данных</p>';
 }
 
+// === БУДО ПАСПОРТ ===
 async function openStudentProfile(studentId) {
     const { data: student } = await supabaseClient.from('students').select('*, profiles(full_name), groups(address_city, group_name)').eq('id', studentId).single();
     if(!student) return;
@@ -292,11 +323,16 @@ async function openStudentProfile(studentId) {
     if(results) { results.forEach(r => { if(r.place == 1) gold++; if(r.place == 2) silver++; if(r.place == 3) bronze++; totalPts += r.points; }); }
 
     document.getElementById('bp-avatar').innerHTML = student.avatar_url ? `<img src="${student.avatar_url}" style="width:100%;height:100%;object-fit:cover;">` : '🥋';
-    document.getElementById('bp-name').innerText = student.full_name; document.getElementById('bp-kyu').innerText = student.current_kyu;
-    document.getElementById('bp-age').innerText = calculateAge(student.birth_date) + ' лет'; document.getElementById('bp-weight').innerText = student.current_weight ? student.current_weight + ' кг' : '—';
+    document.getElementById('bp-name').innerText = student.full_name;
+    document.getElementById('bp-kyu').innerText = student.current_kyu;
+    document.getElementById('bp-category').innerText = student.sports_category || 'Нет разряда';
+    document.getElementById('bp-age').innerText = calculateAge(student.birth_date) + ' лет';
+    document.getElementById('bp-weight').innerText = student.current_weight ? student.current_weight + ' кг' : '—';
     document.getElementById('bp-national').innerHTML = student.is_national_team ? '<span style="color:#27ae60;">В составе</span>' : 'Нет';
-    document.getElementById('bp-exam').innerText = student.last_exam_date || 'Нет данных'; document.getElementById('bp-coach').innerText = student.profiles ? student.profiles.full_name : 'Нет тренера';
+    document.getElementById('bp-exam').innerText = student.last_exam_date || 'Нет данных';
+    document.getElementById('bp-coach').innerText = student.profiles ? student.profiles.full_name : 'Нет тренера';
     document.getElementById('bp-dojo').innerText = student.groups ? `${student.groups.address_city}, ${student.groups.group_name}` : 'Без зала';
+    
     document.getElementById('bp-gold').innerText = gold; document.getElementById('bp-silver').innerText = silver; document.getElementById('bp-bronze').innerText = bronze; document.getElementById('bp-points').innerText = totalPts + ' б.';
     openModal('modal-student-profile');
 }
@@ -318,10 +354,9 @@ async function loadExams() {
     document.getElementById('exams-table-body').innerHTML = html;
 }
 
-// === РЕДАКТИРОВАНИЕ И УДАЛЕНИЕ ЗАЛОВ ===
+// === РЕДАКТИРОВАНИЕ ЗАЛОВ ===
 function addGroupRow() { const c=document.getElementById('groups-container'), r=document.createElement('div'); r.className='form-grid'; r.innerHTML=`<div><label class="form-label">Группа</label><input type="text" class="form-control group-name"></div><div><label class="form-label">Расписание</label><input type="text" class="form-control group-schedule"></div><div><label class="form-label">Учеников</label><input type="number" class="form-control group-count"></div>`; c.appendChild(r); }
 async function saveDojo() { const city=document.getElementById('dojo-city').value, addr=document.getElementById('dojo-address').value; let gr=[]; for(let r of document.getElementById('groups-container').children){ let n=r.querySelector('.group-name').value; if(n) gr.push({profile_id:currentUserId, address_city:city, address_raw:addr, group_name:n, schedule:r.querySelector('.group-schedule').value, students_count:r.querySelector('.group-count').value||0}); } await supabaseClient.from('groups').insert(gr); toggleForm('dojo-form-container'); loadDojos(); loadGlobalAdminData(); }
-
 async function loadDojos() { 
     const { data } = await supabaseClient.from('groups').select('*').eq('profile_id', currentUserId); 
     const sel=document.getElementById('st-group'); const selEdit = document.getElementById('edit-st-group');
@@ -347,23 +382,35 @@ async function updateDojo() {
     await supabaseClient.from('groups').update(updates).eq('id', id);
     closeModal('modal-edit-dojo'); alert("Зал обновлен!"); loadDojos(); loadGlobalAdminData();
 }
-async function deleteDojo(id) { if(confirm("Удалить этот зал? Ученики из этого зала могут потерять привязку к группе!")) { await supabaseClient.from('groups').delete().eq('id', id); loadDojos(); loadGlobalAdminData(); } }
+async function deleteDojo(id) { if(confirm("Удалить этот зал?")) { await supabaseClient.from('groups').delete().eq('id', id); loadDojos(); loadGlobalAdminData(); } }
 
-// === РЕДАКТИРОВАНИЕ И УДАЛЕНИЕ УЧЕНИКОВ ===
-async function saveStudent() { await supabaseClient.from('students').insert([{ profile_id: currentUserId, group_id: document.getElementById('st-group').value, full_name: document.getElementById('st-name').value, birth_date: document.getElementById('st-dob').value, current_kyu: document.getElementById('st-kyu').value, current_weight: document.getElementById('st-weight').value || null, is_national_team: document.getElementById('st-national').checked }]); toggleForm('student-form-container'); loadStudents(); loadBirthdays(); loadExams(); loadCoachesDirectory(); loadGlobalAdminData(); }
+// === РЕДАКТИРОВАНИЕ УЧЕНИКОВ (С РАЗРЯДАМИ) ===
+async function saveStudent() { 
+    await supabaseClient.from('students').insert([{ 
+        profile_id: currentUserId, group_id: document.getElementById('st-group').value, full_name: document.getElementById('st-name').value, birth_date: document.getElementById('st-dob').value, 
+        current_kyu: document.getElementById('st-kyu').value, current_weight: document.getElementById('st-weight').value || null, is_national_team: document.getElementById('st-national').checked,
+        sports_category: document.getElementById('st-category').value
+    }]); 
+    toggleForm('student-form-container'); loadStudents(); loadBirthdays(); loadExams(); loadCoachesDirectory(); loadGlobalAdminData(); 
+}
 
 async function openEditStudentModal(id) {
     const { data: st } = await supabaseClient.from('students').select('*').eq('id', id).single();
     if(!st) return;
     document.getElementById('edit-st-id').value = st.id; document.getElementById('edit-st-name').value = st.full_name; document.getElementById('edit-st-dob').value = st.birth_date; document.getElementById('edit-st-kyu').value = st.current_kyu; document.getElementById('edit-st-weight').value = st.current_weight || ''; document.getElementById('edit-st-group').value = st.group_id; document.getElementById('edit-st-national').checked = st.is_national_team;
+    document.getElementById('edit-st-category').value = st.sports_category || 'Нет разряда';
     openModal('modal-edit-student');
 }
 
 async function updateStudent() {
     const id = document.getElementById('edit-st-id').value;
-    const updates = { full_name: document.getElementById('edit-st-name').value, birth_date: document.getElementById('edit-st-dob').value, current_kyu: document.getElementById('edit-st-kyu').value, current_weight: document.getElementById('edit-st-weight').value || null, group_id: document.getElementById('edit-st-group').value, is_national_team: document.getElementById('edit-st-national').checked };
+    const updates = { 
+        full_name: document.getElementById('edit-st-name').value, birth_date: document.getElementById('edit-st-dob').value, current_kyu: document.getElementById('edit-st-kyu').value, 
+        current_weight: document.getElementById('edit-st-weight').value || null, group_id: document.getElementById('edit-st-group').value, is_national_team: document.getElementById('edit-st-national').checked,
+        sports_category: document.getElementById('edit-st-category').value
+    };
     await supabaseClient.from('students').update(updates).eq('id', id);
-    closeModal('modal-edit-student'); alert("Данные ученика обновлены!"); loadStudents(); loadExams(); loadGlobalAdminData();
+    closeModal('modal-edit-student'); alert("Ученик обновлен!"); loadStudents(); loadExams(); loadGlobalAdminData();
 }
 
 async function deleteStudent(id) { if(confirm("Удалить ученика из базы безвозвратно?")) { await supabaseClient.from('students').delete().eq('id', id); alert("Ученик удален."); loadStudents(); loadGlobalAdminData(); } }
@@ -372,7 +419,7 @@ async function loadStudents() {
     const { data } = await supabaseClient.from('students').select('*, groups(group_name)').eq('profile_id', currentUserId);
     let h=''; data?.forEach(s => {
         let actionBtns = `<div style="display:flex; gap:5px;"><button class="btn-link" style="padding:4px 8px; font-size:10px; width:auto;" onclick="openEditStudentModal('${s.id}')">✏️</button><button class="btn-del" style="width:auto;" onclick="deleteStudent('${s.id}')">🗑</button></div>`;
-        h+=`<tr><td><a class="data-link" onclick="openStudentProfile('${s.id}')">${s.full_name}</a></td><td>${calculateAge(s.birth_date)} лет</td><td>${s.current_kyu}</td><td>${s.groups?s.groups.group_name:'-'}</td><td>${actionBtns}</td></tr>`;
+        h+=`<tr><td><a class="data-link" onclick="openStudentProfile('${s.id}')">${s.full_name}</a></td><td>${calculateAge(s.birth_date)} лет</td><td>${s.current_kyu}</td><td>${s.sports_category || '-'}</td><td>${s.groups?s.groups.group_name:'-'}</td><td>${actionBtns}</td></tr>`;
     }); 
     document.getElementById('students-table-body').innerHTML = h;
     
@@ -383,7 +430,6 @@ async function loadStudents() {
     let tH=''; tData?.forEach(t => tH+=`<tr><td><a class="data-link" onclick="openStudentProfile('${t.id}')">${t.full_name}</a></td><td>${calculateAge(t.birth_date)} лет</td><td>${t.current_weight?t.current_weight+' кг':'-'}</td><td><span style="background:var(--accent-gold);color:#000;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:bold;">${t.current_kyu}</span></td><td>${t.profiles?t.profiles.full_name:''}</td></tr>`); document.getElementById('national-team-body').innerHTML = tH || '<tr><td colspan="5">В сборной пока нет спортсменов.</td></tr>';
 }
 
-// === ГЛОБАЛЬНАЯ БАЗА ПРЕЗИДЕНТА И EXCEL ===
 let globalStudentsExportData = []; 
 async function loadGlobalAdminData() {
     if(!isPresGlobal) return;
@@ -396,16 +442,16 @@ async function loadGlobalAdminData() {
     globalStudentsExportData = allSt || []; 
     
     let sh = '';
-    allSt?.forEach(s => { sh += `<tr><td><a class="data-link" onclick="openStudentProfile('${s.id}')">${s.full_name}</a></td><td>${calculateAge(s.birth_date)} лет</td><td><span style="background:#333;color:#fff;padding:3px 8px;border-radius:10px;font-size:11px;">${s.current_kyu}</span></td><td>${s.groups ? s.groups.group_name : '-'}</td><td>${s.profiles ? s.profiles.full_name : '-'}</td></tr>`; });
-    document.getElementById('global-students-body').innerHTML = sh || '<tr><td colspan="5">Нет учеников</td></tr>';
+    allSt?.forEach(s => { sh += `<tr><td><a class="data-link" onclick="openStudentProfile('${s.id}')">${s.full_name}</a></td><td>${calculateAge(s.birth_date)} лет</td><td><span style="background:#333;color:#fff;padding:3px 8px;border-radius:10px;font-size:11px;">${s.current_kyu}</span></td><td>${s.sports_category || '-'}</td><td>${s.groups ? s.groups.group_name : '-'}</td><td>${s.profiles ? s.profiles.full_name : '-'}</td></tr>`; });
+    document.getElementById('global-students-table').innerHTML = `<thead><tr><th>ФИО</th><th>Возраст</th><th>Пояс</th><th>Разряд</th><th>Группа</th><th>Тренер</th></tr></thead><tbody>${sh}</tbody>`;
 }
 
 function exportToExcel() {
     if(globalStudentsExportData.length === 0) return alert("База пуста!");
-    let csvContent = '\uFEFFФИО;Возраст;Вес;Кю/Дан;Филиал;Тренер\n'; 
+    let csvContent = '\uFEFFФИО;Возраст;Вес;Кю/Дан;Разряд;Филиал;Тренер\n'; 
     globalStudentsExportData.forEach(s => {
-        let name = s.full_name || ''; let age = s.birth_date ? calculateAge(s.birth_date) : ''; let weight = s.current_weight || ''; let kyu = s.current_kyu || ''; let group = s.groups ? s.groups.group_name : ''; let coach = s.profiles ? s.profiles.full_name : '';
-        csvContent += `${name};${age};${weight};${kyu};${group};${coach}\n`;
+        let name = s.full_name || ''; let age = s.birth_date ? calculateAge(s.birth_date) : ''; let weight = s.current_weight || ''; let kyu = s.current_kyu || ''; let cat = s.sports_category || ''; let group = s.groups ? s.groups.group_name : ''; let coach = s.profiles ? s.profiles.full_name : '';
+        csvContent += `${name};${age};${weight};${kyu};${cat};${group};${coach}\n`;
     });
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement("a"); const url = URL.createObjectURL(blob); link.setAttribute("href", url); link.setAttribute("download", "База_Федерации_KWF.csv"); document.body.appendChild(link); link.click(); document.body.removeChild(link);
@@ -437,6 +483,7 @@ async function loadProfile(userId) {
     }
     addGroupRow(); loadGlobalSettings(); loadDojos(); loadStudents(); loadNewsAndEvents(); loadRankings(); loadBirthdays(); loadExams(); loadPoll(); loadDocuments(); loadTournamentsForPoints(); loadCoachesDirectory();
 }
+
 async function login() { const { data, error } = await supabaseClient.auth.signInWithPassword({ email: document.getElementById('email').value.trim(), password: document.getElementById('password').value.trim() }); if (!error) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('app-content').style.display = 'block'; loadProfile(data.user.id); } else { document.getElementById('error-msg').style.display='block'; } }
 async function logout() { await supabaseClient.auth.signOut(); location.reload(); }
 async function checkSession() { const { data: { session } } = await supabaseClient.auth.getSession(); if (session) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('app-content').style.display = 'block'; loadProfile(session.user.id); } }
