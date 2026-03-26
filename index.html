@@ -77,6 +77,7 @@
         
         .feed-image-wrapper { width: 100px; height: 100px; flex-shrink: 0; border-radius: 8px; overflow: hidden; background: #f4f6f9; cursor: pointer; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center;}
         .feed-poster { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+        .feed-image-wrapper:hover .feed-poster { transform: scale(1.05); }
         
         .feed-content { flex: 1; min-width: 0; display: flex; flex-direction: column; }
         .feed-date { font-size: 11px; font-weight: 900; color: var(--primary-color); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;}
@@ -118,6 +119,7 @@
         
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
         .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; font-family: inherit; background: #fcfcfc; }
+        .form-control:focus { border-color: var(--primary-color); outline: none; background: #fff; box-shadow: 0 0 0 3px rgba(139,0,0,0.1); }
         .form-label { display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; }
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 15px; }
@@ -125,25 +127,27 @@
         .close-modal { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 20px; cursor: pointer; color: #888; }
         .loading-text { text-align: center; color: var(--primary-color); font-weight: bold; display: none; margin-bottom: 10px; font-size: 13px;}
 
-        /* === ИДЕАЛЬНЫЙ АДАПТИВ ДЛЯ МОБИЛЬНЫХ ТЕЛЕФОНОВ === */
+        /* === ИДЕАЛЬНЫЙ АДАПТИВ (ПОРЯДОК БЛОКОВ ВОССТАНОВЛЕН) === */
         @media (max-width: 1100px) { 
-            .layout-wrapper { flex-direction: column; padding: 15px 10px; } 
-            .content-center { order: 1; width: 100%; gap: 15px; } 
-            .sidebar-left { order: 2; width: 100%; position: static; } 
-            .sidebar-right { order: 3; width: 100%; position: static; display: flex; flex-direction: column; gap: 15px; } 
+            .layout-wrapper { flex-direction: column; padding: 15px 10px; gap: 15px; } 
+            
+            /* Убрал order: 1, 2, 3 - теперь всё выводится как в HTML: Меню -> Контент -> Виджеты */
+            .sidebar-left { width: 100%; position: static; } 
+            .content-center { width: 100%; gap: 15px; } 
+            .sidebar-right { width: 100%; position: static; display: flex; flex-direction: column; gap: 15px; } 
             
             .navbar { flex-direction: column; text-align: center; padding: 10px; } 
             .header-left { flex-direction: column; gap: 5px; } 
-            .header-left img { max-height: 60px; }
-            .header-titles h1 { font-size: 16px; }
             .header-wisdom { border-left: none; padding-left: 0; text-align: center; margin-top: 5px; border-top: 1px solid #eee; padding-top: 5px; } 
+            .card, .timer-widget, .widget-block { width: 100%; margin-left: 0; margin-right: 0; }
         }
         @media (max-width: 650px) { 
             .card { padding: 15px; margin-bottom: 15px; }
             .timer-widget { padding: 20px 15px; margin-bottom: 15px; }
+            .header-left img { max-height: 65px; }
+            .header-titles h1 { font-size: 16px; }
             .countdown { font-size: 26px; margin: 10px 0; }
             
-            /* Жесткая фиксация афиши слева на мобильных */
             .feed-item { padding: 10px; gap: 12px; flex-direction: row !important; align-items: flex-start; }
             .feed-image-wrapper { width: 80px; height: 80px; flex-shrink: 0; }
             .feed-title { font-size: 14px; }
@@ -185,6 +189,36 @@
         
         <div class="layout-wrapper">
             
+            <div class="sidebar-left">
+                <div class="widget-block">
+                    <div class="admin-profile">
+                        <div class="admin-avatar" id="sidebar-avatar">🥋</div>
+                        <div class="admin-name" id="profile-name">Загрузка...</div>
+                        <div class="admin-rank" id="profile-rank">Загрузка...</div>
+                        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+                            <button onclick="showTab('profile')" style="background:none; border:none; color: var(--primary-color); font-weight:bold; font-size: 12px; cursor: pointer;">⚙️ Настройки</button>
+                            <span style="color: #ccc;">|</span>
+                            <button onclick="logout()" style="background:none; border:none; color: var(--text-muted); font-size: 12px; cursor: pointer;">Выход</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget-block" style="padding: 10px;">
+                    <div class="menu-title">УПРАВЛЕНИЕ</div>
+                    <button class="menu-btn active" id="btn-dashboard" onclick="showTab('dashboard')">🥋 Главная панель</button>
+                    <button class="menu-btn" id="btn-dojos" onclick="showTab('dojos')">🏢 Мои филиалы</button>
+                    <button class="menu-btn" id="btn-students" onclick="showTab('students')">👥 База учеников</button>
+                    <button class="menu-btn" id="btn-exams" onclick="showTab('exams')">⏳ Аттестация (Кю-тест)</button>
+                    <button id="admin-btn-tournaments" class="menu-btn" onclick="showTab('tournaments')" style="display: none; color: var(--primary-dark); font-weight: 800;">🏆 База Турниров (+)</button>
+                    
+                    <div class="menu-title">ФЕДЕРАЦИЯ</div>
+                    <button class="menu-btn" id="btn-coaches-dir" onclick="showTab('coaches-dir')">🥋 Наши тренеры</button>
+                    <button class="menu-btn" id="btn-team" onclick="showTab('team')">🇰🇿 Сборная Области</button>
+                    <button class="menu-btn" id="btn-athlete-ranking" onclick="showTab('athlete-ranking')">🥇 Рейтинг спортсменов</button>
+                    <button class="menu-btn" id="btn-documents" onclick="showTab('documents')">📁 База Знаний (Документы)</button>
+                </div>
+            </div>
+
             <div class="content-center">
                 <div id="tab-dashboard" class="tab-content active">
                     
@@ -198,19 +232,19 @@
                         </div>
                     </div>
 
-                    <div class="card" style="border-top-color: var(--accent-gold);">
+                    <div class="card" style="border-top-color: var(--accent-gold); padding: 20px;">
                         <div class="section-header">
                             <h2>🔥 Анонсы и Мероприятия</h2>
-                            <button id="admin-btn-event" class="btn-osu" style="background: var(--accent-gold); color: var(--primary-dark); padding: 5px 10px; display: none;" onclick="openModal('modal-event')">+ Добавить анонс</button>
+                            <button id="admin-btn-event" class="btn-osu" style="background: var(--accent-gold); color: var(--primary-dark); font-size: 12px; padding: 6px 12px; display: none;" onclick="openModal('modal-event')">+ Добавить анонс</button>
                         </div>
                         <div id="events-feed-container"></div>
                         <button class="btn-link" onclick="showTab('events-archive')">Все мероприятия и архив ➡️</button>
                     </div>
 
-                    <div class="card" style="border-top-color: var(--primary-color);">
+                    <div class="card" style="border-top-color: var(--primary-color); padding: 20px;">
                         <div class="section-header">
                             <h2>📰 Новости Федерации</h2>
-                            <button id="admin-btn-news" class="btn-osu" style="padding: 5px 10px; display: none;" onclick="openModal('modal-news')">+ Опубликовать новость</button>
+                            <button id="admin-btn-news" class="btn-osu" style="font-size: 12px; padding: 6px 12px; display: none;" onclick="openModal('modal-news')">+ Опубликовать новость</button>
                         </div>
                         <div id="news-feed-container"></div>
                         <button class="btn-link" onclick="showTab('news-archive')">Архив новостей 🗄️</button>
@@ -220,7 +254,7 @@
                 <div id="tab-coaches-dir" class="tab-content">
                     <div class="card">
                         <div class="card-header"><h2>🥋 Тренерский состав Федерации</h2></div>
-                        <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Список официальных инструкторов, их достижения и залы.</p>
+                        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Список официальных инструкторов, их достижения и залы.</p>
                         <div id="coaches-directory-container" class="coaches-grid"><p style="text-align: center; color: #888;">Загрузка состава...</p></div>
                     </div>
                 </div>
@@ -251,36 +285,6 @@
 
                 <div id="tab-events-archive" class="tab-content"><div class="card"><div class="card-header"><h2 style="font-size:18px;">Все Анонсы и Архив</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад</button></div><div id="events-archive-container"></div></div></div>
                 <div id="tab-news-archive" class="tab-content"><div class="card"><div class="card-header"><h2 style="font-size:18px;">Архив Новостей</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад</button></div><div id="news-archive-container"></div></div></div>
-            </div>
-
-            <div class="sidebar-left">
-                <div class="widget-block">
-                    <div class="admin-profile">
-                        <div class="admin-avatar" id="sidebar-avatar">🥋</div>
-                        <div class="admin-name" id="profile-name">Загрузка...</div>
-                        <div class="admin-rank" id="profile-rank">Загрузка...</div>
-                        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
-                            <button onclick="showTab('profile')" style="background:none; border:none; color: var(--primary-color); font-weight:bold; font-size: 12px; cursor: pointer;">⚙️ Настройки</button>
-                            <span style="color: #ccc;">|</span>
-                            <button onclick="logout()" style="background:none; border:none; color: var(--text-muted); font-size: 12px; cursor: pointer;">Выход</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="widget-block" style="padding: 10px;">
-                    <div class="menu-title">УПРАВЛЕНИЕ</div>
-                    <button class="menu-btn active" id="btn-dashboard" onclick="showTab('dashboard')">🥋 Главная панель</button>
-                    <button class="menu-btn" id="btn-dojos" onclick="showTab('dojos')">🏢 Мои филиалы</button>
-                    <button class="menu-btn" id="btn-students" onclick="showTab('students')">👥 База учеников</button>
-                    <button class="menu-btn" id="btn-exams" onclick="showTab('exams')">⏳ Аттестация (Кю-тест)</button>
-                    <button id="admin-btn-tournaments" class="menu-btn" onclick="showTab('tournaments')" style="display: none; color: var(--primary-dark); font-weight: 800;">🏆 База Турниров (+)</button>
-                    
-                    <div class="menu-title">ФЕДЕРАЦИЯ</div>
-                    <button class="menu-btn" id="btn-coaches-dir" onclick="showTab('coaches-dir')">🥋 Наши тренеры</button>
-                    <button class="menu-btn" id="btn-team" onclick="showTab('team')">🇰🇿 Сборная Области</button>
-                    <button class="menu-btn" id="btn-athlete-ranking" onclick="showTab('athlete-ranking')">🥇 Рейтинг спортсменов</button>
-                    <button class="menu-btn" id="btn-documents" onclick="showTab('documents')">📁 База Знаний (Документы)</button>
-                </div>
             </div>
 
             <div class="sidebar-right">
@@ -433,7 +437,7 @@
             document.getElementById('documents-list-container').innerHTML = h || '<p style="text-align: center; color: #888; font-size:13px;">Документов пока нет.</p>';
         }
 
-        // === НОВОСТИ И АНОНСЫ ===
+        // === НОВОСТИ И АНОНСЫ (КОМПАКТНЫЕ АФИШИ + ПОДРОБНЕЕ) ===
         async function saveNews() { const t = document.getElementById('news-title').value, c = document.getElementById('news-content').value; if (!t || !c) return alert("Заполните текст!"); document.getElementById('news-loading').style.display='block'; const img = await uploadFile('news-image', 'news_images'); const file = await uploadFile('news-file', 'news_files'); await supabaseClient.from('news').insert([{ title: t, content: c, image_url: img?.url, file_url: file?.url, file_name: file?.name }]); closeModal('modal-news'); document.getElementById('news-loading').style.display='none'; loadNewsAndEvents(); }
         async function saveEvent() { const t = document.getElementById('ev-title').value, d = document.getElementById('ev-date').value; if (!t || !d) return alert("Обязательно!"); document.getElementById('ev-loading').style.display='block'; const img = await uploadFile('ev-image', 'events_images'); const file = await uploadFile('ev-file', 'events_files'); await supabaseClient.from('events').insert([{ title: t, event_date: d, location: document.getElementById('ev-loc').value, description: document.getElementById('ev-desc').value, image_url: img?.url, file_url: file?.url, file_name: file?.name }]); closeModal('modal-event'); document.getElementById('ev-loading').style.display='none'; loadNewsAndEvents(); }
         async function deleteNews(id) { if(confirm("Удалить?")) { await supabaseClient.from('news').delete().eq('id', id); loadNewsAndEvents(); } }
@@ -641,7 +645,7 @@
                 document.getElementById('prof-dan').value = data.dan || ''; document.getElementById('prof-phone').value = data.phone || '';
                 if(data.avatar_url) { document.getElementById('sidebar-avatar').innerHTML = `<img src="${data.avatar_url}" style="width:100%;height:100%;object-fit:cover;">`; document.getElementById('profile-avatar-preview').innerHTML = `<img src="${data.avatar_url}" style="width:100%;height:100%;object-fit:cover;">`; }
                 isPresGlobal = (data.budopassport_num === 'PRESIDENT'); document.getElementById('profile-rank').innerText = (data.dan || 'Пояс') + (isPresGlobal ? ' (Президент)' : '');
-                if (isPresGlobal) { document.getElementById('admin-btn-news').style.display='block'; document.getElementById('admin-btn-event').style.display='block'; document.getElementById('admin-btn-points').style.display='block'; document.getElementById('admin-btn-timer').style.display='block'; document.getElementById('admin-btn-doc').style.display='block'; document.getElementById('admin-btn-tournaments').style.display='flex'; }
+                if (isPresGlobal) { document.getElementById('admin-btn-news').style.display='block'; document.getElementById('admin-btn-event').style.display='block'; document.getElementById('admin-btn-points').style.display='block'; document.getElementById('admin-btn-timer').style.display='block'; document.getElementById('admin-btn-doc').style.display='block'; document.getElementById('admin-btn-tournaments').style.display='block'; }
             }
             addGroupRow(); loadGlobalSettings(); loadDojos(); loadStudents(); loadNewsAndEvents(); loadRankings(); loadBirthdays(); loadExams(); loadPoll(); loadDocuments(); loadTournamentsForPoints(); loadCoachesDirectory();
         }
