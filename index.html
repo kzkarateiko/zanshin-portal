@@ -9,7 +9,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-
     <div id="login-screen">
         <div class="login-box">
             <img src="IMG_0670.jpeg" alt="ZANSHIN Logo" style="max-height: 120px; margin-bottom: 15px;">
@@ -66,4 +65,131 @@
                         <div class="menu-column">
                             <div class="menu-title">ФЕДЕРАЦИЯ</div>
                             <button class="menu-btn" onclick="showTab('coaches-dir')">🥋 Тренеры</button>
-                            <button class="menu-btn" onclick="showTab
+                            <button class="menu-btn" onclick="showTab('team')">🇰🇿 Сборная</button>
+                            <button class="menu-btn" onclick="showTab('athlete-ranking')">🥇 Рейтинг</button>
+                            <button class="menu-btn" onclick="showTab('documents')">📁 Документы</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-center">
+                <div class="top-dashboard-row">
+                    <div class="top-row-block">
+                        <div class="timer-widget">
+                            <button id="admin-btn-timer" class="edit-btn" onclick="openModal('modal-timer')" style="display: none;">⚙️ ИЗМЕНИТЬ</button>
+                            <div class="timer-label">Ближайший старт</div>
+                            <div id="timer-display-title" class="timer-title">Загрузка...</div>
+                            <div class="countdown" id="tournament-timer">00:00:00:00</div>
+                            <div class="timer-label" style="display: flex; justify-content: center; gap: 15px;">
+                                <span>ДНЕЙ</span><span>ЧАСОВ</span><span>МИН</span><span>СЕК</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="top-row-block">
+                        <div class="widget-block profile-widget" style="height: 100%; margin-bottom: 0;">
+                            <div class="admin-profile">
+                                <div class="admin-avatar" id="sidebar-avatar">🥋</div>
+                                <div class="admin-name" id="profile-name">Загрузка...</div>
+                                <div class="admin-rank" id="profile-rank">Загрузка...</div>
+                                <div class="profile-actions">
+                                    <button onclick="showTab('profile')">⚙️ Настройки</button>
+                                    <span>|</span>
+                                    <button onclick="logout()">Выход</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-dashboard" class="tab-content active">
+                    <div class="card" style="border-top-color: var(--accent-gold); padding: 20px;">
+                        <div class="section-header"><h2>🔥 Анонсы и Мероприятия</h2><button id="admin-btn-event" class="btn-osu" style="background: var(--accent-gold); color: var(--primary-dark); font-size: 12px; padding: 6px 12px; display: none;" onclick="openModal('modal-event')">+ Добавить</button></div>
+                        <div id="events-feed-container"></div>
+                        <a href="#" class="btn-link" onclick="showTab('events-archive')">Все мероприятия и архив ➡️</a>
+                    </div>
+                    <div class="card" style="border-top-color: var(--primary-color); padding: 20px;">
+                        <div class="section-header"><h2>📰 Новости Федерации</h2><button id="admin-btn-news" class="btn-osu" style="font-size: 12px; padding: 6px 12px; display: none;" onclick="openModal('modal-news')">+ Опубликовать</button></div>
+                        <div id="news-feed-container"></div>
+                        <a href="#" class="btn-link" onclick="showTab('news-archive')">Архив новостей 🗄️</a>
+                    </div>
+                </div>
+
+                <div id="tab-admin-global" class="tab-content">
+                    <div class="card" style="border-top-color: #c0392b;">
+                        <div class="card-header">
+                            <h2>👑 Глобальная база Федерации</h2>
+                            <button class="btn-excel" onclick="exportToExcel()">📊 Скачать базу (Excel)</button>
+                        </div>
+                        <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Здесь отображаются все филиалы и ученики со всей Алматинской области.</p>
+                        <h3 style="color: var(--primary-dark); font-size: 16px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Все филиалы (Залы) области</h3>
+                        <div style="overflow-x: auto; margin-bottom: 30px;"><table class="data-table"><thead><tr><th>Город</th><th>Зал/Адрес</th><th>Расписание</th><th>Тренер</th></tr></thead><tbody id="global-dojos-body"></tbody></table></div>
+                        <h3 style="color: var(--primary-dark); font-size: 16px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Все ученики области</h3>
+                        <div style="overflow-x: auto;"><table class="data-table" id="global-students-table"><thead><tr><th>ФИО</th><th>Возраст</th><th>Пояс</th><th>Группа</th><th>Тренер</th></tr></thead><tbody id="global-students-body"></tbody></table></div>
+                    </div>
+                </div>
+
+                <div id="tab-coaches-dir" class="tab-content"><div class="card"><div class="card-header"><h2>🥋 Тренерский состав</h2></div><div id="coaches-directory-container" class="coaches-grid"><p class="empty-card">Загрузка...</p></div></div></div>
+                <div id="tab-profile" class="tab-content"><div class="card" style="max-width: 600px; margin: 0 auto;"><h2 style="color: var(--primary-dark); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; font-size: 18px;">⚙️ Настройки Профиля</h2><div style="text-align: center; margin-bottom: 25px;"><div id="profile-avatar-preview" style="width: 100px; height: 100px; background: #f0f2f5; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 40px; border: 3px solid var(--accent-gold); overflow: hidden;">🥋</div><label style="font-size: 12px; color: var(--primary-color); cursor: pointer; font-weight: bold; display: inline-block; padding: 5px 10px; border: 1px dashed var(--primary-color); border-radius: 6px;">📷 Загрузить фото<input type="file" id="prof-avatar-file" accept="image/*" style="display: none;" onchange="previewAvatar(this)"></label></div><div class="form-group"><label>Ваше ФИО</label><input type="text" class="form-control" id="prof-name"></div><div class="form-group"><label>Квалификация</label><input type="text" class="form-control" id="prof-dan"></div><div class="form-group"><label>Телефон</label><input type="tel" class="form-control" id="prof-phone"></div><div id="prof-loading" class="loading-text">Сохранение...</div><button class="btn-osu" style="width: 100%; margin-top: 10px;" onclick="saveProfile()">💾 Сохранить изменения</button></div></div>
+                <div id="tab-documents" class="tab-content"><div class="card"><div class="card-header"><h2 style="font-size:18px;">📁 База Знаний</h2><button id="admin-btn-doc" class="btn-osu" style="display:none;" onclick="openModal('modal-document')">+ Добавить</button></div><div id="documents-list-container" style="display: flex; flex-direction: column; gap: 15px;"><p class="empty-card">Загрузка документов...</p></div></div></div>
+                <div id="tab-exams" class="tab-content"><div class="card"><div class="card-header"><h2 style="font-size:18px;">🥋 Допуск к Кю-тесту</h2></div><p style="color: var(--text-muted); font-size: 13px;">Зеленым отмечены бойцы, допущенные к экзамену (норматив: 90 дней).</p><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Спортсмен</th><th>Пояс</th><th>Дней назад</th><th>Статус</th><th>Действие</th></tr></thead><tbody id="exams-table-body"></tbody></table></div></div></div>
+                <div id="tab-dojos" class="tab-content"><div class="card"><div class="card-header"><h2 style="font-size:18px;">Управление филиалами</h2><button class="btn-osu" onclick="toggleForm('dojo-form-container')">+ Добавить зал</button></div><div id="dojo-form-container" style="display: none; background: #fdfafb; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e0c8c8;"><div class="form-grid"><div><label class="form-label">Город</label><input type="text" id="dojo-city" class="form-control"></div><div><label class="form-label">Адрес</label><input type="text" id="dojo-address" class="form-control"></div></div><h3 style="margin-top: 10px; color: var(--primary-dark); font-size: 14px;">Группы в зале</h3><div id="groups-container"></div><button onclick="addGroupRow()" class="btn-link" style="margin-bottom: 15px; border-style: dashed; background: transparent;">+ Добавить еще группу</button><div style="display: flex; gap: 10px;"><button class="btn-osu" onclick="saveDojo()" style="flex: 2;">💾 Сохранить зал</button><button class="btn-osu" onclick="toggleForm('dojo-form-container')" style="flex: 1; background: #e0e0e0; color: #333;">Отмена</button></div></div><div id="dojos-list"></div></div></div>
+                
+                <div id="tab-students" class="tab-content"><div class="card"><div class="card-header"><h2 style="font-size:18px;">База учеников</h2><button class="btn-osu" onclick="toggleForm('student-form-container')">+ Внести ученика</button></div><div id="student-form-container" style="display: none; background: #fdfafb; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e0c8c8;"><div class="form-grid"><div><label class="form-label">ФИО Ученика</label><input type="text" id="st-name" class="form-control"></div><div><label class="form-label">Дата рождения</label><input type="date" id="st-dob" class="form-control"></div><div><label class="form-label">Пол</label><select id="st-gender" class="form-control"><option>Мужской</option><option>Женский</option></select></div></div><div class="form-grid"><div><label class="form-label">Пояс</label><select id="st-kyu" class="form-control"><option>11 Кю</option><option>10 Кю</option><option>9 Кю</option><option>8 Кю</option></select></div><div><label class="form-label">Вес (кг)</label><input type="number" id="st-weight" class="form-control"></div><div><label class="form-label">Зал</label><select id="st-group" class="form-control"></select></div></div><div style="background: #fffcf5; padding: 10px; border-radius: 8px; border: 1px dashed var(--accent-gold); margin-bottom: 15px;"><label style="display: flex; align-items: center; gap: 8px; font-weight: bold; cursor: pointer; font-size:12px;"><input type="checkbox" id="st-national" style="width: 16px; height: 16px;"> 🇰🇿 Включить в Сборную</label></div><div style="display: flex; gap: 10px;"><button class="btn-osu" onclick="saveStudent()" style="flex: 2;">💾 Сохранить</button><button class="btn-osu" onclick="toggleForm('student-form-container')" style="flex: 1; background: #e0e0e0; color: #333;">Отмена</button></div></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>ФИО</th><th>Возраст</th><th>Пояс</th><th>Группа</th><th>Действие</th></tr></thead><tbody id="students-table-body"></tbody></table></div></div></div>
+                
+                <div id="tab-team" class="tab-content"><div class="card" style="border-top-color: var(--accent-gold);"><div class="card-header"><h2 style="color: var(--accent-gold);">🇰🇿 Сборная Алматинской области</h2></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Спортсмен</th><th>Возраст</th><th>Вес</th><th>Пояс</th><th>Тренер</th></tr></thead><tbody id="national-team-body"></tbody></table></div></div></div>
+                <div id="tab-athlete-ranking" class="tab-content"><div class="card"><div class="card-header"><h2>🏆 Годовой Рейтинг</h2></div><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Место</th><th>Спортсмен</th><th>Баллы</th><th id="th-admin-rank" style="display:none;">Управление</th></tr></thead><tbody id="full-ranking-body"></tbody></table></div></div></div>
+                
+                <div id="tab-tournaments" class="tab-content">
+                    <div class="card">
+                        <div class="card-header"><h2 style="font-size:18px;">🏆 База Турниров (Заявки)</h2><button id="admin-btn-add-tour" class="btn-osu" style="display:none;" onclick="openModal('modal-create-tournament')">+ Добавить</button></div>
+                        <p style="color:var(--text-muted); font-size:13px; margin-bottom:15px;">Здесь тренеры подают заявки на участие своих бойцов.</p>
+                        <div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Название</th><th>Уровень</th><th>Дата</th><th>Мандатная комиссия</th></tr></thead><tbody id="tournaments-table-body"></tbody></table></div>
+                    </div>
+                </div>
+
+                <div id="tab-events-archive" class="tab-content"><div class="card"><div class="card-header"><h2>Архив Мероприятий</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад</button></div><div id="events-archive-container"></div></div></div>
+                <div id="tab-news-archive" class="tab-content"><div class="card"><div class="card-header"><h2>Архив Новостей</h2><button class="btn-osu" onclick="showTab('dashboard')">Назад</button></div><div id="news-archive-container"></div></div></div>
+            </div>
+
+            <div class="sidebar-right">
+                <div class="widget-block" style="padding: 15px;">
+                    <div class="menu-title" style="margin: 0 0 10px 0;">СВОДКА ФЕДЕРАЦИИ</div>
+                    <div class="stat-widget"><div><span style="font-size: 12px; color: var(--text-muted);">Всего учеников</span></div><strong id="dash-total-students">0</strong></div>
+                    <div class="stat-widget" style="border-left-color: var(--accent-gold);"><div><span style="font-size: 12px; color: var(--text-muted);">Филиалов / Групп</span></div><strong id="dash-total-groups">0</strong></div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div class="widget-block" style="background: linear-gradient(to bottom, #fff, #fef9e7); border: 1px solid #f9e29c; text-align: center; padding: 15px; margin-bottom: 0;">
+                        <h3 style="margin: 0 0 10px 0; color: var(--accent-gold); font-size: 11px; text-transform: uppercase;">🌟 Лучший боец</h3>
+                        <div style="width: 55px; height: 55px; background: #eee; border-radius: 50%; margin: 0 auto 10px; border: 2px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 25px;">👦🏻</div>
+                        <strong style="font-size: 13px; color: var(--primary-dark); line-height:1.2; display:block;" id="best-fighter-name">Загрузка...</strong>
+                    </div>
+                    <div class="widget-block" style="background: linear-gradient(to bottom, #fff, #fef9e7); border: 1px solid #f9e29c; text-align: center; padding: 15px; margin-bottom: 0;">
+                        <h3 style="margin: 0 0 10px 0; color: var(--accent-gold); font-size: 11px; text-transform: uppercase;">🌟 Лучший тренер</h3>
+                        <div style="width: 55px; height: 55px; background: #eee; border-radius: 50%; margin: 0 auto 10px; border: 2px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 25px;" id="best-coach-avatar">🥋</div>
+                        <strong style="font-size: 13px; color: var(--primary-dark); line-height:1.2; display:block;" id="best-coach-name">Загрузка...</strong>
+                    </div>
+                </div>
+
+                <div class="widget-block" style="background: linear-gradient(to bottom, #fff, #fef9e7); border: 1px solid #f9e29c;">
+                    <div class="widget-header" style="border-bottom-color: #faebcc;"><h3>🌟 Рейтинг бойцов</h3></div>
+                    <div id="short-ranking-container"></div>
+                    <button class="btn-link" style="margin-top: 10px; padding: 8px;" onclick="showTab('athlete-ranking')">Весь рейтинг 📊</button>
+                </div>
+
+                <div class="widget-block">
+                    <div class="widget-header"><h3>🏆 Тренеры (Медали)</h3><button id="admin-btn-points" style="background:none; border:none; color:var(--primary-color); cursor:pointer; font-size:11px; font-weight:bold; display:none;" onclick="openPointsModal()">Начислить 🥇</button></div>
+                    <div id="coaches-medals-container"></div>
+                </div>
+
+                <div class="widget-block"><div class="widget-header"><h3>👥 Тренеры (Топ учеников)</h3></div><div id="coaches-students-container"></div></div>
+                <div class="widget-block" style="background: #fdfafb; border: 1px solid #e0c8c8;"><div class="widget-header" style="border-bottom-color: #e0c8c8;"><h3>📊 Опрос Федерации</h3><button id="admin-btn-poll" style="display:none; background:none; border:none; cursor:pointer;" onclick="openPollModal()">⚙️</button></div><p id="poll-question-text" style="font-size: 13px; margin: 0 0 10px 0; font-weight: bold; color: var(--primary-dark);">Загрузка вопроса...</p><div id="poll-container"><p class="empty-card">Загрузка...</p></div></div>
+                <div class="widget-block" style="background: #fffcf5; border: 1px solid #faebcc;"><h3 style="font-size: 13px; margin: 0 0 10px 0; color: #8a6d3b;">🎂 Именинники (Тренеры)</h3><div id="coach-birthdays-container"></div></div>
+                <div class="widget-block" style="background: #f4f8fa; border: 1px solid #bce8f1;"><h3 style="font-size: 13px; margin: 0 0 10px 0; color: #31708f;">🎈 Именинники (Ученики)</h3><div id="student-birthdays-container"></div></div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
