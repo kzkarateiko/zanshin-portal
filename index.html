@@ -34,7 +34,7 @@
     <div class="modal-overlay" id="modal-app-list"><div class="modal-box" style="max-width: 800px;"><button class="close-modal" onclick="closeModal('modal-app-list')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">📋 Список участников</h2><p id="app-list-title" style="font-weight:bold; color:var(--accent-gold); margin-bottom:15px;"></p><div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Спортсмен</th><th>Возраст</th><th>Вес</th><th>Кю/Дан</th><th>Разряд</th><th>Тренер</th></tr></thead><tbody id="app-list-body"></tbody></table></div></div></div>
 
     <div class="modal-overlay" id="modal-student-profile">
-        <div class="modal-box">
+        <div class="modal-box" style="max-width: 600px;">
             <button class="close-modal" onclick="closeModal('modal-student-profile')">✖</button>
             <div class="budo-passport">
                 <div class="bp-avatar" id="bp-avatar">🥋</div>
@@ -55,9 +55,17 @@
                     <div class="bp-medal-item"><span class="bp-medal-icon">🥉</span><span class="bp-medal-count" id="bp-bronze">0</span></div>
                     <div class="bp-medal-item"><span class="bp-medal-icon">⭐</span><span class="bp-medal-count" id="bp-points">0 б.</span></div>
                 </div>
-                <h3 style="text-align: left; font-size: 15px; color: var(--primary-dark); border-bottom: 2px solid #eee; padding-bottom: 5px;">📜 Летопись Поясов</h3>
-                <div id="bp-history-container" style="max-height: 150px; overflow-y: auto; padding-right: 10px;">
+                
+                <div style="display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 250px;">
+                        <h3 style="text-align: left; font-size: 14px; color: var(--primary-dark); border-bottom: 2px solid #eee; padding-bottom: 5px;">📜 Летопись Поясов</h3>
+                        <div id="bp-history-container" style="max-height: 150px; overflow-y: auto; padding-right: 5px; text-align: left;"></div>
                     </div>
+                    <div style="flex: 1; min-width: 250px;">
+                        <h3 style="text-align: left; font-size: 14px; color: var(--primary-dark); border-bottom: 2px solid #eee; padding-bottom: 5px;">🏆 История Побед</h3>
+                        <div id="bp-results-container" style="max-height: 150px; overflow-y: auto; padding-right: 5px; text-align: left;"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -68,17 +76,9 @@
             <h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">➕ Внести ученика</h2>
             <div class="form-grid"><div><label class="form-label">ФИО Ученика</label><input type="text" id="st-name" class="form-control"></div><div><label class="form-label">Дата рождения</label><input type="date" id="st-dob" class="form-control"></div><div><label class="form-label">Пол</label><select id="st-gender" class="form-control"><option>Мужской</option><option>Женский</option></select></div></div>
             <div class="form-grid">
-                <div><label class="form-label">Пояс</label>
-                    <select id="st-kyu" class="form-control">
-                        <option>0 Кю</option><option>10 Кю</option><option>9 Кю</option><option>8 Кю</option><option>7 Кю</option><option>6 Кю</option><option>5 Кю</option><option>4 Кю</option><option>3 Кю</option><option>2 Кю</option><option>1 Кю</option><option>1 Дан</option><option>2 Дан</option><option>3 Дан</option><option>4 Дан</option><option>5 Дан</option>
-                    </select>
-                </div>
+                <div><label class="form-label">Пояс</label><select id="st-kyu" class="form-control"><option>0 Кю</option><option>10 Кю</option><option>9 Кю</option><option>8 Кю</option><option>7 Кю</option><option>6 Кю</option><option>5 Кю</option><option>4 Кю</option><option>3 Кю</option><option>2 Кю</option><option>1 Кю</option><option>1 Дан</option><option>2 Дан</option><option>3 Дан</option><option>4 Дан</option><option>5 Дан</option></select></div>
                 <div><label class="form-label">Вес (кг)</label><input type="number" id="st-weight" class="form-control"></div>
-                <div><label class="form-label">Спорт. разряд</label>
-                    <select id="st-category" class="form-control">
-                        <option>Нет разряда</option><option>3 юношеский</option><option>2 юношеский</option><option>1 юношеский</option><option>3 разряд</option><option>2 разряд</option><option>1 разряд</option><option>КМС</option><option>МС</option><option>МСМК</option><option>ЗМС</option>
-                    </select>
-                </div>
+                <div><label class="form-label">Спорт. разряд</label><select id="st-category" class="form-control"><option>Нет разряда</option><option>3 юношеский</option><option>2 юношеский</option><option>1 юношеский</option><option>3 разряд</option><option>2 разряд</option><option>1 разряд</option><option>КМС</option><option>МС</option><option>МСМК</option><option>ЗМС</option></select></div>
                 <div><label class="form-label">Зал</label><select id="st-group" class="form-control"></select></div>
             </div>
             <div style="background: #fffcf5; padding: 10px; border-radius: 8px; border: 1px dashed var(--accent-gold); margin-bottom: 15px;"><label style="display: flex; align-items: center; gap: 8px; font-weight: bold; cursor: pointer; font-size:12px;"><input type="checkbox" id="st-national" style="width: 16px; height: 16px;"> 🇰🇿 Включить в Сборную</label></div>
@@ -93,17 +93,9 @@
             <input type="hidden" id="edit-st-id">
             <div class="form-grid"><div><label class="form-label">ФИО Ученика</label><input type="text" id="edit-st-name" class="form-control"></div><div><label class="form-label">Дата рождения</label><input type="date" id="edit-st-dob" class="form-control"></div></div>
             <div class="form-grid">
-                <div><label class="form-label">Пояс</label>
-                    <select id="edit-st-kyu" class="form-control">
-                        <option>0 Кю</option><option>10 Кю</option><option>9 Кю</option><option>8 Кю</option><option>7 Кю</option><option>6 Кю</option><option>5 Кю</option><option>4 Кю</option><option>3 Кю</option><option>2 Кю</option><option>1 Кю</option><option>1 Дан</option><option>2 Дан</option><option>3 Дан</option><option>4 Дан</option><option>5 Дан</option>
-                    </select>
-                </div>
+                <div><label class="form-label">Пояс</label><select id="edit-st-kyu" class="form-control"><option>0 Кю</option><option>10 Кю</option><option>9 Кю</option><option>8 Кю</option><option>7 Кю</option><option>6 Кю</option><option>5 Кю</option><option>4 Кю</option><option>3 Кю</option><option>2 Кю</option><option>1 Кю</option><option>1 Дан</option><option>2 Дан</option><option>3 Дан</option><option>4 Дан</option><option>5 Дан</option></select></div>
                 <div><label class="form-label">Вес (кг)</label><input type="number" id="edit-st-weight" class="form-control"></div>
-                <div><label class="form-label">Спорт. разряд</label>
-                    <select id="edit-st-category" class="form-control">
-                        <option>Нет разряда</option><option>3 юношеский</option><option>2 юношеский</option><option>1 юношеский</option><option>3 разряд</option><option>2 разряд</option><option>1 разряд</option><option>КМС</option><option>МС</option><option>МСМК</option><option>ЗМС</option>
-                    </select>
-                </div>
+                <div><label class="form-label">Спорт. разряд</label><select id="edit-st-category" class="form-control"><option>Нет разряда</option><option>3 юношеский</option><option>2 юношеский</option><option>1 юношеский</option><option>3 разряд</option><option>2 разряд</option><option>1 разряд</option><option>КМС</option><option>МС</option><option>МСМК</option><option>ЗМС</option></select></div>
                 <div><label class="form-label">Зал</label><select id="edit-st-group" class="form-control"></select></div>
             </div>
             <div style="background: #fffcf5; padding: 10px; border-radius: 8px; border: 1px dashed var(--accent-gold); margin-bottom: 15px;"><label style="display: flex; align-items: center; gap: 8px; font-weight: bold; cursor: pointer; font-size:12px;"><input type="checkbox" id="edit-st-national" style="width: 16px; height: 16px;"> 🇰🇿 В сборной</label></div>
@@ -113,9 +105,10 @@
 
     <div class="modal-overlay" id="modal-edit-dojo"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-edit-dojo')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">🏢 Изменить зал</h2><input type="hidden" id="edit-dojo-id"><div class="form-grid"><div><label class="form-label">Город</label><input type="text" id="edit-dojo-city" class="form-control"></div><div><label class="form-label">Точный адрес</label><input type="text" id="edit-dojo-address" class="form-control"></div></div><div class="form-grid"><div><label class="form-label">Название группы</label><input type="text" id="edit-dojo-name" class="form-control"></div><div><label class="form-label">Расписание</label><input type="text" id="edit-dojo-schedule" class="form-control"></div></div><button class="btn-osu" style="width: 100%; background: var(--primary-dark);" onclick="updateDojo()">💾 Обновить зал</button></div></div>
 
-    <div class="modal-overlay" id="modal-news"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-news')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">📰 Новая публикация</h2><label class="form-label">Заголовок</label><input type="text" id="news-title" class="form-control" style="margin-bottom:10px;"><label class="form-label">Текст</label><textarea id="news-content" class="form-control" style="margin-bottom:10px; height: 80px; resize: vertical;"></textarea><label class="form-label">Афиша</label><input type="file" id="news-image" accept="image/*" class="form-control" style="margin-bottom:10px;"><button class="btn-osu" style="width: 100%;" onclick="saveNews()">Опубликовать</button></div></div>
-    <div class="modal-overlay" id="modal-event"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-event')">✖</button><h2 style="margin-top:0; color: var(--accent-gold); font-size:18px;">🔥 Новый анонс</h2><label class="form-label">Название</label><input type="text" id="ev-title" class="form-control" style="margin-bottom:10px;"><div class="form-grid"><div><label class="form-label">Дата (авто-архив)</label><input type="date" id="ev-date" class="form-control"></div><div><label class="form-label">Локация</label><input type="text" id="ev-loc" class="form-control"></div></div><label class="form-label">Описание</label><textarea id="ev-desc" class="form-control" style="margin-bottom:10px; height: 60px;"></textarea><button class="btn-osu" style="width: 100%;" onclick="saveEvent()">Добавить анонс</button></div></div>
-    <div class="modal-overlay" id="modal-create-tournament"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-create-tournament')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">🏆 Добавить турнир</h2><label class="form-label">Название</label><input type="text" id="ct-title" class="form-control" style="margin-bottom:10px;"><label class="form-label">Уровень</label><select id="ct-level" class="form-control" style="margin-bottom:10px;"><option value="club">Клубный</option><option value="city">Городской</option><option value="region">Областной</option><option value="republic">Республиканский</option><option value="international">Международный</option><option value="asia">Азия</option><option value="world">Мир</option></select><label class="form-label">Дата</label><input type="date" id="ct-date" class="form-control" style="margin-bottom:15px;"><button class="btn-osu" style="width: 100%; background: var(--primary-dark);" onclick="saveNewTournament()">Сохранить</button></div></div>
+    <div class="modal-overlay" id="modal-news"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-news')">✖</button><h2 id="news-modal-header" style="margin-top:0; color: var(--primary-dark); font-size:18px;">📰 Новая публикация</h2><input type="hidden" id="news-id"><label class="form-label">Заголовок</label><input type="text" id="news-title" class="form-control" style="margin-bottom:10px;"><label class="form-label">Текст</label><textarea id="news-content" class="form-control" style="margin-bottom:10px; height: 80px; resize: vertical;"></textarea><label class="form-label">Афиша</label><input type="file" id="news-image" accept="image/*" class="form-control" style="margin-bottom:10px;"><button class="btn-osu" style="width: 100%;" onclick="saveNews()">Сохранить</button></div></div>
+    <div class="modal-overlay" id="modal-event"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-event')">✖</button><h2 id="ev-modal-header" style="margin-top:0; color: var(--accent-gold); font-size:18px;">🔥 Новый анонс</h2><input type="hidden" id="ev-id"><label class="form-label">Название</label><input type="text" id="ev-title" class="form-control" style="margin-bottom:10px;"><div class="form-grid"><div><label class="form-label">Дата (авто-архив)</label><input type="date" id="ev-date" class="form-control"></div><div><label class="form-label">Локация</label><input type="text" id="ev-loc" class="form-control"></div></div><label class="form-label">Описание</label><textarea id="ev-desc" class="form-control" style="margin-bottom:10px; height: 60px;"></textarea><button class="btn-osu" style="width: 100%;" onclick="saveEvent()">Сохранить анонс</button></div></div>
+    <div class="modal-overlay" id="modal-create-tournament"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-create-tournament')">✖</button><h2 id="ct-modal-header" style="margin-top:0; color: var(--primary-dark); font-size:18px;">🏆 Добавить турнир</h2><input type="hidden" id="ct-id"><label class="form-label">Название</label><input type="text" id="ct-title" class="form-control" style="margin-bottom:10px;"><label class="form-label">Уровень</label><select id="ct-level" class="form-control" style="margin-bottom:10px;"><option value="club">Клубный</option><option value="city">Городской</option><option value="region">Областной</option><option value="republic">Республиканский</option><option value="international">Международный</option><option value="asia">Азия</option><option value="world">Мир</option></select><label class="form-label">Дата</label><input type="date" id="ct-date" class="form-control" style="margin-bottom:15px;"><button class="btn-osu" style="width: 100%; background: var(--primary-dark);" onclick="saveNewTournament()">Сохранить</button></div></div>
+    
     <div class="modal-overlay" id="modal-points"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-points')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">🥇 Внести результаты</h2><label class="form-label">Спортсмен</label><select id="pt-student" class="form-control" style="margin-bottom:10px;"></select><label class="form-label">Турнир</label><select id="pt-tournament-select" class="form-control" style="margin-bottom:10px;" onchange="autoSetLevel()"></select><input type="hidden" id="pt-level"><div class="form-grid"><div><label class="form-label">Место</label><select id="pt-place" class="form-control"><option value="1">1 (Золото)</option><option value="2">2 (Серебро)</option><option value="3">3 (Бронза)</option></select></div></div><button class="btn-osu" style="width: 100%; margin-top: 10px;" onclick="savePoints()">Начислить</button></div></div>
     <div class="modal-overlay" id="modal-timer"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-timer')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">⏱ Настройка таймера</h2><label class="form-label">Название турнира</label><input type="text" id="timer-edit-title" class="form-control" style="margin-bottom:15px;"><label class="form-label">Дата и точное время старта</label><input type="datetime-local" id="timer-edit-date" class="form-control" style="margin-bottom:15px;"><button class="btn-osu" style="width: 100%;" onclick="saveTimer()">Запустить таймер</button></div></div>
     <div class="modal-overlay" id="modal-exam">
@@ -124,7 +117,7 @@
         <select id="exam-new-kyu" class="form-control" style="margin-bottom:15px;">
             <option>0 Кю</option><option>10 Кю</option><option>9 Кю</option><option>8 Кю</option><option>7 Кю</option><option>6 Кю</option><option>5 Кю</option><option>4 Кю</option><option>3 Кю</option><option>2 Кю</option><option>1 Кю</option><option>1 Дан</option><option>2 Дан</option><option>3 Дан</option><option>4 Дан</option><option>5 Дан</option>
         </select>
-        <label class="form-label">Дата экзамена</label><input type="date" id="exam-date" class="form-control" style="margin-bottom:20px;"><button class="btn-osu" style="width: 100%;" onclick="saveExamResult()">Присвоить пояс и записать в Летопись ✅</button></div>
+        <label class="form-label">Дата экзамена</label><input type="date" id="exam-date" class="form-control" style="margin-bottom:20px;"><button class="btn-osu" style="width: 100%;" onclick="saveExamResult()">Присвоить пояс ✅</button></div>
     </div>
     <div class="modal-overlay" id="modal-document"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-document')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">📁 Документ</h2><label class="form-label">Название</label><input type="text" id="doc-title" class="form-control" style="margin-bottom:10px;"><label class="form-label">Прикрепить файл (PDF)</label><input type="file" id="doc-file" class="form-control" style="margin-bottom:10px;"><button class="btn-osu" style="width: 100%; background: #2c3e50; color: #fff;" onclick="saveDocument()">Сохранить</button></div></div>
     <div class="modal-overlay" id="modal-poll-edit"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-poll-edit')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">📊 Опрос</h2><label class="form-label">Вопрос</label><input type="text" id="poll-edit-q" class="form-control" style="margin-bottom:15px; font-weight:bold;"><label class="form-label">Варианты</label><div id="poll-edit-opts" style="margin-bottom:15px;"></div><button class="btn-link" style="margin-bottom:15px; border:1px dashed var(--accent-gold);" onclick="addPollOption()">+ Вариант</button><button class="btn-osu" style="width: 100%; background: #c0392b;" onclick="savePollAdmin()">Сохранить (Голоса обнулятся)</button></div></div>
@@ -200,12 +193,12 @@
 
                 <div id="tab-dashboard" class="tab-content active">
                     <div class="card" style="border-top-color: var(--accent-gold); padding: 20px;">
-                        <div class="section-header"><h2>🔥 Анонсы и Мероприятия</h2><button id="admin-btn-event" class="btn-osu" style="background: var(--accent-gold); color: var(--primary-dark); font-size: 12px; padding: 6px 12px; display: none;" onclick="openModal('modal-event')">+ Добавить</button></div>
+                        <div class="section-header"><h2>🔥 Анонсы и Мероприятия</h2><button id="admin-btn-event" class="btn-osu" style="background: var(--accent-gold); color: var(--primary-dark); font-size: 12px; padding: 6px 12px; display: none;" onclick="openNewsOrEventModal('event')">+ Добавить</button></div>
                         <div id="events-feed-container"></div>
                         <a href="#" class="btn-link" onclick="showTab('events-archive')">Все мероприятия и архив ➡️</a>
                     </div>
                     <div class="card" style="border-top-color: var(--primary-color); padding: 20px;">
-                        <div class="section-header"><h2>📰 Новости Федерации</h2><button id="admin-btn-news" class="btn-osu" style="font-size: 12px; padding: 6px 12px; display: none;" onclick="openModal('modal-news')">+ Опубликовать</button></div>
+                        <div class="section-header"><h2>📰 Новости Федерации</h2><button id="admin-btn-news" class="btn-osu" style="font-size: 12px; padding: 6px 12px; display: none;" onclick="openNewsOrEventModal('news')">+ Опубликовать</button></div>
                         <div id="news-feed-container"></div>
                         <a href="#" class="btn-link" onclick="showTab('news-archive')">Архив новостей 🗄️</a>
                     </div>
@@ -250,7 +243,7 @@
                 
                 <div id="tab-tournaments" class="tab-content">
                     <div class="card">
-                        <div class="card-header"><h2 style="font-size:18px;">🏆 База Турниров (Заявки)</h2><button id="admin-btn-add-tour" class="btn-osu" style="display:none;" onclick="openModal('modal-create-tournament')">+ Добавить</button></div>
+                        <div class="card-header"><h2 style="font-size:18px;">🏆 База Турниров (Заявки)</h2><button id="admin-btn-add-tour" class="btn-osu" style="display:none;" onclick="openTournamentModal()">+ Добавить</button></div>
                         <p style="color:var(--text-muted); font-size:13px; margin-bottom:15px;">Здесь тренеры подают заявки на участие своих бойцов.</p>
                         <div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>Название</th><th>Уровень</th><th>Дата</th><th>Мандатная комиссия</th></tr></thead><tbody id="tournaments-table-body"></tbody></table></div>
                     </div>
