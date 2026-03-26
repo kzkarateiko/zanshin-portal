@@ -624,7 +624,7 @@
             const { data: pr } = await supabaseClient.from('profiles').select('full_name, birth_date'); let prH = '';
             pr?.forEach(p => { if(p.birth_date) { const d = new Date(p.birth_date); if(d.getMonth()+1 === curM) { const isT = (d.getDate() === curD); prH += `<div class="list-item" style="padding: 8px 0;"><div style="flex:1; font-size:13px;"><strong>${p.full_name}</strong></div><span style="font-size:11px; ${isT?'color:red;font-weight:bold;':'color:var(--text-muted);'}">${isT?'СЕГОДНЯ!':d.getDate()+' числа'}</span></div>`; } } });
             document.getElementById('coach-birthdays-container').innerHTML = prH || '<p style="font-size:12px; color:#888;">В этом месяце именинников нет.</p>';
-        }
+        
 
         async function loadProfile(userId) {
             currentUserId = userId;
