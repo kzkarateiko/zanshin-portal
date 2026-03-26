@@ -22,7 +22,7 @@
         /* === ШАПКА === */
         .navbar { background-color: var(--bg-white); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--accent-gold); width: 100%; }
         .header-left { display: flex; align-items: center; gap: 20px; }
-        .header-left img { max-height: 95px; object-fit: contain; } /* ЛОГОТИП СТАЛ БОЛЬШЕ */
+        .header-left img { max-height: 95px; object-fit: contain; } 
         .header-titles h1 { margin: 0 0 5px 0; font-size: 22px; color: var(--primary-dark); font-weight: 900; text-transform: uppercase; letter-spacing: 1px;}
         .header-titles h2 { margin: 0; font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; line-height: 1.4; max-width: 500px;}
         .header-wisdom { text-align: right; border-left: 2px solid #eee; padding-left: 20px; }
@@ -36,7 +36,7 @@
         
         .widget-block { background: var(--bg-white); padding: 20px; border-radius: var(--border-rad); box-shadow: var(--shadow-sm); width: 100%; }
         
-        /* === МЕНЮ В 2 РЯДА НА МОБИЛЬНЫХ === */
+        /* === МЕНЮ === */
         .menu-grid { display: flex; flex-direction: column; gap: 15px; }
         .menu-column { display: flex; flex-direction: column; }
         .menu-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 900; margin: 10px 0 10px 10px; letter-spacing: 1px;}
@@ -44,7 +44,7 @@
         .menu-btn:hover { background: #f0f2f5; color: var(--primary-color); border-color: #eee; transform: translateX(5px); }
         .menu-btn.active { background: var(--primary-color); color: var(--bg-white); box-shadow: 0 4px 8px rgba(139,0,0,0.2); transform: none; }
         
-        /* === ВЕРХНИЙ БЛОК: ТАЙМЕР + ПРОФИЛЬ === */
+        /* === ТАЙМЕР + ПРОФИЛЬ === */
         .top-dashboard-row { display: flex; gap: 20px; align-items: stretch; margin-bottom: 20px;}
         .top-row-block { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         
@@ -139,7 +139,7 @@
         .close-modal { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 20px; cursor: pointer; color: #888; }
         .loading-text { text-align: center; color: var(--primary-color); font-weight: bold; display: none; margin-bottom: 10px; font-size: 13px;}
 
-        /* === ИДЕАЛЬНЫЙ АДАПТИВ (ПО ЧЕРТЕЖУ) === */
+        /* === ИДЕАЛЬНЫЙ АДАПТИВ === */
         @media (max-width: 1100px) { 
             .layout-wrapper { flex-direction: column; padding: 15px 10px; gap: 15px; } 
             
@@ -149,7 +149,7 @@
             
             .navbar { flex-direction: row; justify-content: space-between; padding: 10px 15px; align-items: center; } 
             .header-left { gap: 10px; } 
-            .header-left img { max-height: 75px; } /* Увеличен логотип на планшете */
+            .header-left img { max-height: 60px; }
             .header-titles h1 { font-size: 16px; margin:0 0 2px 0;}
             .header-titles h2 { display: none; } 
             
@@ -165,7 +165,7 @@
             .timer-widget { width: 62%; padding: 15px 10px; }
             .profile-widget { width: 38%; padding: 15px 10px; }
             
-            .header-left img { max-height: 75px; } /* Увеличен логотип на мобильном */
+            .header-left img { max-height: 75px; }
             
             .countdown { font-size: 20px; margin: 8px 0; letter-spacing: 1px;}
             .timer-title { font-size: 14px; line-height: 1.2; }
@@ -207,7 +207,7 @@
     </div>
 
     <div class="modal-overlay" id="modal-news"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-news')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">📰 Новая публикация</h2><label class="form-label">Заголовок</label><input type="text" id="news-title" class="form-control" style="margin-bottom:10px;"><label class="form-label">Текст</label><textarea id="news-content" class="form-control" style="margin-bottom:10px; height: 80px; resize: vertical;"></textarea><label class="form-label">Прикрепить Афишу (JPG, PNG)</label><input type="file" id="news-image" accept="image/*" class="form-control" style="margin-bottom:10px;"><label class="form-label">Прикрепить Файл (PDF)</label><input type="file" id="news-file" class="form-control" style="margin-bottom:10px;"><div id="news-loading" class="loading-text">Загрузка файлов...</div><button class="btn-osu" style="width: 100%;" onclick="saveNews()">Опубликовать</button></div></div>
-    <div class="modal-overlay" id="modal-event"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-event')">✖</button><h2 style="margin-top:0; color: var(--accent-gold); font-size:18px;">🔥 Новый анонс</h2><label class="form-label">Название</label><input type="text" id="ev-title" class="form-control" style="margin-bottom:10px;"><div class="form-grid"><div><label class="form-label">Дата</label><input type="date" id="ev-date" class="form-control"></div><div><label class="form-label">Локация</label><input type="text" id="ev-loc" class="form-control"></div></div><label class="form-label">Описание</label><textarea id="ev-desc" class="form-control" style="margin-bottom:10px; height: 60px;"></textarea><label class="form-label">Афиша</label><input type="file" id="ev-image" accept="image/*" class="form-control" style="margin-bottom:10px;"><label class="form-label">Регламент</label><input type="file" id="ev-file" class="form-control" style="margin-bottom:10px;"><div id="ev-loading" class="loading-text">Загрузка файлов...</div><button class="btn-osu" style="width: 100%; background: var(--accent-gold); color: var(--primary-dark);" onclick="saveEvent()">Добавить анонс</button></div></div>
+    <div class="modal-overlay" id="modal-event"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-event')">✖</button><h2 style="margin-top:0; color: var(--accent-gold); font-size:18px;">🔥 Новый анонс</h2><label class="form-label">Название</label><input type="text" id="ev-title" class="form-control" style="margin-bottom:10px;"><div class="form-grid"><div><label class="form-label">Дата (для авто-очереди)</label><input type="date" id="ev-date" class="form-control"></div><div><label class="form-label">Локация</label><input type="text" id="ev-loc" class="form-control"></div></div><label class="form-label">Описание</label><textarea id="ev-desc" class="form-control" style="margin-bottom:10px; height: 60px;"></textarea><label class="form-label">Афиша</label><input type="file" id="ev-image" accept="image/*" class="form-control" style="margin-bottom:10px;"><label class="form-label">Регламент</label><input type="file" id="ev-file" class="form-control" style="margin-bottom:10px;"><div id="ev-loading" class="loading-text">Загрузка файлов...</div><button class="btn-osu" style="width: 100%; background: var(--accent-gold); color: var(--primary-dark);" onclick="saveEvent()">Добавить анонс</button></div></div>
     <div class="modal-overlay" id="modal-create-tournament"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-create-tournament')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">🏆 Добавить турнир</h2><p style="font-size:12px; color:#888; margin-top:0;">Добавьте турнир сюда, чтобы тренеры могли выбирать его при начислении баллов.</p><label class="form-label">Название</label><input type="text" id="ct-title" class="form-control" style="margin-bottom:10px;" placeholder="Напр: Чемпионат Азии"><label class="form-label">Уровень (Влияет на баллы)</label><select id="ct-level" class="form-control" style="margin-bottom:10px;"><option value="club">Клубный</option><option value="city">Городской</option><option value="region">Областной</option><option value="republic">Республиканский</option><option value="international">Международный</option><option value="asia">Азия</option><option value="world">Мир</option></select><label class="form-label">Дата проведения</label><input type="date" id="ct-date" class="form-control" style="margin-bottom:15px;"><button class="btn-osu" style="width: 100%; background: var(--primary-dark);" onclick="saveNewTournament()">Сохранить турнир</button></div></div>
     <div class="modal-overlay" id="modal-points"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-points')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">🥇 Внести результаты</h2><label class="form-label">Ученик (Спортсмен)</label><select id="pt-student" class="form-control" style="margin-bottom:10px;"><option value="">Загрузка базы...</option></select><label class="form-label">Выберите Турнир из Базы</label><select id="pt-tournament-select" class="form-control" style="margin-bottom:10px;" onchange="autoSetLevel()"><option value="">Загрузка турниров...</option></select><input type="hidden" id="pt-level"><div class="form-grid"><div><label class="form-label">Занятое место</label><select id="pt-place" class="form-control"><option value="1">1 (Золото)</option><option value="2">2 (Серебро)</option><option value="3">3 (Бронза)</option></select></div></div><button class="btn-osu" style="width: 100%; margin-top: 10px;" onclick="savePoints()">Начислить баллы</button></div></div>
     <div class="modal-overlay" id="modal-timer"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-timer')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">⏱ Настройка таймера</h2><label class="form-label">Название турнира</label><input type="text" id="timer-edit-title" class="form-control" style="margin-bottom:15px;" placeholder="Напр: Чемпионат РК"><label class="form-label">Дата и точное время старта</label><input type="datetime-local" id="timer-edit-date" class="form-control" style="margin-bottom:15px;"><button class="btn-osu" style="width: 100%;" onclick="saveTimer()">Запустить таймер</button></div></div>
@@ -394,7 +394,7 @@
                 </div>
 
                 <div class="widget-block">
-                    <div class="widget-header"><h3>👥 Тренеры (Топ кол-во учеников)</h3></div>
+                    <div class="widget-header"><h3>👥 Тренеры (Топ учеников)</h3></div>
                     <div id="coaches-students-container"></div>
                 </div>
 
@@ -474,10 +474,11 @@
         async function saveProfile() {
             document.getElementById('prof-loading').style.display='block';
             let aUrl = null; if(document.getElementById('prof-avatar-file').files.length > 0) { const iData = await uploadFile('prof-avatar-file', 'avatars'); if(iData) aUrl = iData.url; }
-            const u = { full_name: document.getElementById('prof-name').value, dan: document.getElementById('prof-dan').value, phone: document.getElementById('prof-phone').value };
+            const u = { id: currentUserId, full_name: document.getElementById('prof-name').value, dan: document.getElementById('prof-dan').value, phone: document.getElementById('prof-phone').value };
             if(aUrl) u.avatar_url = aUrl;
-            await supabaseClient.from('profiles').update(u).eq('id', currentUserId);
-            document.getElementById('prof-loading').style.display='none'; alert("Профиль обновлен!"); loadProfile(currentUserId);
+            await supabaseClient.from('profiles').upsert(u);
+            const p = document.getElementById('prof-pwd').value; if(p) await supabaseClient.auth.updateUser({ password: p });
+            document.getElementById('prof-loading').style.display='none'; alert("Профиль сохранен!"); loadProfile(currentUserId);
         }
 
         // === УМНЫЙ ОПРОСНИК ===
@@ -548,7 +549,7 @@
             document.getElementById('documents-list-container').innerHTML = h || '<p class="empty-card">Документов пока нет</p>';
         }
 
-        // === НОВОСТИ И АНОНСЫ ===
+        // === АВТО-ОЧЕРЕДЬ АНОНСОВ И НОВОСТЕЙ ===
         async function saveNews() { const t = document.getElementById('news-title').value, c = document.getElementById('news-content').value; if (!t || !c) return alert("Заполните текст!"); document.getElementById('news-loading').style.display='block'; const img = await uploadFile('news-image', 'news_images'); const file = await uploadFile('news-file', 'news_files'); await supabaseClient.from('news').insert([{ title: t, content: c, image_url: img?.url, file_url: file?.url, file_name: file?.name }]); closeModal('modal-news'); document.getElementById('news-loading').style.display='none'; loadNewsAndEvents(); }
         async function saveEvent() { const t = document.getElementById('ev-title').value, d = document.getElementById('ev-date').value; if (!t || !d) return alert("Обязательно!"); document.getElementById('ev-loading').style.display='block'; const img = await uploadFile('ev-image', 'events_images'); const file = await uploadFile('ev-file', 'events_files'); await supabaseClient.from('events').insert([{ title: t, event_date: d, location: document.getElementById('ev-loc').value, description: document.getElementById('ev-desc').value, image_url: img?.url, file_url: file?.url, file_name: file?.name }]); closeModal('modal-event'); document.getElementById('ev-loading').style.display='none'; loadNewsAndEvents(); }
         async function deleteNews(id) { if(confirm("Удалить?")) { await supabaseClient.from('news').delete().eq('id', id); loadNewsAndEvents(); } }
@@ -557,16 +558,31 @@
         async function loadNewsAndEvents() {
             const { data: evData } = await supabaseClient.from('events').select('*').order('event_date', { ascending: true });
             let evM='', evA='';
-            evData?.forEach((e, i) => {
+            
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            let activeCount = 0;
+
+            evData?.forEach((e) => {
                 let imgHtml = e.image_url ? `<div class="feed-image-wrapper" onclick="window.open('${e.image_url}', '_blank')"><img src="${e.image_url}" class="feed-poster"></div>` : '';
                 let descText = e.description || '';
                 let descHtml = descText ? `<p class="feed-desc">${descText}</p>` : '';
                 let btnHtml = descText.length > 50 ? `<button class="read-more-btn" onclick="toggleDesc(this)">Подробнее</button>` : '';
                 
                 let h = `<div class="feed-item">${imgHtml}<div class="feed-content"><div class="feed-date">${e.event_date}</div><h3 class="feed-title">${e.title}</h3>${descHtml}${btnHtml}<div class="feed-meta"><span>📍 ${e.location||'-'}</span></div>${e.file_url?`<a href="${e.file_url}" target="_blank" class="file-btn">💾 Скачать</a>`:''}${isPresGlobal?`<div class="admin-actions" style="margin-top:10px;"><button class="btn-del" onclick="deleteEvent('${e.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
-                if(i<2) evM+=h; evA+=h;
+                
+                const eventDate = new Date(e.event_date);
+                
+                // Авто-очередь: если событие еще не прошло
+                if (eventDate >= today) {
+                    if (activeCount < 3) { evM += h; activeCount++; } // На главной до 3 событий
+                }
+                
+                // В архив идут абсолютно все (и прошлые, и будущие)
+                evA += h;
             });
-            document.getElementById('events-feed-container').innerHTML = evM || '<p class="empty-card">Анонсов пока нет</p>'; document.getElementById('events-archive-container').innerHTML = evA || '<p class="empty-card">Архив пуст</p>';
+            document.getElementById('events-feed-container').innerHTML = evM || '<p class="empty-card">Предстоящих турниров пока нет</p>'; 
+            document.getElementById('events-archive-container').innerHTML = evA || '<p class="empty-card">Архив пуст</p>';
 
             const { data: nData } = await supabaseClient.from('news').select('*').order('published_at', { ascending: false });
             let nM='', nA='';
@@ -695,10 +711,8 @@
             document.getElementById('full-ranking-body').innerHTML = fHtml;
 
             const sortedTr = Object.entries(trScores).sort((a,b)=>b[1]-a[1]);
-            let tHtml=''; for(let i=0; i<Math.min(3, sortedTr.length); i++) tHtml+=`<div class="list-item"><span class="rank-number ${i===0?'top-1':(i===1?'top-2':'top-3')}">${i+1}</span><div style="flex:1;font-size:13px;"><strong>${trainersMap[sortedTr[i][0]]?.name || 'Тренер'}</strong></div><span style="font-weight:bold;color:var(--primary-dark);font-size:13px;">${sortedTr[i][1]} б.</span></div>`;
-            document.getElementById('coaches-medals-container').innerHTML = tHtml || '<p style="text-align:center;font-size:12px;">Нет данных</p>';
-
-            // ВЫВОД ЛУЧШЕГО ТРЕНЕРА В СИММЕТРИЧНЫЙ ВИДЖЕТ
+            
+            // ЛУЧШИЙ ТРЕНЕР
             if(sortedTr.length > 0) {
                 let topCoachId = sortedTr[0][0];
                 document.getElementById('best-coach-name').innerText = trainersMap[topCoachId]?.name || 'Инструктор';
@@ -744,13 +758,12 @@
             document.getElementById('dash-total-groups').innerText = totalGr || 0;
 
             const { data: tData } = await supabaseClient.from('students').select('*, profiles(full_name)').eq('is_national_team', true);
-            let tH=''; tData?.forEach(t => tH+=`<tr><td><strong>${t.full_name}</strong></td><td>${calculateAge(t.birth_date)} лет</td><td>${t.current_weight?t.current_weight+' кг':'-'}</td><td>${t.current_kyu}</td><td>${t.profiles?t.profiles.full_name:''}</td></tr>`); document.getElementById('national-team-body').innerHTML = tH || '<tr><td colspan="5">В сборной пока нет спортсменов.</td></tr>';
+            let tH=''; tData?.forEach(t => tH+=`<tr><td><strong>${t.full_name}</strong></td><td>${calculateAge(t.birth_date)} лет</td><td>${t.current_weight?t.current_weight+' кг':'-'}</td><td><span style="background:var(--accent-gold);color:#000;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:bold;">${t.current_kyu}</span></td><td>${t.profiles?t.profiles.full_name:''}</td></tr>`); document.getElementById('national-team-body').innerHTML = tH || '<tr><td colspan="5">В сборной пока нет спортсменов.</td></tr>';
         }
 
         // === ГЛОБАЛЬНАЯ БАЗА ПРЕЗИДЕНТА ===
         async function loadGlobalAdminData() {
             if(!isPresGlobal) return;
-            
             const { data: allDojos } = await supabaseClient.from('groups').select('*, profiles(full_name)');
             let dh = '';
             allDojos?.forEach(d => {
@@ -805,10 +818,9 @@
                     document.getElementById('admin-btn-tournaments').style.display='flex'; 
                     document.getElementById('admin-btn-poll').style.display='inline-block'; 
                     
-                    // ВКЛЮЧАЕМ КНОПКУ ПРЕЗИДЕНТА
                     document.getElementById('menu-title-admin').style.display='block';
                     document.getElementById('btn-admin-global').style.display='flex';
-                    loadGlobalAdminData(); // Грузим все данные области
+                    loadGlobalAdminData(); 
                 }
             }
             addGroupRow(); loadGlobalSettings(); loadDojos(); loadStudents(); loadNewsAndEvents(); loadRankings(); loadBirthdays(); loadExams(); loadPoll(); loadDocuments(); loadTournamentsForPoints(); loadCoachesDirectory();
