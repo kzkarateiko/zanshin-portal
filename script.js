@@ -4,6 +4,7 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
 let currentUserId = null; let isPresGlobal = false; let targetTimerDate = null; let globalTournaments = [];
 let currentPollQuestion = ""; let currentPollOptions = [];
 
+// === ТАЙМЕР ===
 setInterval(() => {
     const el = document.getElementById('tournament-timer');
     if(el && targetTimerDate) {
@@ -57,6 +58,7 @@ async function saveProfile() {
     document.getElementById('prof-loading').style.display='none'; alert("Профиль сохранен!"); loadProfile(currentUserId);
 }
 
+// === ОПРОСНИК ===
 async function loadPoll() {
     const { data: appData } = await supabaseClient.from('app_settings').select('poll_question, poll_options').eq('id', 1).single();
     currentPollQuestion = appData?.poll_question || 'Где проведем Зимнюю Школу?';
@@ -66,11 +68,7 @@ async function loadPoll() {
     const { data: votes } = await supabaseClient.from('poll_votes').select('option_id, profile_id');
     let vMap = {}; currentPollOptions.forEach((_,i) => vMap[i] = 0);
     let total = 0; let userVotedIdx = -1;
-    
-    if(votes) {
-        total = votes.length;
-        votes.forEach(vote => { vMap[vote.option_id] = (vMap[vote.option_id] || 0) + 1; if(vote.profile_id === currentUserId) userVotedIdx = vote.option_id; });
-    }
+    if(votes) { total = votes.length; votes.forEach(vote => { vMap[vote.option_id] = (vMap[vote.option_id] || 0) + 1; if(vote.profile_id === currentUserId) userVotedIdx = vote.option_id; }); }
     
     const cont = document.getElementById('poll-container');
     if(userVotedIdx !== -1 || currentPollOptions.length === 0) {
@@ -83,15 +81,14 @@ async function loadPoll() {
         h += `<p style="font-size: 11px; color: #888; text-align: center; margin: 5px 0 0 0;">Всего голосов: ${total}</p>`;
         cont.innerHTML = h;
     } else {
-        let h = '';
-        currentPollOptions.forEach((opt, idx) => { h += `<button class="poll-option" onclick="castVote(${idx})">${opt}</button>`; });
+        let h = ''; currentPollOptions.forEach((opt, idx) => { h += `<button class="poll-option" onclick="castVote(${idx})">${opt}</button>`; });
         cont.innerHTML = h;
     }
 }
 async function castVote(optIdx) { if(!currentUserId) return; await supabaseClient.from('poll_votes').insert([{ profile_id: currentUserId, option_id: optIdx }]); loadPoll(); }
 function openPollModal() { document.getElementById('poll-edit-q').value = currentPollQuestion; renderPollEditOptions(); openModal('modal-poll-edit'); }
 function renderPollEditOptions() {
-    let h = ''; currentPollOptions.forEach((opt, i) => { h += `<div style="display:flex; gap:10px; margin-bottom:10px;"><input type="text" class="form-control group-input" value="${opt}" onchange="currentPollOptions[${i}]=this.value"><button class="btn-del" style="flex-shrink:0;" onclick="currentPollOptions.splice(${i},1); renderPollEditOptions()">✖</button></div>`; });
+    let h = ''; currentPollOptions.forEach((opt, i) => { h += `<div style="display:flex; gap:10px; margin-bottom:10px;"><input type="text" class="form-control" value="${opt}" onchange="currentPollOptions[${i}]=this.value"><button class="btn-del" style="flex-shrink:0;" onclick="currentPollOptions.splice(${i},1); renderPollEditOptions()">✖</button></div>`; });
     document.getElementById('poll-edit-opts').innerHTML = h;
 }
 function addPollOption() { currentPollOptions.push('Новый вариант'); renderPollEditOptions(); }
@@ -126,16 +123,12 @@ async function deleteEvent(id) { if(confirm("Удалить?")) { await supabase
 
 async function loadNewsAndEvents() {
     const { data: evData } = await supabaseClient.from('events').select('*').order('event_date', { ascending: true });
-    let evM='', evA='';
-    const today = new Date(); today.setHours(0,0,0,0);
-    let activeCount = 0;
-
+    let evM='', evA=''; const today = new Date(); today.setHours(0,0,0,0); let activeCount = 0;
     evData?.forEach((e) => {
         let imgHtml = e.image_url ? `<div class="feed-image-wrapper" onclick="window.open('${e.image_url}', '_blank')"><img src="${e.image_url}" class="feed-poster"></div>` : '';
-        let descText = e.description || '';
-        let descHtml = descText ? `<p class="feed-desc">${descText}</p>` : '';
-        let btnHtml = descText.length > 50 ? `<button class="read-more-btn" onclick="toggleDesc(this)">Подробнее</button>` : '';
-        let h = `<div class="feed-item">${imgHtml}<div class="feed-content"><div class="feed-date">${e.event_date}</div><h3 class="feed-title">${e.title}</h3>${descHtml}${btnHtml}<div class="feed-meta"><span>📍 ${e.location||'-'}</span></div>${e.file_url?`<a href="${e.file_url}" target="_blank" class="file-btn">💾 Скачать</a>`:''}${isPresGlobal?`<div class="admin-actions" style="margin-top:10px;"><button class="btn-del" onclick="deleteEvent('${e.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
+        let descText = e.description || ''; let descHtml = descText ? `<p class="feed-desc">${descText}</p>` : '';
+        
+        let h = `<div class="feed-item">${imgHtml}<div class="feed-content"><div class="feed-date">${e.event_date}</div><h3 class="feed-title">${e.title}</h3>${descHtml}<div class="feed-meta"><span>📍 ${e.location||'-'}</span></div>${e.file_url?`<a href="${e.file_url}" target="_blank" class="file-btn">💾 Скачать</a>`:''}${isPresGlobal?`<div class="admin-actions" style="margin-top:10px;"><button class="btn-del" onclick="deleteEvent('${e.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
         const eventDate = new Date(e.event_date);
         if (eventDate >= today) { if (activeCount < 3) { evM += h; activeCount++; } }
         evA += h;
@@ -147,10 +140,8 @@ async function loadNewsAndEvents() {
     let nM='', nA='';
     nData?.forEach((n, i) => {
         let imgHtml = n.image_url ? `<div class="feed-image-wrapper" onclick="window.open('${n.image_url}', '_blank')"><img src="${n.image_url}" class="feed-poster"></div>` : '';
-        let descText = n.content || '';
-        let descHtml = descText ? `<p class="feed-desc">${descText}</p>` : '';
-        let btnHtml = descText.length > 50 ? `<button class="read-more-btn" onclick="toggleDesc(this)">Подробнее</button>` : '';
-        let h = `<div class="feed-item news-item">${imgHtml}<div class="feed-content"><div class="feed-date">${n.published_at}</div><h3 class="feed-title">${n.title}</h3>${descHtml}${btnHtml}${n.file_url?`<a href="${n.file_url}" target="_blank" class="file-btn">💾 Скачать</a>`:''}${isPresGlobal?`<div class="admin-actions" style="margin-top:10px;"><button class="btn-del" onclick="deleteNews('${n.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
+        let descText = n.content || ''; let descHtml = descText ? `<p class="feed-desc">${descText}</p>` : '';
+        let h = `<div class="feed-item news-item">${imgHtml}<div class="feed-content"><div class="feed-date">${n.published_at}</div><h3 class="feed-title">${n.title}</h3>${descHtml}${n.file_url?`<a href="${n.file_url}" target="_blank" class="file-btn">💾 Скачать</a>`:''}${isPresGlobal?`<div class="admin-actions" style="margin-top:10px;"><button class="btn-del" onclick="deleteNews('${n.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
         if(i<2) nM+=h; nA+=h;
     });
     document.getElementById('news-feed-container').innerHTML = nM || '<p class="empty-card">Новостей пока нет</p>'; document.getElementById('news-archive-container').innerHTML = nA || '<p class="empty-card">Архив пуст</p>';
@@ -161,14 +152,15 @@ async function loadCoachesDirectory() {
     const { data: groups } = await supabaseClient.from('groups').select('*');
     const { data: results } = await supabaseClient.from('athlete_results').select('place, students(id, profile_id)');
     const { data: allStudents } = await supabaseClient.from('students').select('id, profile_id');
-    if(!profiles) return;
-    let html = '';
+    if(!profiles) return; let html = '';
+    
     profiles.forEach(coach => {
         let myDojos = groups ? groups.filter(g => g.profile_id === coach.id) : [];
         let myStudents = allStudents ? allStudents.filter(s => s.profile_id === coach.id) : [];
         let dojosDetails = '';
         myDojos.forEach(d => { dojosDetails += `<div style="font-size:12px; background:#f4f6f9; padding:8px; border-radius:6px; margin-bottom:8px; border:1px solid #eee;"><strong>📍 ${d.address_city}</strong>, ${d.address_raw}<br>👥 Группа: ${d.group_name} (${d.students_count || 0} чел.)</div>`; });
         if(!dojosDetails) dojosDetails = '<span style="color:#aaa; font-size:12px;">Нет данных о залах</span>';
+
         let gold = 0, silver = 0, bronze = 0; let championsSet = new Set();
         if (results) {
             results.forEach(r => {
@@ -180,21 +172,7 @@ async function loadCoachesDirectory() {
             });
         }
         let avatar = coach.avatar_url ? `<img src="${coach.avatar_url}">` : `🥋`;
-        html += `
-        <div class="coach-card">
-            <div class="coach-header">
-                <div class="coach-avatar">${avatar}</div>
-                <div class="coach-info"><h3>${coach.full_name || 'Инструктор'}</h3><div class="rank">${coach.dan || '- Кю/Дан'}</div></div>
-            </div>
-            <div class="coach-body">
-                <div class="coach-stat-row"><strong>📞 Телефон:</strong> <span>${coach.phone || 'Не указан'}</span></div>
-                <div class="coach-stat-row"><strong>👥 Учеников в базе:</strong> <span>${myStudents.length}</span></div>
-                <div class="coach-stat-row"><strong>🏆 Чемпионов:</strong> <span>${championsSet.size} чел.</span></div>
-                <div class="medals-box"><div class="medal-item"><span>🥇</span>${gold}</div><div class="medal-item"><span>🥈</span>${silver}</div><div class="medal-item"><span>🥉</span>${bronze}</div></div>
-                <button class="btn-link" style="margin-top:15px; width:100%; border: 1px dashed var(--accent-gold); background: #fff;" onclick="toggleCoachDetails(this)">Подробнее ⬇️</button>
-                <div style="display:none; margin-top:10px;">${dojosDetails}</div>
-            </div>
-        </div>`;
+        html += `<div class="coach-card"><div class="coach-header"><div class="coach-avatar">${avatar}</div><div class="coach-info"><h3>${coach.full_name || 'Инструктор'}</h3><div class="rank">${coach.dan || '- Кю/Дан'}</div></div></div><div class="coach-body"><div class="coach-stat-row"><strong>📞 Телефон:</strong> <span>${coach.phone || 'Не указан'}</span></div><div class="coach-stat-row"><strong>👥 Учеников в базе:</strong> <span>${myStudents.length}</span></div><div class="coach-stat-row"><strong>🏆 Чемпионов:</strong> <span>${championsSet.size} чел.</span></div><div class="medals-box"><div class="medal-item"><span>🥇</span>${gold}</div><div class="medal-item"><span>🥈</span>${silver}</div><div class="medal-item"><span>🥉</span>${bronze}</div></div><button class="btn-link" style="margin-top:15px; width:100%; border: 1px dashed var(--accent-gold); background: #fff;" onclick="toggleCoachDetails(this)">Подробнее ⬇️</button><div style="display:none; margin-top:10px;">${dojosDetails}</div></div></div>`;
     });
     document.getElementById('coaches-directory-container').innerHTML = html || '<p class="empty-card">Список тренеров пуст</p>';
 }
@@ -203,8 +181,7 @@ const ptsMatrix = { 'club':{1:1,2:0.5,3:0.2}, 'city':{1:3,2:2,3:1}, 'region':{1:
 
 async function loadTournamentsForPoints() {
     const { data } = await supabaseClient.from('tournaments').select('*').order('event_date', { ascending: false });
-    globalTournaments = data || [];
-    const sel = document.getElementById('pt-tournament-select');
+    globalTournaments = data || []; const sel = document.getElementById('pt-tournament-select');
     sel.innerHTML = '<option value="">-- Выберите турнир --</option>';
     globalTournaments.forEach(t => { sel.innerHTML += `<option value="${t.id}">${t.title} (${t.level})</option>`; });
     
@@ -227,8 +204,7 @@ async function saveNewTournament() {
     const t = document.getElementById('ct-title').value, l = document.getElementById('ct-level').value, d = document.getElementById('ct-date').value;
     if(!t || !d) return alert("Заполните все поля!");
     await supabaseClient.from('tournaments').insert([{title: t, level: l, event_date: d}]);
-    document.getElementById('admin-btn-add-tour').style.display = 'inline-block';
-    closeModal('modal-create-tournament'); loadTournamentsForPoints();
+    document.getElementById('admin-btn-add-tour').style.display = 'inline-block'; closeModal('modal-create-tournament'); loadTournamentsForPoints();
 }
 
 async function openApplyModal(tourId, tourTitle) {
@@ -279,7 +255,6 @@ async function savePoints() {
     await supabaseClient.from('athlete_results').insert([{student_id: sid, tournament_name: tourName, place: document.getElementById('pt-place').value, points: pts}]); 
     closeModal('modal-points'); loadRankings(); loadCoachesDirectory();
 }
-
 async function deleteResult(id) { if(confirm("Сбросить баллы?")) { await supabaseClient.from('athlete_results').delete().eq('student_id', id); loadRankings(); loadCoachesDirectory(); } }
 
 async function loadRankings() {
@@ -299,8 +274,7 @@ async function loadRankings() {
 
     const sortedTr = Object.entries(trScores).sort((a,b)=>b[1]-a[1]);
     if(sortedTr.length > 0) {
-        let topCoachId = sortedTr[0][0];
-        document.getElementById('best-coach-name').innerText = trainersMap[topCoachId]?.name || 'Инструктор';
+        let topCoachId = sortedTr[0][0]; document.getElementById('best-coach-name').innerText = trainersMap[topCoachId]?.name || 'Инструктор';
         if(trainersMap[topCoachId]?.avatar) document.getElementById('best-coach-avatar').innerHTML = `<img src="${trainersMap[topCoachId].avatar}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`;
     }
 
@@ -318,22 +292,17 @@ async function openStudentProfile(studentId) {
     if(results) { results.forEach(r => { if(r.place == 1) gold++; if(r.place == 2) silver++; if(r.place == 3) bronze++; totalPts += r.points; }); }
 
     document.getElementById('bp-avatar').innerHTML = student.avatar_url ? `<img src="${student.avatar_url}" style="width:100%;height:100%;object-fit:cover;">` : '🥋';
-    document.getElementById('bp-name').innerText = student.full_name;
-    document.getElementById('bp-kyu').innerText = student.current_kyu;
-    document.getElementById('bp-age').innerText = calculateAge(student.birth_date) + ' лет';
-    document.getElementById('bp-weight').innerText = student.current_weight ? student.current_weight + ' кг' : '—';
+    document.getElementById('bp-name').innerText = student.full_name; document.getElementById('bp-kyu').innerText = student.current_kyu;
+    document.getElementById('bp-age').innerText = calculateAge(student.birth_date) + ' лет'; document.getElementById('bp-weight').innerText = student.current_weight ? student.current_weight + ' кг' : '—';
     document.getElementById('bp-national').innerHTML = student.is_national_team ? '<span style="color:#27ae60;">В составе</span>' : 'Нет';
-    document.getElementById('bp-exam').innerText = student.last_exam_date || 'Нет данных';
-    document.getElementById('bp-coach').innerText = student.profiles ? student.profiles.full_name : 'Нет тренера';
+    document.getElementById('bp-exam').innerText = student.last_exam_date || 'Нет данных'; document.getElementById('bp-coach').innerText = student.profiles ? student.profiles.full_name : 'Нет тренера';
     document.getElementById('bp-dojo').innerText = student.groups ? `${student.groups.address_city}, ${student.groups.group_name}` : 'Без зала';
-    
     document.getElementById('bp-gold').innerText = gold; document.getElementById('bp-silver').innerText = silver; document.getElementById('bp-bronze').innerText = bronze; document.getElementById('bp-points').innerText = totalPts + ' б.';
     openModal('modal-student-profile');
 }
 
 function openExamModal(id, name, kyu) { document.getElementById('exam-student-id').value = id; document.getElementById('exam-student-name-header').innerText = `${name} (${kyu})`; document.getElementById('exam-date').value = new Date().toISOString().split('T')[0]; openModal('modal-exam'); }
 async function saveExamResult() { const id = document.getElementById('exam-student-id').value; const newKyu = document.getElementById('exam-new-kyu').value; const date = document.getElementById('exam-date').value; if(!id || !newKyu || !date) return; await supabaseClient.from('students').update({ current_kyu: newKyu, last_exam_date: date }).eq('id', id); alert("✅ Пояс присвоен!"); closeModal('modal-exam'); loadExams(); loadStudents(); loadGlobalAdminData(); }
-
 async function loadExams() {
     const { data } = await supabaseClient.from('students').select('*').eq('profile_id', currentUserId); let html = '';
     if(!data || data.length === 0) { document.getElementById('exams-table-body').innerHTML = '<tr><td colspan="5" style="text-align:center;">У вас пока нет учеников</td></tr>'; return; }
@@ -349,32 +318,72 @@ async function loadExams() {
     document.getElementById('exams-table-body').innerHTML = html;
 }
 
-async function deleteStudent(id) {
-    if(confirm("Удалить ученика из базы безвозвратно?")) {
-        await supabaseClient.from('students').delete().eq('id', id);
-        alert("Ученик удален.");
-        loadStudents(); loadGlobalAdminData();
-    }
-}
-
+// === РЕДАКТИРОВАНИЕ И УДАЛЕНИЕ ЗАЛОВ ===
 function addGroupRow() { const c=document.getElementById('groups-container'), r=document.createElement('div'); r.className='form-grid'; r.innerHTML=`<div><label class="form-label">Группа</label><input type="text" class="form-control group-name"></div><div><label class="form-label">Расписание</label><input type="text" class="form-control group-schedule"></div><div><label class="form-label">Учеников</label><input type="number" class="form-control group-count"></div>`; c.appendChild(r); }
 async function saveDojo() { const city=document.getElementById('dojo-city').value, addr=document.getElementById('dojo-address').value; let gr=[]; for(let r of document.getElementById('groups-container').children){ let n=r.querySelector('.group-name').value; if(n) gr.push({profile_id:currentUserId, address_city:city, address_raw:addr, group_name:n, schedule:r.querySelector('.group-schedule').value, students_count:r.querySelector('.group-count').value||0}); } await supabaseClient.from('groups').insert(gr); toggleForm('dojo-form-container'); loadDojos(); loadGlobalAdminData(); }
-async function loadDojos() { const { data } = await supabaseClient.from('groups').select('*').eq('profile_id', currentUserId); const sel=document.getElementById('st-group'); sel.innerHTML=''; data?.forEach(g => sel.innerHTML+=`<option value="${g.id}">${g.address_city}, ${g.group_name}</option>`); }
+
+async function loadDojos() { 
+    const { data } = await supabaseClient.from('groups').select('*').eq('profile_id', currentUserId); 
+    const sel=document.getElementById('st-group'); const selEdit = document.getElementById('edit-st-group');
+    sel.innerHTML=''; if(selEdit) selEdit.innerHTML='';
+    let listHtml = '';
+    if(data && data.length > 0) {
+        data.forEach(g => { 
+            let opt = `<option value="${g.id}">${g.address_city}, ${g.group_name}</option>`;
+            sel.innerHTML += opt; if(selEdit) selEdit.innerHTML += opt;
+            listHtml += `<div style="background:#fff; border:1px solid #eee; padding:15px; border-radius:8px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;"><div><strong style="color:var(--primary-dark); font-size:14px;">${g.address_city}, ${g.group_name}</strong><br><span style="font-size:12px; color:#888;">📍 ${g.address_raw} | 🗓 ${g.schedule}</span></div><div style="display:flex; gap:5px;"><button class="btn-link" style="padding:6px; font-size:12px;" onclick="openEditDojoModal('${g.id}', '${g.address_city}', '${g.address_raw}', '${g.group_name}', '${g.schedule}')">✏️</button><button class="btn-del" onclick="deleteDojo('${g.id}')">🗑</button></div></div>`;
+        });
+    } else { listHtml = '<p class="empty-card">У вас пока нет залов</p>'; }
+    document.getElementById('dojos-list').innerHTML = listHtml;
+}
+
+function openEditDojoModal(id, city, address, name, schedule) {
+    document.getElementById('edit-dojo-id').value = id; document.getElementById('edit-dojo-city').value = city; document.getElementById('edit-dojo-address').value = address; document.getElementById('edit-dojo-name').value = name; document.getElementById('edit-dojo-schedule').value = schedule;
+    openModal('modal-edit-dojo');
+}
+async function updateDojo() {
+    const id = document.getElementById('edit-dojo-id').value;
+    const updates = { address_city: document.getElementById('edit-dojo-city').value, address_raw: document.getElementById('edit-dojo-address').value, group_name: document.getElementById('edit-dojo-name').value, schedule: document.getElementById('edit-dojo-schedule').value };
+    await supabaseClient.from('groups').update(updates).eq('id', id);
+    closeModal('modal-edit-dojo'); alert("Зал обновлен!"); loadDojos(); loadGlobalAdminData();
+}
+async function deleteDojo(id) { if(confirm("Удалить этот зал? Ученики из этого зала могут потерять привязку к группе!")) { await supabaseClient.from('groups').delete().eq('id', id); loadDojos(); loadGlobalAdminData(); } }
+
+// === РЕДАКТИРОВАНИЕ И УДАЛЕНИЕ УЧЕНИКОВ ===
 async function saveStudent() { await supabaseClient.from('students').insert([{ profile_id: currentUserId, group_id: document.getElementById('st-group').value, full_name: document.getElementById('st-name').value, birth_date: document.getElementById('st-dob').value, current_kyu: document.getElementById('st-kyu').value, current_weight: document.getElementById('st-weight').value || null, is_national_team: document.getElementById('st-national').checked }]); toggleForm('student-form-container'); loadStudents(); loadBirthdays(); loadExams(); loadCoachesDirectory(); loadGlobalAdminData(); }
+
+async function openEditStudentModal(id) {
+    const { data: st } = await supabaseClient.from('students').select('*').eq('id', id).single();
+    if(!st) return;
+    document.getElementById('edit-st-id').value = st.id; document.getElementById('edit-st-name').value = st.full_name; document.getElementById('edit-st-dob').value = st.birth_date; document.getElementById('edit-st-kyu').value = st.current_kyu; document.getElementById('edit-st-weight').value = st.current_weight || ''; document.getElementById('edit-st-group').value = st.group_id; document.getElementById('edit-st-national').checked = st.is_national_team;
+    openModal('modal-edit-student');
+}
+
+async function updateStudent() {
+    const id = document.getElementById('edit-st-id').value;
+    const updates = { full_name: document.getElementById('edit-st-name').value, birth_date: document.getElementById('edit-st-dob').value, current_kyu: document.getElementById('edit-st-kyu').value, current_weight: document.getElementById('edit-st-weight').value || null, group_id: document.getElementById('edit-st-group').value, is_national_team: document.getElementById('edit-st-national').checked };
+    await supabaseClient.from('students').update(updates).eq('id', id);
+    closeModal('modal-edit-student'); alert("Данные ученика обновлены!"); loadStudents(); loadExams(); loadGlobalAdminData();
+}
+
+async function deleteStudent(id) { if(confirm("Удалить ученика из базы безвозвратно?")) { await supabaseClient.from('students').delete().eq('id', id); alert("Ученик удален."); loadStudents(); loadGlobalAdminData(); } }
 
 async function loadStudents() {
     const { data } = await supabaseClient.from('students').select('*, groups(group_name)').eq('profile_id', currentUserId);
-    let h=''; data?.forEach(s => h+=`<tr><td><a class="data-link" onclick="openStudentProfile('${s.id}')">${s.full_name}</a></td><td>${calculateAge(s.birth_date)} лет</td><td>${s.current_kyu}</td><td>${s.groups?s.groups.group_name:'-'}</td><td><button class="btn-del" onclick="deleteStudent('${s.id}')">🗑</button></td></tr>`); document.getElementById('students-table-body').innerHTML = h;
+    let h=''; data?.forEach(s => {
+        let actionBtns = `<div style="display:flex; gap:5px;"><button class="btn-link" style="padding:4px 8px; font-size:10px; width:auto;" onclick="openEditStudentModal('${s.id}')">✏️</button><button class="btn-del" style="width:auto;" onclick="deleteStudent('${s.id}')">🗑</button></div>`;
+        h+=`<tr><td><a class="data-link" onclick="openStudentProfile('${s.id}')">${s.full_name}</a></td><td>${calculateAge(s.birth_date)} лет</td><td>${s.current_kyu}</td><td>${s.groups?s.groups.group_name:'-'}</td><td>${actionBtns}</td></tr>`;
+    }); 
+    document.getElementById('students-table-body').innerHTML = h;
     
-    const { count: totalSt } = await supabaseClient.from('students').select('*', { count: 'exact', head: true });
-    const { count: totalGr } = await supabaseClient.from('groups').select('*', { count: 'exact', head: true });
-    document.getElementById('dash-total-students').innerText = totalSt || 0;
-    document.getElementById('dash-total-groups').innerText = totalGr || 0;
+    const { count: totalSt } = await supabaseClient.from('students').select('*', { count: 'exact', head: true }); const { count: totalGr } = await supabaseClient.from('groups').select('*', { count: 'exact', head: true });
+    document.getElementById('dash-total-students').innerText = totalSt || 0; document.getElementById('dash-total-groups').innerText = totalGr || 0;
 
     const { data: tData } = await supabaseClient.from('students').select('*, profiles(full_name)').eq('is_national_team', true);
     let tH=''; tData?.forEach(t => tH+=`<tr><td><a class="data-link" onclick="openStudentProfile('${t.id}')">${t.full_name}</a></td><td>${calculateAge(t.birth_date)} лет</td><td>${t.current_weight?t.current_weight+' кг':'-'}</td><td><span style="background:var(--accent-gold);color:#000;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:bold;">${t.current_kyu}</span></td><td>${t.profiles?t.profiles.full_name:''}</td></tr>`); document.getElementById('national-team-body').innerHTML = tH || '<tr><td colspan="5">В сборной пока нет спортсменов.</td></tr>';
 }
 
+// === ГЛОБАЛЬНАЯ БАЗА ПРЕЗИДЕНТА И EXCEL ===
 let globalStudentsExportData = []; 
 async function loadGlobalAdminData() {
     if(!isPresGlobal) return;
@@ -428,7 +437,6 @@ async function loadProfile(userId) {
     }
     addGroupRow(); loadGlobalSettings(); loadDojos(); loadStudents(); loadNewsAndEvents(); loadRankings(); loadBirthdays(); loadExams(); loadPoll(); loadDocuments(); loadTournamentsForPoints(); loadCoachesDirectory();
 }
-
 async function login() { const { data, error } = await supabaseClient.auth.signInWithPassword({ email: document.getElementById('email').value.trim(), password: document.getElementById('password').value.trim() }); if (!error) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('app-content').style.display = 'block'; loadProfile(data.user.id); } else { document.getElementById('error-msg').style.display='block'; } }
 async function logout() { await supabaseClient.auth.signOut(); location.reload(); }
 async function checkSession() { const { data: { session } } = await supabaseClient.auth.getSession(); if (session) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('app-content').style.display = 'block'; loadProfile(session.user.id); } }
