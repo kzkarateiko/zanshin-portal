@@ -19,14 +19,15 @@
         .login-box input { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; background: #f8f9fa; }
         #app-content { display: none; width: 100%; }
         
-        .navbar { background-color: var(--bg-white); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--accent-gold); flex-wrap: wrap; gap: 15px; width: 100%; }
+        /* ШАПКА (ИЗМЕНЕНО ПО ВАШЕЙ СХЕМЕ) */
+        .navbar { background-color: var(--bg-white); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--accent-gold); width: 100%; }
         .header-left { display: flex; align-items: center; gap: 20px; }
         .header-left img { max-height: 80px; object-fit: contain; }
         .header-titles h1 { margin: 0; font-size: 20px; color: var(--primary-dark); font-weight: 900; text-transform: uppercase; letter-spacing: 1px;}
         .header-titles h2 { margin: 4px 0 0 0; font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; max-width: 400px;}
-        .header-wisdom { max-width: 350px; text-align: right; border-left: 2px solid #eee; padding-left: 20px; }
+        .header-wisdom { text-align: right; border-left: 2px solid #eee; padding-left: 20px; }
         .header-wisdom h4 { margin: 0; color: var(--accent-gold); font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; }
-        .header-wisdom p { margin: 6px 0 0 0; font-size: 13px; font-style: italic; color: var(--text-main); font-weight: 600; transition: opacity 0.4s ease; }
+        .header-wisdom p { margin: 6px 0 0 0; font-size: 13px; font-style: italic; color: var(--text-main); font-weight: 600; transition: opacity 0.4s ease; max-width: 300px; }
         
         .layout-wrapper { display: flex; padding: 25px; gap: 25px; max-width: 1400px; margin: 0 auto; align-items: flex-start; width: 100%; }
         .sidebar-left { width: 260px; flex-shrink: 0; position: sticky; top: 120px; display: flex; flex-direction: column; gap: 15px; }
@@ -34,6 +35,8 @@
         .sidebar-right { width: 320px; flex-shrink: 0; position: sticky; top: 120px; display: flex; flex-direction: column; gap: 15px; }
         
         .widget-block { background: var(--bg-white); padding: 20px; border-radius: var(--border-rad); box-shadow: var(--shadow-sm); width: 100%; }
+        
+        /* ПРОФИЛЬ */
         .admin-profile { text-align: center; margin-bottom: 10px; }
         .admin-avatar { width: 90px; height: 90px; background: #f8f9fa; border-radius: 50%; margin: 0 auto 10px; border: 3px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 40px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1);}
         .admin-avatar img { width: 100%; height: 100%; object-fit: cover; }
@@ -50,7 +53,7 @@
         
         /* ТАЙМЕР */
         .timer-widget { background: linear-gradient(135deg, #7a0000, #3a0000); color: white; padding: 25px; border-radius: var(--border-rad); text-align: center; position: relative; border: 2px solid var(--accent-gold); box-shadow: 0 10px 20px rgba(0,0,0,0.3); width: 100%; animation: gold-pulse 2s infinite; }
-        @keyframes gold-pulse { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.6); } 70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
+        @keyframes gold-pulse { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
         .timer-widget .edit-btn { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.4); border: 1px solid var(--accent-gold); color: var(--accent-gold); border-radius: 6px; cursor: pointer; font-size: 11px; padding: 5px 10px; font-weight: bold; transition: 0.2s;}
         .countdown { font-size: 32px; font-weight: 900; font-family: monospace; letter-spacing: 3px; margin: 15px 0; color: #ffffff; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
         .timer-label { font-size: 11px; color: var(--accent-gold); font-weight: bold; text-transform: uppercase; letter-spacing: 2px;}
@@ -68,31 +71,26 @@
         .btn-del { background: #fee; color: #c00; border: 1px solid #fcc; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; }
         .btn-link { width: 100%; background: #f8f9fa; border: 1px solid #ddd; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; color: var(--primary-dark); transition: 0.2s; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; text-align: center;}
         
-        /* === АНОНСЫ И НОВОСТИ (КОМПАКТНЫЕ) === */
+        /* === АНОНСЫ И НОВОСТИ === */
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
         .section-header h2 { margin: 0; color: var(--primary-dark); font-size: 18px; font-weight: 900; }
         
         .feed-item { display: flex; flex-direction: row !important; gap: 15px; background: #fff; border: 1px solid #eee; padding: 15px; border-radius: var(--border-rad); margin-bottom: 15px; border-left: 4px solid var(--accent-gold); box-shadow: var(--shadow-sm); width: 100%; align-items: flex-start; }
         .feed-item.news-item { border-left-color: var(--primary-color); }
-        
         .feed-image-wrapper { width: 100px; height: 100px; flex-shrink: 0; border-radius: 8px; overflow: hidden; background: #f4f6f9; cursor: pointer; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center;}
         .feed-poster { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
         .feed-image-wrapper:hover .feed-poster { transform: scale(1.05); }
-        
         .feed-content { flex: 1; min-width: 0; display: flex; flex-direction: column; }
         .feed-date { font-size: 11px; font-weight: 900; color: var(--primary-color); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;}
         .feed-title { margin: 0 0 6px 0; font-size: 15px; color: var(--primary-dark); font-weight: 800; line-height: 1.3;}
-        
-        /* СКРЫТЫЙ ТЕКСТ */
         .feed-desc { font-size: 13px; margin: 0 0 8px 0; color: #444; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; word-break: break-word;}
         .feed-desc.expanded { -webkit-line-clamp: unset; }
         .read-more-btn { align-self: flex-start; background: #f0f2f5; border: 1px solid #ddd; color: var(--primary-dark); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; margin-bottom: 10px; transition: 0.2s;}
-        .read-more-btn:hover { background: #e2e6ea; }
         
         .feed-meta { font-size: 12px; color: var(--text-muted); display: flex; gap: 10px; flex-wrap: wrap; background: #f8f9fa; padding: 6px 10px; border-radius: 6px; margin-top: auto;}
         .file-btn { display: inline-block; background: var(--bg-main); border: 1px solid #ddd; padding: 6px 12px; border-radius: 6px; color: var(--primary-dark); text-decoration: none; font-weight: bold; font-size: 11px; margin-top: 8px; align-self: flex-start;}
         
-        /* === КАРТОЧКИ ТРЕНЕРОВ === */
+        /* КАРТОЧКИ ТРЕНЕРОВ */
         .coaches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .coach-card { background: #fff; border-radius: var(--border-rad); border: 1px solid #eee; overflow: hidden; box-shadow: var(--shadow-sm); transition: 0.2s; border-top: 4px solid var(--accent-gold);}
         .coach-header { padding: 15px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid #f0f2f5; background: #fcfcfc;}
@@ -119,7 +117,6 @@
         
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
         .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; font-family: inherit; background: #fcfcfc; }
-        .form-control:focus { border-color: var(--primary-color); outline: none; background: #fff; box-shadow: 0 0 0 3px rgba(139,0,0,0.1); }
         .form-label { display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; }
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 15px; }
@@ -127,25 +124,30 @@
         .close-modal { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 20px; cursor: pointer; color: #888; }
         .loading-text { text-align: center; color: var(--primary-color); font-weight: bold; display: none; margin-bottom: 10px; font-size: 13px;}
 
-        /* === ИДЕАЛЬНЫЙ АДАПТИВ (ПОРЯДОК БЛОКОВ ВОССТАНОВЛЕН) === */
+        /* === ИДЕАЛЬНЫЙ АДАПТИВ (ПО ВАШЕЙ СХЕМЕ С КРАСНЫМИ СТРЕЛКАМИ) === */
         @media (max-width: 1100px) { 
             .layout-wrapper { flex-direction: column; padding: 15px 10px; gap: 15px; } 
             
-            /* Убрал order: 1, 2, 3 - теперь всё выводится как в HTML: Меню -> Контент -> Виджеты */
             .sidebar-left { width: 100%; position: static; } 
             .content-center { width: 100%; gap: 15px; } 
             .sidebar-right { width: 100%; position: static; display: flex; flex-direction: column; gap: 15px; } 
             
-            .navbar { flex-direction: column; text-align: center; padding: 10px; } 
-            .header-left { flex-direction: column; gap: 5px; } 
-            .header-wisdom { border-left: none; padding-left: 0; text-align: center; margin-top: 5px; border-top: 1px solid #eee; padding-top: 5px; } 
+            /* Шапка: Логотип влево, Мудрость вправо */
+            .navbar { flex-direction: row; justify-content: space-between; padding: 10px; align-items: center; } 
+            .header-left { gap: 10px; } 
+            .header-left img { max-height: 50px; }
+            .header-titles h1 { font-size: 14px; }
+            .header-titles h2 { display: none; } /* Скрываем длинный текст на телефоне */
+            .header-wisdom { border-left: none; padding-left: 0; text-align: right; } 
+            .header-wisdom h4 { font-size: 9px; }
+            .header-wisdom p { font-size: 10px; max-width: 150px; }
+            
             .card, .timer-widget, .widget-block { width: 100%; margin-left: 0; margin-right: 0; }
         }
+        
         @media (max-width: 650px) { 
             .card { padding: 15px; margin-bottom: 15px; }
             .timer-widget { padding: 20px 15px; margin-bottom: 15px; }
-            .header-left img { max-height: 65px; }
-            .header-titles h1 { font-size: 16px; }
             .countdown { font-size: 26px; margin: 10px 0; }
             
             .feed-item { padding: 10px; gap: 12px; flex-direction: row !important; align-items: flex-start; }
@@ -190,19 +192,7 @@
         <div class="layout-wrapper">
             
             <div class="sidebar-left">
-                <div class="widget-block">
-                    <div class="admin-profile">
-                        <div class="admin-avatar" id="sidebar-avatar">🥋</div>
-                        <div class="admin-name" id="profile-name">Загрузка...</div>
-                        <div class="admin-rank" id="profile-rank">Загрузка...</div>
-                        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
-                            <button onclick="showTab('profile')" style="background:none; border:none; color: var(--primary-color); font-weight:bold; font-size: 12px; cursor: pointer;">⚙️ Настройки</button>
-                            <span style="color: #ccc;">|</span>
-                            <button onclick="logout()" style="background:none; border:none; color: var(--text-muted); font-size: 12px; cursor: pointer;">Выход</button>
-                        </div>
-                    </div>
-                </div>
-
+                
                 <div class="widget-block" style="padding: 10px;">
                     <div class="menu-title">УПРАВЛЕНИЕ</div>
                     <button class="menu-btn active" id="btn-dashboard" onclick="showTab('dashboard')">🥋 Главная панель</button>
@@ -216,6 +206,19 @@
                     <button class="menu-btn" id="btn-team" onclick="showTab('team')">🇰🇿 Сборная Области</button>
                     <button class="menu-btn" id="btn-athlete-ranking" onclick="showTab('athlete-ranking')">🥇 Рейтинг спортсменов</button>
                     <button class="menu-btn" id="btn-documents" onclick="showTab('documents')">📁 База Знаний (Документы)</button>
+                </div>
+
+                <div class="widget-block">
+                    <div class="admin-profile">
+                        <div class="admin-avatar" id="sidebar-avatar">🥋</div>
+                        <div class="admin-name" id="profile-name">Загрузка...</div>
+                        <div class="admin-rank" id="profile-rank">Загрузка...</div>
+                        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+                            <button onclick="showTab('profile')" style="background:none; border:none; color: var(--primary-color); font-weight:bold; font-size: 12px; cursor: pointer;">⚙️ Настройки</button>
+                            <span style="color: #ccc;">|</span>
+                            <button onclick="logout()" style="background:none; border:none; color: var(--text-muted); font-size: 12px; cursor: pointer;">Выход</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -232,7 +235,7 @@
                         </div>
                     </div>
 
-                    <div class="card" style="border-top-color: var(--accent-gold); padding: 20px;">
+                    <div class="card" style="border-top-color: var(--accent-gold);">
                         <div class="section-header">
                             <h2>🔥 Анонсы и Мероприятия</h2>
                             <button id="admin-btn-event" class="btn-osu" style="background: var(--accent-gold); color: var(--primary-dark); font-size: 12px; padding: 6px 12px; display: none;" onclick="openModal('modal-event')">+ Добавить анонс</button>
@@ -241,7 +244,7 @@
                         <button class="btn-link" onclick="showTab('events-archive')">Все мероприятия и архив ➡️</button>
                     </div>
 
-                    <div class="card" style="border-top-color: var(--primary-color); padding: 20px;">
+                    <div class="card" style="border-top-color: var(--primary-color);">
                         <div class="section-header">
                             <h2>📰 Новости Федерации</h2>
                             <button id="admin-btn-news" class="btn-osu" style="font-size: 12px; padding: 6px 12px; display: none;" onclick="openModal('modal-news')">+ Опубликовать новость</button>
@@ -618,7 +621,6 @@
             const { data } = await supabaseClient.from('students').select('*, groups(group_name)').eq('profile_id', currentUserId);
             let h=''; data?.forEach(s => h+=`<tr><td>${s.full_name}</td><td>${calculateAge(s.birth_date)} лет</td><td><span style="background:#333;color:#fff;padding:3px 8px;border-radius:10px;font-size:11px;">${s.current_kyu}</span></td><td>${s.groups?s.groups.group_name:'-'}</td></tr>`); document.getElementById('students-table-body').innerHTML = h;
             
-            // Загрузка Сводки Федерации (Все ученики и филиалы)
             const { count: totalSt } = await supabaseClient.from('students').select('*', { count: 'exact', head: true });
             const { count: totalGr } = await supabaseClient.from('groups').select('*', { count: 'exact', head: true });
             document.getElementById('dash-total-students').innerText = totalSt || 0;
