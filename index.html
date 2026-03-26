@@ -22,7 +22,7 @@
         /* === ШАПКА === */
         .navbar { background-color: var(--bg-white); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--accent-gold); width: 100%; }
         .header-left { display: flex; align-items: center; gap: 20px; }
-        .header-left img { max-height: 95px; object-fit: contain; }
+        .header-left img { max-height: 80px; object-fit: contain; }
         .header-titles h1 { margin: 0 0 5px 0; font-size: 22px; color: var(--primary-dark); font-weight: 900; text-transform: uppercase; letter-spacing: 1px;}
         .header-titles h2 { margin: 0; font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; line-height: 1.4; max-width: 500px;}
         .header-wisdom { text-align: right; border-left: 2px solid #eee; padding-left: 20px; }
@@ -36,7 +36,7 @@
         
         .widget-block { background: var(--bg-white); padding: 20px; border-radius: var(--border-rad); box-shadow: var(--shadow-sm); width: 100%; }
         
-        /* === МЕНЮ В 2 РЯДА НА МОБИЛЬНЫХ === */
+        /* === МЕНЮ === */
         .menu-grid { display: flex; flex-direction: column; gap: 15px; }
         .menu-column { display: flex; flex-direction: column; }
         .menu-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 900; margin: 10px 0 10px 10px; letter-spacing: 1px;}
@@ -128,6 +128,8 @@
         .data-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         .data-table th, .data-table td { padding: 10px; text-align: left; border-bottom: 1px solid #eee; font-size: 13px; }
         .data-table th { background: #f8f9fa; font-weight: 800; color: var(--text-muted); text-transform: uppercase; font-size: 11px; }
+        .data-link { color: var(--primary-color); font-weight: bold; text-decoration: underline; cursor: pointer; }
+        .data-link:hover { color: var(--accent-gold); }
         
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
         .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; font-family: inherit; background: #fcfcfc; }
@@ -139,6 +141,19 @@
         .close-modal { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 20px; cursor: pointer; color: #888; }
         .loading-text { text-align: center; color: var(--primary-color); font-weight: bold; display: none; margin-bottom: 10px; font-size: 13px;}
 
+        /* БУДО-ПАСПОРТ (ПРОФИЛЬ УЧЕНИКА) */
+        .budo-passport { text-align: center; }
+        .bp-avatar { width: 100px; height: 100px; background: #f0f2f5; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 40px; border: 3px solid var(--accent-gold); overflow: hidden; }
+        .bp-name { font-size: 22px; font-weight: 900; color: var(--primary-dark); margin-bottom: 5px;}
+        .bp-kyu { display: inline-block; background: var(--primary-dark); color: var(--accent-gold); padding: 5px 15px; border-radius: 15px; font-size: 13px; font-weight: bold; margin-bottom: 20px;}
+        .bp-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left; background: #fdfafb; padding: 15px; border-radius: 8px; border: 1px solid #eee; margin-bottom: 20px;}
+        .bp-info-item span { display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: bold; margin-bottom: 2px;}
+        .bp-info-item strong { font-size: 14px; color: var(--text-main); }
+        .bp-medals { display: flex; justify-content: space-around; background: #fffcf5; border: 1px solid var(--accent-gold); padding: 15px; border-radius: 8px;}
+        .bp-medal-item { text-align: center; }
+        .bp-medal-icon { font-size: 24px; display: block; margin-bottom: 5px; }
+        .bp-medal-count { font-size: 18px; font-weight: 900; color: var(--primary-dark); }
+
         /* === ИДЕАЛЬНЫЙ АДАПТИВ === */
         @media (max-width: 1100px) { 
             .layout-wrapper { flex-direction: column; padding: 15px 10px; gap: 15px; } 
@@ -146,7 +161,7 @@
             .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
             .navbar { flex-direction: row; justify-content: space-between; padding: 10px 15px; align-items: center; } 
             .header-left { gap: 10px; } 
-            .header-left img { max-height: 75px; }
+            .header-left img { max-height: 60px; }
             .header-titles h1 { font-size: 16px; margin:0 0 2px 0;}
             .header-titles h2 { display: none; } 
             .header-wisdom { border-left: none; padding-left: 0; text-align: right; } 
@@ -195,12 +210,39 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="modal-student-profile">
+        <div class="modal-box">
+            <button class="close-modal" onclick="closeModal('modal-student-profile')">✖</button>
+            <div class="budo-passport">
+                <div class="bp-avatar" id="bp-avatar">🥋</div>
+                <div class="bp-name" id="bp-name">Загрузка...</div>
+                <div class="bp-kyu" id="bp-kyu">Загрузка...</div>
+                
+                <div class="bp-info-grid">
+                    <div class="bp-info-item"><span>Возраст</span><strong id="bp-age">-</strong></div>
+                    <div class="bp-info-item"><span>Вес</span><strong id="bp-weight">-</strong></div>
+                    <div class="bp-info-item"><span>Сборная</span><strong id="bp-national">-</strong></div>
+                    <div class="bp-info-item"><span>Экзамен</span><strong id="bp-exam">-</strong></div>
+                    <div class="bp-info-item" style="grid-column: span 2;"><span>Тренер</span><strong id="bp-coach">-</strong></div>
+                    <div class="bp-info-item" style="grid-column: span 2;"><span>Зал (Филиал)</span><strong id="bp-dojo">-</strong></div>
+                </div>
+
+                <div class="bp-medals">
+                    <div class="bp-medal-item"><span class="bp-medal-icon">🥇</span><span class="bp-medal-count" id="bp-gold">0</span></div>
+                    <div class="bp-medal-item"><span class="bp-medal-icon">🥈</span><span class="bp-medal-count" id="bp-silver">0</span></div>
+                    <div class="bp-medal-item"><span class="bp-medal-icon">🥉</span><span class="bp-medal-count" id="bp-bronze">0</span></div>
+                    <div class="bp-medal-item"><span class="bp-medal-icon">⭐</span><span class="bp-medal-count" id="bp-points">0 б.</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="modal-news"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-news')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">📰 Новая публикация</h2><label class="form-label">Заголовок</label><input type="text" id="news-title" class="form-control" style="margin-bottom:10px;"><label class="form-label">Текст</label><textarea id="news-content" class="form-control" style="margin-bottom:10px; height: 80px; resize: vertical;"></textarea><label class="form-label">Прикрепить Афишу (JPG, PNG)</label><input type="file" id="news-image" accept="image/*" class="form-control" style="margin-bottom:10px;"><label class="form-label">Прикрепить Файл (PDF)</label><input type="file" id="news-file" class="form-control" style="margin-bottom:10px;"><div id="news-loading" class="loading-text">Загрузка файлов...</div><button class="btn-osu" style="width: 100%;" onclick="saveNews()">Опубликовать</button></div></div>
     <div class="modal-overlay" id="modal-event"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-event')">✖</button><h2 style="margin-top:0; color: var(--accent-gold); font-size:18px;">🔥 Новый анонс</h2><label class="form-label">Название</label><input type="text" id="ev-title" class="form-control" style="margin-bottom:10px;"><div class="form-grid"><div><label class="form-label">Дата (для авто-очереди)</label><input type="date" id="ev-date" class="form-control"></div><div><label class="form-label">Локация</label><input type="text" id="ev-loc" class="form-control"></div></div><label class="form-label">Описание</label><textarea id="ev-desc" class="form-control" style="margin-bottom:10px; height: 60px;"></textarea><label class="form-label">Афиша</label><input type="file" id="ev-image" accept="image/*" class="form-control" style="margin-bottom:10px;"><label class="form-label">Регламент</label><input type="file" id="ev-file" class="form-control" style="margin-bottom:10px;"><div id="ev-loading" class="loading-text">Загрузка файлов...</div><button class="btn-osu" style="width: 100%; background: var(--accent-gold); color: var(--primary-dark);" onclick="saveEvent()">Добавить анонс</button></div></div>
     <div class="modal-overlay" id="modal-create-tournament"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-create-tournament')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">🏆 Добавить турнир</h2><p style="font-size:12px; color:#888; margin-top:0;">Добавьте турнир сюда, чтобы тренеры могли выбирать его при начислении баллов.</p><label class="form-label">Название</label><input type="text" id="ct-title" class="form-control" style="margin-bottom:10px;" placeholder="Напр: Чемпионат Азии"><label class="form-label">Уровень (Влияет на баллы)</label><select id="ct-level" class="form-control" style="margin-bottom:10px;"><option value="club">Клубный</option><option value="city">Городской</option><option value="region">Областной</option><option value="republic">Республиканский</option><option value="international">Международный</option><option value="asia">Азия</option><option value="world">Мир</option></select><label class="form-label">Дата проведения</label><input type="date" id="ct-date" class="form-control" style="margin-bottom:15px;"><button class="btn-osu" style="width: 100%; background: var(--primary-dark);" onclick="saveNewTournament()">Сохранить турнир</button></div></div>
     <div class="modal-overlay" id="modal-points"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-points')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">🥇 Внести результаты</h2><label class="form-label">Ученик (Спортсмен)</label><select id="pt-student" class="form-control" style="margin-bottom:10px;"><option value="">Загрузка базы...</option></select><label class="form-label">Выберите Турнир из Базы</label><select id="pt-tournament-select" class="form-control" style="margin-bottom:10px;" onchange="autoSetLevel()"><option value="">Загрузка турниров...</option></select><input type="hidden" id="pt-level"><div class="form-grid"><div><label class="form-label">Занятое место</label><select id="pt-place" class="form-control"><option value="1">1 (Золото)</option><option value="2">2 (Серебро)</option><option value="3">3 (Бронза)</option></select></div></div><button class="btn-osu" style="width: 100%; margin-top: 10px;" onclick="savePoints()">Начислить баллы</button></div></div>
     <div class="modal-overlay" id="modal-timer"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-timer')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">⏱ Настройка таймера</h2><label class="form-label">Название турнира</label><input type="text" id="timer-edit-title" class="form-control" style="margin-bottom:15px;" placeholder="Напр: Чемпионат РК"><label class="form-label">Дата и точное время старта</label><input type="datetime-local" id="timer-edit-date" class="form-control" style="margin-bottom:15px;"><button class="btn-osu" style="width: 100%;" onclick="saveTimer()">Запустить таймер</button></div></div>
-    <div class="modal-overlay" id="modal-exam"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-exam')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">🥋 Аттестация ученика</h2><p id="exam-student-name" style="font-weight: bold; font-size: 14px; margin-bottom: 15px; color: var(--primary-color); border-bottom: 1px solid #eee; padding-bottom: 10px;"></p><input type="hidden" id="exam-student-id"><label class="form-label">Новый пояс</label><select id="exam-new-kyu" class="form-control" style="margin-bottom:15px;"><option value="11 Кю (Белый)">11 Кю (Белый)</option><option value="10 Кю (Оранж)">10 Кю (Оранж)</option><option value="9 Кю (Оранж-полоса)">9 Кю (Оранж-полоса)</option><option value="8 Кю (Синий)">8 Кю (Синий)</option><option value="7 Кю (Синяя-полоса)">7 Кю (Синяя-полоса)</option><option value="6 Кю (Желтый)">6 Кю (Желтый)</option><option value="5 Кю (Желтая-полоса)">5 Кю (Желтая-полоса)</option><option value="4 Кю (Зеленый)">4 Кю (Зеленый)</option><option value="3 Кю (Зеленая-полоса)">3 Кю (Зеленая-полоса)</option><option value="2 Кю (Коричневый)">2 Кю (Коричневый)</option><option value="1 Кю (Коричн-полоса)">1 Кю (Коричн-полоса)</option><option value="1 Дан (Черный)">1 Дан (Черный)</option></select><label class="form-label">Дата экзамена</label><input type="date" id="exam-date" class="form-control" style="margin-bottom:20px;"><button class="btn-osu" style="width: 100%;" onclick="saveExamResult()">Присвоить новый пояс ✅</button></div></div>
+    <div class="modal-overlay" id="modal-exam"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-exam')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">🥋 Аттестация ученика</h2><p id="exam-student-name-header" style="font-weight: bold; font-size: 14px; margin-bottom: 15px; color: var(--primary-color); border-bottom: 1px solid #eee; padding-bottom: 10px;"></p><input type="hidden" id="exam-student-id"><label class="form-label">Новый пояс</label><select id="exam-new-kyu" class="form-control" style="margin-bottom:15px;"><option value="11 Кю (Белый)">11 Кю (Белый)</option><option value="10 Кю (Оранж)">10 Кю (Оранж)</option><option value="9 Кю (Оранж-полоса)">9 Кю (Оранж-полоса)</option><option value="8 Кю (Синий)">8 Кю (Синий)</option><option value="7 Кю (Синяя-полоса)">7 Кю (Синяя-полоса)</option><option value="6 Кю (Желтый)">6 Кю (Желтый)</option><option value="5 Кю (Желтая-полоса)">5 Кю (Желтая-полоса)</option><option value="4 Кю (Зеленый)">4 Кю (Зеленый)</option><option value="3 Кю (Зеленая-полоса)">3 Кю (Зеленая-полоса)</option><option value="2 Кю (Коричневый)">2 Кю (Коричневый)</option><option value="1 Кю (Коричн-полоса)">1 Кю (Коричн-полоса)</option><option value="1 Дан (Черный)">1 Дан (Черный)</option></select><label class="form-label">Дата экзамена</label><input type="date" id="exam-date" class="form-control" style="margin-bottom:20px;"><button class="btn-osu" style="width: 100%;" onclick="saveExamResult()">Присвоить новый пояс ✅</button></div></div>
     <div class="modal-overlay" id="modal-document"><div class="modal-box"><button class="close-modal" onclick="closeModal('modal-document')">✖</button><h2 style="margin-top:0; color: var(--primary-dark); font-size:18px;">📁 Загрузить документ</h2><label class="form-label">Название документа</label><input type="text" id="doc-title" class="form-control" style="margin-bottom:10px;" placeholder="Напр: Правила KWF"><label class="form-label">Описание</label><textarea id="doc-desc" class="form-control" style="margin-bottom:10px; height: 50px;"></textarea><label class="form-label">Прикрепить файл (PDF)</label><input type="file" id="doc-file" class="form-control" style="margin-bottom:10px;"><div id="doc-loading" class="loading-text">Загрузка файла...</div><button class="btn-osu" style="width: 100%; background: #2c3e50; color: #fff;" onclick="saveDocument()">Сохранить документ 💾</button></div></div>
     
     <div class="modal-overlay" id="modal-poll-edit">
@@ -315,7 +357,7 @@
                         <div class="card-header">
                             <h2>👑 Глобальная база Федерации</h2>
                         </div>
-                        <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Здесь отображаются все филиалы и ученики со всей Алматинской области. Доступно только Президенту.</p>
+                        <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Здесь отображаются все филиалы и ученики со всей Алматинской области. Нажмите на имя ученика, чтобы открыть его Будо-Паспорт.</p>
                         
                         <h3 style="color: var(--primary-dark); font-size: 16px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Все филиалы (Залы) области</h3>
                         <div style="overflow-x: auto; margin-bottom: 30px;">
@@ -548,7 +590,6 @@
             const { data: evData } = await supabaseClient.from('events').select('*').order('event_date', { ascending: true });
             let evM='', evA='';
             
-            // Математика авто-очереди
             const today = new Date();
             today.setHours(0,0,0,0);
             let activeCount = 0;
@@ -562,12 +603,9 @@
                 let h = `<div class="feed-item">${imgHtml}<div class="feed-content"><div class="feed-date">${e.event_date}</div><h3 class="feed-title">${e.title}</h3>${descHtml}${btnHtml}<div class="feed-meta"><span>📍 ${e.location||'-'}</span></div>${e.file_url?`<a href="${e.file_url}" target="_blank" class="file-btn">💾 Скачать</a>`:''}${isPresGlobal?`<div class="admin-actions" style="margin-top:10px;"><button class="btn-del" onclick="deleteEvent('${e.id}')">🗑 Удалить</button></div>`:''}</div></div>`;
                 
                 const eventDate = new Date(e.event_date);
-                
-                // Если событие еще не прошло (дата больше или равна сегодняшней)
                 if (eventDate >= today) {
-                    if (activeCount < 3) { evM += h; activeCount++; } // Показываем на Главной максимум 3 штуки
+                    if (activeCount < 3) { evM += h; activeCount++; } 
                 }
-                // Абсолютно все события падают в Архив
                 evA += h;
             });
             document.getElementById('events-feed-container').innerHTML = evM || '<p class="empty-card">Предстоящих турниров пока нет</p>'; 
@@ -685,7 +723,7 @@
         async function deleteResult(id) { if(confirm("Сбросить баллы?")) { await supabaseClient.from('athlete_results').delete().eq('student_id', id); loadRankings(); loadCoachesDirectory(); } }
         
         async function loadRankings() {
-            const { data: profData } = await supabaseClient.from('profiles').select('id, full_name, avatar_url'); const trainersMap = {}; profData?.forEach(p => trainersMap[p.id] = { name: p.full_name, avatar: p.avatar_url });
+            const { data: profData } = await supabaseClient.from('profiles').select('id, full_name'); const trainersMap = {}; profData?.forEach(p => trainersMap[p.id] = p.full_name);
             const { data } = await supabaseClient.from('athlete_results').select('points, student_id, students(full_name, profile_id)');
             const stScores = {}; const stIds = {}; const trScores = {};
             data?.forEach(r => { if(r.students) { stScores[r.students.full_name] = (stScores[r.students.full_name]||0)+r.points; stIds[r.students.full_name] = r.student_id; if(r.students.profile_id) trScores[r.students.profile_id] = (trScores[r.students.profile_id]||0)+r.points; } });
@@ -700,22 +738,54 @@
             document.getElementById('full-ranking-body').innerHTML = fHtml;
 
             const sortedTr = Object.entries(trScores).sort((a,b)=>b[1]-a[1]);
-            
-            if(sortedTr.length > 0) {
-                let topCoachId = sortedTr[0][0];
-                document.getElementById('best-coach-name').innerText = trainersMap[topCoachId]?.name || 'Инструктор';
-                if(trainersMap[topCoachId]?.avatar) document.getElementById('best-coach-avatar').innerHTML = `<img src="${trainersMap[topCoachId].avatar}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`;
-            }
+            let tHtml=''; for(let i=0; i<Math.min(3, sortedTr.length); i++) tHtml+=`<div class="list-item"><span class="rank-number ${i===0?'top-1':(i===1?'top-2':'top-3')}">${i+1}</span><div style="flex:1;font-size:13px;"><strong>${trainersMap[sortedTr[i][0]]||'Тренер'}</strong></div><span style="font-weight:bold;color:var(--primary-dark);font-size:13px;">${sortedTr[i][1]} б.</span></div>`;
+            document.getElementById('coaches-medals-container').innerHTML = tHtml || '<p style="text-align:center;font-size:12px;">Нет данных</p>';
 
             const { data: stAll } = await supabaseClient.from('students').select('profile_id'); const trStudCount = {}; stAll?.forEach(s => { if(s.profile_id) trStudCount[s.profile_id] = (trStudCount[s.profile_id]||0)+1; });
             const sortedTrCount = Object.entries(trStudCount).sort((a,b)=>b[1]-a[1]);
-            let tcHtml=''; for(let i=0; i<Math.min(3, sortedTrCount.length); i++) tcHtml+=`<div class="list-item"><span class="rank-number ${i===0?'top-1':(i===1?'top-2':'top-3')}">${i+1}</span><div style="flex:1;font-size:13px;"><strong>${trainersMap[sortedTrCount[i][0]]?.name || 'Тренер'}</strong></div><span style="font-weight:bold;color:var(--text-muted);font-size:13px;">${sortedTrCount[i][1]} ч.</span></div>`;
+            let tcHtml=''; for(let i=0; i<Math.min(3, sortedTrCount.length); i++) tcHtml+=`<div class="list-item"><span class="rank-number ${i===0?'top-1':(i===1?'top-2':'top-3')}">${i+1}</span><div style="flex:1;font-size:13px;"><strong>${trainersMap[sortedTrCount[i][0]]||'Тренер'}</strong></div><span style="font-weight:bold;color:var(--text-muted);font-size:13px;">${sortedTrCount[i][1]} ч.</span></div>`;
             document.getElementById('coaches-students-container').innerHTML = tcHtml || '<p style="text-align:center;font-size:12px;">Нет данных</p>';
         }
 
-        // === АТТЕСТАЦИЯ ===
-        function openExamModal(id, name, kyu) { document.getElementById('exam-student-id').value = id; document.getElementById('exam-student-name').innerText = `${name} (${kyu})`; document.getElementById('exam-date').value = new Date().toISOString().split('T')[0]; openModal('modal-exam'); }
-        async function saveExamResult() { const id = document.getElementById('exam-student-id').value; const newKyu = document.getElementById('exam-new-kyu').value; const date = document.getElementById('exam-date').value; if(!id || !newKyu || !date) return; await supabaseClient.from('students').update({ current_kyu: newKyu, last_exam_date: date }).eq('id', id); alert("✅ Пояс присвоен!"); closeModal('modal-exam'); loadExams(); loadStudents(); }
+        // === МОДУЛЬ "БУДО-ПАСПОРТ" (НОВОЕ!) ===
+        async function openStudentProfile(studentId) {
+            // Грузим ученика
+            const { data: student } = await supabaseClient.from('students').select('*, profiles(full_name), groups(address_city, group_name)').eq('id', studentId).single();
+            if(!student) return;
+            
+            // Считаем его медали
+            const { data: results } = await supabaseClient.from('athlete_results').select('*').eq('student_id', studentId);
+            let gold = 0, silver = 0, bronze = 0, totalPts = 0;
+            if(results) {
+                results.forEach(r => {
+                    if(r.place == 1) gold++;
+                    if(r.place == 2) silver++;
+                    if(r.place == 3) bronze++;
+                    totalPts += r.points;
+                });
+            }
+
+            document.getElementById('bp-avatar').innerHTML = student.avatar_url ? `<img src="${student.avatar_url}" style="width:100%;height:100%;object-fit:cover;">` : '🥋';
+            document.getElementById('bp-name').innerText = student.full_name;
+            document.getElementById('bp-kyu').innerText = student.current_kyu;
+            document.getElementById('bp-age').innerText = calculateAge(student.birth_date) + ' лет';
+            document.getElementById('bp-weight').innerText = student.current_weight ? student.current_weight + ' кг' : '—';
+            document.getElementById('bp-national').innerHTML = student.is_national_team ? '<span style="color:#27ae60;">В составе</span>' : 'Нет';
+            document.getElementById('bp-exam').innerText = student.last_exam_date || 'Нет данных';
+            document.getElementById('bp-coach').innerText = student.profiles ? student.profiles.full_name : 'Нет тренера';
+            document.getElementById('bp-dojo').innerText = student.groups ? `${student.groups.address_city}, ${student.groups.group_name}` : 'Без зала';
+            
+            document.getElementById('bp-gold').innerText = gold;
+            document.getElementById('bp-silver').innerText = silver;
+            document.getElementById('bp-bronze').innerText = bronze;
+            document.getElementById('bp-points').innerText = totalPts + ' б.';
+
+            openModal('modal-student-profile');
+        }
+
+        // === АТТЕСТАЦИЯ, ЗАЛЫ И УЧЕНИКИ ===
+        function openExamModal(id, name, kyu) { document.getElementById('exam-student-id').value = id; document.getElementById('exam-student-name-header').innerText = `${name} (${kyu})`; document.getElementById('exam-date').value = new Date().toISOString().split('T')[0]; openModal('modal-exam'); }
+        async function saveExamResult() { const id = document.getElementById('exam-student-id').value; const newKyu = document.getElementById('exam-new-kyu').value; const date = document.getElementById('exam-date').value; if(!id || !newKyu || !date) return; await supabaseClient.from('students').update({ current_kyu: newKyu, last_exam_date: date }).eq('id', id); alert("✅ Пояс присвоен!"); closeModal('modal-exam'); loadExams(); loadStudents(); loadGlobalAdminData(); }
         async function loadExams() {
             const { data } = await supabaseClient.from('students').select('*').eq('profile_id', currentUserId); let html = '';
             if(!data || data.length === 0) { document.getElementById('exams-table-body').innerHTML = '<tr><td colspan="5" style="text-align:center;">У вас пока нет учеников</td></tr>'; return; }
@@ -726,20 +796,19 @@
                 const reqDays = 90; const isReady = daysPassed >= reqDays;
                 const statusHtml = isReady ? `<span style="color: #27ae60; font-weight: bold;">✅ Допущен</span>` : `<span style="color: #e74c3c; font-weight: bold;">⏳ Ждать ${reqDays - daysPassed} дн.</span>`;
                 const actionBtn = `<button class="btn-osu" style="padding: 6px 12px; font-size: 11px;" onclick="openExamModal('${s.id}', '${s.full_name}', '${s.current_kyu}')">Тест</button>`;
-                html += `<tr><td><strong>${s.full_name}</strong></td><td>${s.current_kyu}</td><td>${lastExamText}</td><td>${statusHtml}</td><td>${actionBtn}</td></tr>`;
+                html += `<tr><td><a href="#" class="data-link" onclick="openStudentProfile('${s.id}')">${s.full_name}</a></td><td>${s.current_kyu}</td><td>${lastExamText}</td><td>${statusHtml}</td><td>${actionBtn}</td></tr>`;
             });
             document.getElementById('exams-table-body').innerHTML = html;
         }
 
-        // === ЗАЛЫ И УЧЕНИКИ ===
         function addGroupRow() { const c=document.getElementById('groups-container'), r=document.createElement('div'); r.className='form-grid'; r.innerHTML=`<div><label class="form-label">Группа</label><input type="text" class="form-control group-name"></div><div><label class="form-label">Расписание</label><input type="text" class="form-control group-schedule"></div><div><label class="form-label">Учеников</label><input type="number" class="form-control group-count"></div>`; c.appendChild(r); }
-        async function saveDojo() { const city=document.getElementById('dojo-city').value, addr=document.getElementById('dojo-address').value; let gr=[]; for(let r of document.getElementById('groups-container').children){ let n=r.querySelector('.group-name').value; if(n) gr.push({profile_id:currentUserId, address_city:city, address_raw:addr, group_name:n, schedule:r.querySelector('.group-schedule').value, students_count:r.querySelector('.group-count').value||0}); } await supabaseClient.from('groups').insert(gr); toggleForm('dojo-form-container'); loadDojos(); }
+        async function saveDojo() { const city=document.getElementById('dojo-city').value, addr=document.getElementById('dojo-address').value; let gr=[]; for(let r of document.getElementById('groups-container').children){ let n=r.querySelector('.group-name').value; if(n) gr.push({profile_id:currentUserId, address_city:city, address_raw:addr, group_name:n, schedule:r.querySelector('.group-schedule').value, students_count:r.querySelector('.group-count').value||0}); } await supabaseClient.from('groups').insert(gr); toggleForm('dojo-form-container'); loadDojos(); loadGlobalAdminData(); }
         async function loadDojos() { const { data } = await supabaseClient.from('groups').select('*').eq('profile_id', currentUserId); const sel=document.getElementById('st-group'); sel.innerHTML=''; data?.forEach(g => sel.innerHTML+=`<option value="${g.id}">${g.address_city}, ${g.group_name}</option>`); }
         async function saveStudent() { await supabaseClient.from('students').insert([{ profile_id: currentUserId, group_id: document.getElementById('st-group').value, full_name: document.getElementById('st-name').value, birth_date: document.getElementById('st-dob').value, current_kyu: document.getElementById('st-kyu').value, current_weight: document.getElementById('st-weight').value || null, is_national_team: document.getElementById('st-national').checked }]); toggleForm('student-form-container'); loadStudents(); loadBirthdays(); loadExams(); loadCoachesDirectory(); loadGlobalAdminData(); }
         
         async function loadStudents() {
             const { data } = await supabaseClient.from('students').select('*, groups(group_name)').eq('profile_id', currentUserId);
-            let h=''; data?.forEach(s => h+=`<tr><td>${s.full_name}</td><td>${calculateAge(s.birth_date)} лет</td><td>${s.current_kyu}</td><td>${s.groups?s.groups.group_name:'-'}</td></tr>`); document.getElementById('students-table-body').innerHTML = h;
+            let h=''; data?.forEach(s => h+=`<tr><td><a href="#" class="data-link" onclick="openStudentProfile('${s.id}')">${s.full_name}</a></td><td>${calculateAge(s.birth_date)} лет</td><td>${s.current_kyu}</td><td>${s.groups?s.groups.group_name:'-'}</td></tr>`); document.getElementById('students-table-body').innerHTML = h;
             
             const { count: totalSt } = await supabaseClient.from('students').select('*', { count: 'exact', head: true });
             const { count: totalGr } = await supabaseClient.from('groups').select('*', { count: 'exact', head: true });
@@ -747,7 +816,7 @@
             document.getElementById('dash-total-groups').innerText = totalGr || 0;
 
             const { data: tData } = await supabaseClient.from('students').select('*, profiles(full_name)').eq('is_national_team', true);
-            let tH=''; tData?.forEach(t => tH+=`<tr><td><strong>${t.full_name}</strong></td><td>${calculateAge(t.birth_date)} лет</td><td>${t.current_weight?t.current_weight+' кг':'-'}</td><td><span style="background:var(--accent-gold);color:#000;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:bold;">${t.current_kyu}</span></td><td>${t.profiles?t.profiles.full_name:''}</td></tr>`); document.getElementById('national-team-body').innerHTML = tH || '<tr><td colspan="5">В сборной пока нет спортсменов.</td></tr>';
+            let tH=''; tData?.forEach(t => tH+=`<tr><td><a href="#" class="data-link" onclick="openStudentProfile('${t.id}')">${t.full_name}</a></td><td>${calculateAge(t.birth_date)} лет</td><td>${t.current_weight?t.current_weight+' кг':'-'}</td><td><span style="background:var(--accent-gold);color:#000;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:bold;">${t.current_kyu}</span></td><td>${t.profiles?t.profiles.full_name:''}</td></tr>`); document.getElementById('national-team-body').innerHTML = tH || '<tr><td colspan="5">В сборной пока нет спортсменов.</td></tr>';
         }
 
         // === ГЛОБАЛЬНАЯ БАЗА ПРЕЗИДЕНТА ===
@@ -769,7 +838,7 @@
             let sh = '';
             allSt?.forEach(s => {
                 sh += `<tr>
-                    <td><strong>${s.full_name}</strong></td>
+                    <td><a href="#" class="data-link" onclick="openStudentProfile('${s.id}')">${s.full_name}</a></td>
                     <td>${calculateAge(s.birth_date)} лет</td>
                     <td><span style="background:#333;color:#fff;padding:3px 8px;border-radius:10px;font-size:11px;">${s.current_kyu}</span></td>
                     <td>${s.groups ? s.groups.group_name : '-'}</td>
