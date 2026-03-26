@@ -19,7 +19,7 @@
         .login-box input { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; background: #f8f9fa; }
         #app-content { display: none; width: 100%; }
         
-        /* === ШАПКА === */
+        /* === ШАПКА (С ПОЛНЫМ НАЗВАНИЕМ) === */
         .navbar { background-color: var(--bg-white); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--accent-gold); width: 100%; }
         .header-left { display: flex; align-items: center; gap: 20px; }
         .header-left img { max-height: 80px; object-fit: contain; }
@@ -36,29 +36,34 @@
         
         .widget-block { background: var(--bg-white); padding: 20px; border-radius: var(--border-rad); box-shadow: var(--shadow-sm); width: 100%; }
         
-        /* === ПРОФИЛЬ === */
-        .admin-profile { text-align: center; }
-        .admin-avatar { width: 90px; height: 90px; background: #f8f9fa; border-radius: 50%; margin: 0 auto 15px; border: 3px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 40px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1);}
-        .admin-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .admin-name { font-weight: 900; font-size: 18px; color: var(--primary-dark); margin-bottom: 8px; }
-        .admin-rank { font-size: 12px; color: var(--primary-dark); font-weight: bold; background: #fef9e7; border: 1px solid var(--accent-gold); padding: 4px 12px; border-radius: 12px; display: inline-block; margin-bottom: 15px; }
-        
-        /* === МЕНЮ === */
-        .menu-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 900; margin: 10px 0 10px 10px; letter-spacing: 1px;}
-        .menu-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px 15px; margin-bottom: 5px; background: transparent; border: none; border-radius: 8px; text-align: left; cursor: pointer; font-weight: 700; color: var(--text-main); font-size: 14px; transition: 0.2s; border: 1px solid transparent; }
+        /* === МЕНЮ В 2 КОЛОНКИ НА МОБИЛЬНЫХ === */
+        .menu-grid { display: flex; flex-direction: column; gap: 15px; }
+        .menu-column { display: flex; flex-direction: column; }
+        .menu-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 800; margin: 10px 0 8px 10px; letter-spacing: 1px;}
+        .menu-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px 15px; margin-bottom: 5px; background: transparent; border: none; border-radius: 8px; text-align: left; cursor: pointer; font-weight: 700; color: var(--text-main); font-size: 13px; transition: 0.2s; border: 1px solid transparent; }
         .menu-btn:hover { background: #f0f2f5; color: var(--primary-color); border-color: #eee; transform: translateX(5px); }
         .menu-btn.active { background: var(--primary-color); color: var(--bg-white); box-shadow: 0 4px 8px rgba(139,0,0,0.2); transform: none; }
         
-        .stat-widget { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f8f9fa; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--primary-color); }
-        .stat-widget strong { font-size: 20px; color: var(--primary-dark); }
+        /* === ВЕРХНИЙ БЛОК (ПРОФИЛЬ + ТАЙМЕР) === */
+        .top-dashboard-row { display: flex; gap: 20px; align-items: stretch; width: 100%; }
+        .profile-widget { width: 260px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
+        .admin-profile { text-align: center; width: 100%; }
+        .admin-avatar { width: 80px; height: 80px; background: #f8f9fa; border-radius: 50%; margin: 0 auto 10px; border: 3px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 35px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1);}
+        .admin-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .admin-name { font-weight: 900; font-size: 16px; color: var(--primary-dark); margin-bottom: 5px; line-height: 1.2;}
+        .admin-rank { font-size: 11px; color: var(--primary-dark); font-weight: bold; background: #fef9e7; border: 1px solid var(--accent-gold); padding: 4px 10px; border-radius: 12px; display: inline-block; margin-bottom: 10px; }
+        .profile-actions { display: flex; justify-content: center; gap: 10px; font-size: 12px; }
+        .profile-actions button { background:none; border:none; color: var(--primary-color); font-weight:bold; cursor: pointer; padding: 0;}
         
-        /* === ТАЙМЕР === */
-        .timer-widget { background: linear-gradient(135deg, #7a0000, #3a0000); color: white; padding: 25px; border-radius: var(--border-rad); text-align: center; position: relative; border: 2px solid var(--accent-gold); box-shadow: 0 10px 20px rgba(0,0,0,0.3); width: 100%; animation: gold-pulse 2s infinite; }
+        .timer-widget { flex: 1; background: linear-gradient(135deg, #7a0000, #3a0000); color: white; padding: 25px; border-radius: var(--border-rad); text-align: center; position: relative; border: 2px solid var(--accent-gold); box-shadow: 0 10px 20px rgba(0,0,0,0.3); animation: gold-pulse 2s infinite; display: flex; flex-direction: column; justify-content: center;}
         @keyframes gold-pulse { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
         .timer-widget .edit-btn { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.4); border: 1px solid var(--accent-gold); color: var(--accent-gold); border-radius: 6px; cursor: pointer; font-size: 11px; padding: 5px 10px; font-weight: bold; transition: 0.2s;}
-        .countdown { font-size: 36px; font-weight: 900; font-family: monospace; letter-spacing: 3px; margin: 15px 0; color: #ffffff; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+        .countdown { font-size: 32px; font-weight: 900; font-family: monospace; letter-spacing: 3px; margin: 10px 0; color: #ffffff; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
         .timer-label { font-size: 11px; color: var(--accent-gold); font-weight: bold; text-transform: uppercase; letter-spacing: 2px;}
-        .timer-title { font-size: 20px; font-weight: bold; color: #ffffff; margin-top: 5px;}
+        .timer-title { font-size: 18px; font-weight: bold; color: #ffffff; margin-top: 5px;}
+        
+        .stat-widget { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f8f9fa; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--primary-color); }
+        .stat-widget strong { font-size: 20px; color: var(--primary-dark); }
         
         .tab-content { display: none; width: 100%; } .tab-content.active { display: block; animation: fadeIn 0.4s; } 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -91,7 +96,7 @@
         .feed-meta { font-size: 12px; color: var(--text-muted); display: flex; gap: 10px; flex-wrap: wrap; background: #f8f9fa; padding: 6px 10px; border-radius: 6px; margin-top: auto;}
         .file-btn { display: inline-block; background: var(--bg-main); border: 1px solid #ddd; padding: 6px 12px; border-radius: 6px; color: var(--primary-dark); text-decoration: none; font-weight: bold; font-size: 11px; margin-top: 8px; align-self: flex-start;}
         
-        /* === КАРТОЧКИ ТРЕНЕРОВ === */
+        /* КАРТОЧКИ ТРЕНЕРОВ */
         .coaches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .coach-card { background: #fff; border-radius: var(--border-rad); border: 1px solid #eee; overflow: hidden; box-shadow: var(--shadow-sm); transition: 0.2s; border-top: 4px solid var(--accent-gold);}
         .coach-header { padding: 15px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid #f0f2f5; background: #fcfcfc;}
@@ -118,6 +123,7 @@
         
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
         .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; font-family: inherit; background: #fcfcfc; }
+        .form-control:focus { border-color: var(--primary-color); outline: none; background: #fff; box-shadow: 0 0 0 3px rgba(139,0,0,0.1); }
         .form-label { display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; }
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 15px; }
@@ -125,14 +131,14 @@
         .close-modal { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 20px; cursor: pointer; color: #888; }
         .loading-text { text-align: center; color: var(--primary-color); font-weight: bold; display: none; margin-bottom: 10px; font-size: 13px;}
 
-        /* === АДАПТИВ ДЛЯ МОБИЛЬНЫХ ТЕЛЕФОНОВ === */
+        /* === ИДЕАЛЬНЫЙ АДАПТИВ (ПО ВАШЕЙ СХЕМЕ) === */
         @media (max-width: 1100px) { 
             .layout-wrapper { flex-direction: column; padding: 15px 10px; gap: 15px; } 
             
-            /* ПРОФИЛЬ ПЕРЕНЕСЕН ВПРАВО (ВНИЗ НА МОБИЛЬНЫХ) */
-            .sidebar-left { width: 100%; position: static; } 
-            .content-center { width: 100%; gap: 15px; } 
-            .sidebar-right { width: 100%; position: static; display: flex; flex-direction: column; gap: 15px; } 
+            .sidebar-left, .content-center, .sidebar-right { width: 100%; position: static; display: flex; flex-direction: column; gap: 15px; } 
+            
+            /* МЕНЮ В 2 КОЛОНКИ НА ПЛАНШЕТАХ/ТЕЛЕФОНАХ */
+            .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
             
             /* ШАПКА: Логотип слева, текст сбалансирован */
             .navbar { flex-direction: row; justify-content: space-between; padding: 10px 15px; align-items: center; } 
@@ -143,15 +149,35 @@
             
             .header-wisdom { border-left: none; padding-left: 0; text-align: right; } 
             .header-wisdom h4 { font-size: 9px; }
-            .header-wisdom p { font-size: 10px; max-width: 130px; margin-top:4px; }
+            .header-wisdom p { font-size: 10px; max-width: 150px; margin-top:4px; }
             
-            .card, .timer-widget, .widget-block { width: 100%; margin-left: 0; margin-right: 0; }
+            .card, .timer-widget, .widget-block { margin-bottom: 0; }
         }
         
         @media (max-width: 650px) { 
-            .card { padding: 15px; margin-bottom: 15px; }
-            .timer-widget { padding: 20px 15px; margin-bottom: 15px; }
-            .countdown { font-size: 30px; margin: 10px 0; }
+            /* ПРОФИЛЬ РЯДОМ С ТАЙМЕРОМ */
+            .top-dashboard-row { flex-direction: row; gap: 10px; }
+            .profile-widget { width: 38%; padding: 15px 10px; }
+            .timer-widget { width: 62%; padding: 15px 10px; }
+            
+            .admin-avatar { width: 50px; height: 50px; font-size: 20px; border-width: 2px; margin-bottom: 5px;}
+            .admin-name { font-size: 12px; margin-bottom: 5px; }
+            .admin-rank { font-size: 9px; padding: 2px 6px; margin-bottom: 5px; }
+            .profile-actions { flex-direction: column; gap: 5px; margin-top: 5px; }
+            .profile-actions span { display: none; }
+            .profile-actions button { font-size: 9px !important; }
+            
+            .countdown { font-size: 18px; margin: 8px 0; letter-spacing: 1px;}
+            .timer-title { font-size: 13px; line-height: 1.2; }
+            .timer-label { font-size: 8px; gap: 8px !important; letter-spacing: 1px;}
+            .timer-widget .edit-btn { padding: 3px 6px; font-size: 9px; }
+            
+            /* МЕНЮ */
+            .menu-grid { gap: 10px; }
+            .menu-title { margin: 5px 0 5px 5px; font-size: 10px; text-align: center;}
+            .menu-btn { font-size: 11px; padding: 10px; justify-content: center; text-align: center; }
+            
+            .card { padding: 15px; }
             
             .feed-item { padding: 10px; gap: 12px; flex-direction: row !important; align-items: flex-start; }
             .feed-image-wrapper { width: 80px; height: 80px; flex-shrink: 0; }
@@ -201,35 +227,55 @@
         <div class="layout-wrapper">
             
             <div class="sidebar-left">
-                <div class="widget-block" style="padding: 10px;">
-                    <div class="menu-title">УПРАВЛЕНИЕ</div>
-                    <button class="menu-btn active" id="btn-dashboard" onclick="showTab('dashboard')">🥋 Главная панель</button>
-                    <button class="menu-btn" id="btn-dojos" onclick="showTab('dojos')">🏢 Мои филиалы</button>
-                    <button class="menu-btn" id="btn-students" onclick="showTab('students')">👥 База учеников</button>
-                    <button class="menu-btn" id="btn-exams" onclick="showTab('exams')">⏳ Аттестация (Кю-тест)</button>
-                    <button id="admin-btn-tournaments" class="menu-btn" onclick="showTab('tournaments')" style="display: none; color: var(--primary-dark); font-weight: 800;">🏆 База Турниров (+)</button>
-                    
-                    <div class="menu-title">ФЕДЕРАЦИЯ</div>
-                    <button class="menu-btn" id="btn-coaches-dir" onclick="showTab('coaches-dir')">🥋 Наши тренеры</button>
-                    <button class="menu-btn" id="btn-team" onclick="showTab('team')">🇰🇿 Сборная Области</button>
-                    <button class="menu-btn" id="btn-athlete-ranking" onclick="showTab('athlete-ranking')">🥇 Рейтинг спортсменов</button>
-                    <button class="menu-btn" id="btn-documents" onclick="showTab('documents')">📁 База Знаний</button>
+                <div class="widget-block" style="padding: 15px;">
+                    <div class="menu-grid">
+                        <div class="menu-column">
+                            <div class="menu-title">УПРАВЛЕНИЕ</div>
+                            <button class="menu-btn active" id="btn-dashboard" onclick="showTab('dashboard')">🥋 Главная</button>
+                            <button class="menu-btn" id="btn-dojos" onclick="showTab('dojos')">🏢 Филиалы</button>
+                            <button class="menu-btn" id="btn-students" onclick="showTab('students')">👥 Ученики</button>
+                            <button class="menu-btn" id="btn-exams" onclick="showTab('exams')">⏳ Аттестация</button>
+                            <button id="admin-btn-tournaments" class="menu-btn" onclick="showTab('tournaments')" style="display: none; color: var(--primary-dark); font-weight: 800;">🏆 Турниры (+)</button>
+                        </div>
+                        <div class="menu-column">
+                            <div class="menu-title">ФЕДЕРАЦИЯ</div>
+                            <button class="menu-btn" id="btn-coaches-dir" onclick="showTab('coaches-dir')">🥋 Тренеры</button>
+                            <button class="menu-btn" id="btn-team" onclick="showTab('team')">🇰🇿 Сборная</button>
+                            <button class="menu-btn" id="btn-athlete-ranking" onclick="showTab('athlete-ranking')">🥇 Рейтинг</button>
+                            <button class="menu-btn" id="btn-documents" onclick="showTab('documents')">📁 Документы</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="content-center">
-                <div id="tab-dashboard" class="tab-content active">
-                    
+                
+                <div class="top-dashboard-row">
+                    <div class="widget-block profile-widget">
+                        <div class="admin-profile">
+                            <div class="admin-avatar" id="sidebar-avatar">🥋</div>
+                            <div class="admin-name" id="profile-name">Загрузка...</div>
+                            <div class="admin-rank" id="profile-rank">Загрузка...</div>
+                            <div class="profile-actions">
+                                <button onclick="showTab('profile')">⚙️ Настройки</button>
+                                <span>|</span>
+                                <button onclick="logout()">Выход</button>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="timer-widget">
                         <button id="admin-btn-timer" class="edit-btn" onclick="openModal('modal-timer')" style="display: none;">⚙️ ИЗМЕНИТЬ</button>
                         <div class="timer-label">Ближайший старт</div>
                         <div id="timer-display-title" class="timer-title">Загрузка турнира...</div>
                         <div class="countdown" id="tournament-timer">00:00:00:00</div>
-                        <div class="timer-label" style="display: flex; justify-content: center; gap: 30px;">
-                            <span>ДНЕЙ</span><span>ЧАСОВ</span><span>МИНУТ</span><span>СЕК</span>
+                        <div class="timer-label" style="display: flex; justify-content: center; gap: 15px;">
+                            <span>ДНЕЙ</span><span>ЧАСОВ</span><span>МИН</span><span>СЕК</span>
                         </div>
                     </div>
+                </div>
 
+                <div id="tab-dashboard" class="tab-content active">
                     <div class="card" style="border-top-color: var(--accent-gold); padding: 20px;">
                         <div class="section-header">
                             <h2>🔥 Анонсы и Мероприятия</h2>
@@ -286,20 +332,6 @@
             </div>
 
             <div class="sidebar-right">
-                
-                <div class="widget-block">
-                    <div class="admin-profile">
-                        <div class="admin-avatar" id="sidebar-avatar">🥋</div>
-                        <div class="admin-name" id="profile-name">Загрузка...</div>
-                        <div class="admin-rank" id="profile-rank">Загрузка...</div>
-                        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
-                            <button onclick="showTab('profile')" style="background:none; border:none; color: var(--primary-color); font-weight:bold; font-size: 12px; cursor: pointer;">⚙️ Настройки</button>
-                            <span style="color: #ccc;">|</span>
-                            <button onclick="logout()" style="background:none; border:none; color: var(--text-muted); font-size: 12px; cursor: pointer;">Выход</button>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="widget-block" style="padding: 15px;">
                     <div class="menu-title" style="margin: 0 0 10px 0;">СВОДКА ФЕДЕРАЦИИ</div>
                     <div class="stat-widget"><div><span style="font-size: 12px; color: var(--text-muted);">Всего учеников</span></div><strong id="dash-total-students">0</strong></div>
@@ -656,7 +688,7 @@
                 document.getElementById('prof-dan').value = data.dan || ''; document.getElementById('prof-phone').value = data.phone || '';
                 if(data.avatar_url) { document.getElementById('sidebar-avatar').innerHTML = `<img src="${data.avatar_url}" style="width:100%;height:100%;object-fit:cover;">`; document.getElementById('profile-avatar-preview').innerHTML = `<img src="${data.avatar_url}" style="width:100%;height:100%;object-fit:cover;">`; }
                 isPresGlobal = (data.budopassport_num === 'PRESIDENT'); document.getElementById('profile-rank').innerText = (data.dan || 'Пояс') + (isPresGlobal ? ' (Президент)' : '');
-                if (isPresGlobal) { document.getElementById('admin-btn-news').style.display='block'; document.getElementById('admin-btn-event').style.display='block'; document.getElementById('admin-btn-points').style.display='block'; document.getElementById('admin-btn-timer').style.display='block'; document.getElementById('admin-btn-doc').style.display='block'; document.getElementById('admin-btn-tournaments').style.display='block'; }
+                if (isPresGlobal) { document.getElementById('admin-btn-news').style.display='block'; document.getElementById('admin-btn-event').style.display='block'; document.getElementById('admin-btn-points').style.display='block'; document.getElementById('admin-btn-timer').style.display='block'; document.getElementById('admin-btn-doc').style.display='block'; document.getElementById('admin-btn-tournaments').style.display='flex'; }
             }
             addGroupRow(); loadGlobalSettings(); loadDojos(); loadStudents(); loadNewsAndEvents(); loadRankings(); loadBirthdays(); loadExams(); loadPoll(); loadDocuments(); loadTournamentsForPoints(); loadCoachesDirectory();
         }
